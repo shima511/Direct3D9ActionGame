@@ -101,7 +101,6 @@
     <Compile Include="Object\Fader.cs" />
     <Compile Include="Object\Camera.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="ControllerFactory.cs" />
     <Compile Include="Core\DrawManager.cs" />
     <Compile Include="Core\Game.cs">
       <SubType>Form</SubType>
