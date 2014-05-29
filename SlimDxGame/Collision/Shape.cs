@@ -11,7 +11,7 @@ namespace SlimDxGame.Collision.Shape
         bool Hit(Circle circle);
     }
 
-    class Line : IShape
+    public class Line : IShape
     {
         /// <summary>
         /// 始点
@@ -66,7 +66,7 @@ namespace SlimDxGame.Collision.Shape
         }
     }
 
-    class Point : IShape
+    public class Point : IShape
     {
         /// <summary>
         /// 位置
@@ -99,7 +99,7 @@ namespace SlimDxGame.Collision.Shape
 
     }
 
-    class Circle : IShape
+    public class Circle : IShape
     {
         /// <summary>
         /// 中心
