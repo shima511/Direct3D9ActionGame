@@ -7,6 +7,11 @@ namespace SlimDxGame.Scene
 {
     class Stage : Scene.Base
     {
+        private enum ReturnFrag{
+            ExitGame,
+            ToTitle
+        }
+        private ReturnFrag ret_frag;
         private Collision.Manager collision_manager = new Collision.Manager();
         private List<Object.Base.Model> model_decoration = new List<Object.Base.Model>();
         private Object.CameraManager camera_manager = new Object.CameraManager();
@@ -84,6 +89,12 @@ namespace SlimDxGame.Scene
 
                 if (load_completed)
                 {
+                    List<string> invalid_calls = new List<string>();
+                    if (root_objects.IncludeInvalidAsset(ref invalid_calls))
+                    {
+                        parent.ret_frag = ReturnFrag.ExitGame;
+                        return -1;
+                    }
                     new_state = new InitState();
                 }
 
@@ -263,14 +274,26 @@ namespace SlimDxGame.Scene
         {
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
-                return 0;
+                return -1;
             }
         }
 
         public override int Update( GameRootObjects root_objects, ref Scene.Base new_scene)
         {
-            now_state.Update(root_objects, this, ref now_state);
-            return 0;
+            int ret_val = 0;
+            if (now_state.Update(root_objects, this, ref now_state) == -1)
+            {
+                switch (ret_frag)
+                {
+                    case ReturnFrag.ToTitle:
+                        new_scene = new Scene.Title();
+                        break;
+                    case ReturnFrag.ExitGame:
+                        ret_val = -1;
+                        break;
+                }
+            }
+            return ret_val;
         }
     }
 }
