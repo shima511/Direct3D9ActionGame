@@ -6,17 +6,22 @@ namespace SlimDxGame.Object
 {
     class Player : Base.Model, Component.IUpdateObject, Component.IOperableObject, ICollisionObject
     {
-        private List<Collision.Shape.Circle> _collision_shapes = new List<Collision.Shape.Circle>();
-        public List<Collision.Shape.Circle> CollisionShapes { get { return _collision_shapes; } set { _collision_shapes = value; } }
-        private const float WalkSpeed = 0.01f;
-        private const float RunSpeed = 0.03f;
+        /// <summary>
+        /// 足の当たり判定
+        /// </summary>
+        private List<Collision.Shape.Circle> _leg_collisions = new List<Collision.Shape.Circle>();
+        public List<Collision.Shape.Circle> LegCollisions { get { return _leg_collisions; } set { _leg_collisions = value; } }
+        private const float WalkSpeed = 0.05f;
+        private const float RunSpeed = 0.1f;
         private const float JumpSpeed = 0.2f;
+        private const float FallSpeed = 0.01f;
         private ObjectState<Player> now_state = new Wait();
         private Vector2 _speed = new Vector2(0.0f, 0.0f);
         private bool _face_right = true;
         private bool _is_turning = false;
         private bool _in_the_air = false;
         private bool _is_on_the_ground = true;
+        public Vector2 Speed { get { return _speed; } set { _speed = value; } }
         public bool IsInTheAir { get { return _in_the_air; } set { _in_the_air = value; } }
         public bool FaceRight { get { return _face_right; } set { _face_right = value; } }
         public bool FaceLeft { get { return !_face_right; } set { _face_right = !value; } }
@@ -173,6 +178,10 @@ namespace SlimDxGame.Object
                 {
                     new_state = new Break();
                 }
+                if (controller.AButton.IsPressed())
+                {
+                    new_state = new JumpStart();
+                }
             }
         }
 
@@ -278,11 +287,22 @@ namespace SlimDxGame.Object
 
         }
 
+        public Player()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Collision.Shape.Circle circle = new Collision.Shape.Circle();
+                circle.Center = new Vector2(-1.0f + i * 2.0f, 0.0f);
+                circle.Radius = 0.1f;
+                _leg_collisions.Add(circle);
+            }
+        }
+
         private void UpdateSpeed()
         {
             if (this.IsInTheAir)
             {
-                _speed.Y -= 0.01f;
+                _speed.Y -= FallSpeed;
             }
         }
 
@@ -290,7 +310,7 @@ namespace SlimDxGame.Object
         {
             _position.X += _speed.X;
             _position.Y += _speed.Y;
-            foreach (var item in CollisionShapes)
+            foreach (var item in LegCollisions)
             {
                 item.Center = new Vector2(item.Center.X + _speed.X, item.Center.Y + _speed.Y);
             }
