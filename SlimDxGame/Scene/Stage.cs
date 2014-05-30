@@ -112,10 +112,6 @@ namespace SlimDxGame.Scene
                 Asset.Model model;
                 root_objects.model_container.TryGetValue("TestModel", out model);
                 player.ModelAsset = model;
-                var player_collision = player.CollisionShapes;
-
-
-                player.CollisionShapes = player_collision;
                 root_objects.update_list.Add(player);
                 root_objects.layers[0].Add(player);
             }
@@ -136,13 +132,14 @@ namespace SlimDxGame.Scene
 
             private void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
             {
+                const float XLength = 2.0f;
                 parent.collision_manager.Player = parent.player;
                 for (int i = 0; i < 10; i++)
                 {
                     Object.Floor new_floor = new Object.Floor();
                     Collision.Shape.Line line = new Collision.Shape.Line();
-                    line.StartingPoint = new SlimDX.Vector2(-3.0f + i * 1.0f, -1.0f);
-                    line.TerminalPoint = new SlimDX.Vector2(-2.0f + i * 1.0f, 1.0f);
+                    line.StartingPoint = new SlimDX.Vector2(-3.0f + i * XLength, -1.0f);
+                    line.TerminalPoint = new SlimDX.Vector2(-2.0f + XLength + i * XLength, 1.0f);
                     new_floor.Line = line;
                     parent.collision_manager.Add(new_floor);
                 }
@@ -159,6 +156,8 @@ namespace SlimDxGame.Scene
                 InitPlayer( root_objects,  parent.player);
 
                 InitDecoration(root_objects, parent);
+
+                InitCollisionObjects(root_objects, parent);
 
                 new_state = new FadeInState( root_objects,  parent);
                 return 0;
