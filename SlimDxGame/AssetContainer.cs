@@ -11,7 +11,10 @@ namespace SlimDxGame
         {
             foreach (var obj in this.Values)
             {
-                obj.Release();
+                if (obj != null)
+                {
+                    obj.Release();
+                }
             }
             this.Clear();
         }
