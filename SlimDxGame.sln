@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGame", "SlimDxGame\SlimDxGame.csproj", "{3DB42C09-2EE7-4159-BF24-694589A0541B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGameTest", "SlimDxGameTest\SlimDxGameTest.csproj", "{0F2E226F-3AAF-4A5D-ADC1-319F19C9189A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGameTest", "SlimDxGameTest\SlimDxGameTest.csproj", "{B208A9CD-103D-484A-BEE5-1529895E65BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{3DB42C09-2EE7-4159-BF24-694589A0541B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB42C09-2EE7-4159-BF24-694589A0541B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DB42C09-2EE7-4159-BF24-694589A0541B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F2E226F-3AAF-4A5D-ADC1-319F19C9189A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F2E226F-3AAF-4A5D-ADC1-319F19C9189A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F2E226F-3AAF-4A5D-ADC1-319F19C9189A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F2E226F-3AAF-4A5D-ADC1-319F19C9189A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B208A9CD-103D-484A-BEE5-1529895E65BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B208A9CD-103D-484A-BEE5-1529895E65BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B208A9CD-103D-484A-BEE5-1529895E65BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B208A9CD-103D-484A-BEE5-1529895E65BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
