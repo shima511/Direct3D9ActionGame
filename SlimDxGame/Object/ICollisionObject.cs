@@ -27,7 +27,7 @@ namespace SlimDxGame.Object
                 {
                     var inclination = (Line.TerminalPoint.Y - Line.StartingPoint.Y) / (Line.TerminalPoint.X - Line.StartingPoint.X);
                     var intercept = Line.StartingPoint.Y;
-                    var player_y = inclination * (player.Position.X - Line.StartingPoint.X) + intercept;
+                    var player_y = inclination * (player.Position.X - Line.StartingPoint.X) + intercept + Player.LegLength;
                     player.Position = new Vector3(player.Position.X, player_y, player.Position.Z);
                     player.IsOnTheGround = true;
                     player.IsInTheAir = false;
