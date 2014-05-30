@@ -11,6 +11,7 @@ namespace SlimDxGame.Object
         /// </summary>
         private List<Collision.Shape.Circle> _leg_collisions = new List<Collision.Shape.Circle>();
         public List<Collision.Shape.Circle> LegCollisions { get { return _leg_collisions; } set { _leg_collisions = value; } }
+        public const float LegLength = 0.5f;
         private const float WalkSpeed = 0.05f;
         private const float RunSpeed = 0.1f;
         private const float JumpSpeed = 0.2f;
@@ -310,9 +311,14 @@ namespace SlimDxGame.Object
         {
             _position.X += _speed.X;
             _position.Y += _speed.Y;
+
+        }
+
+        private void UpdateCollision()
+        {
             foreach (var item in LegCollisions)
             {
-                item.Center = new Vector2(item.Center.X + _speed.X, item.Center.Y + _speed.Y);
+                item.Center = new Vector2(this.Position.X + _speed.X, this.Position.Y + _speed.Y);
             }
         }
 
@@ -321,11 +327,16 @@ namespace SlimDxGame.Object
             now_state.Update(this, ref now_state);
             UpdateSpeed();
             UpdatePosition();
+            UpdateCollision();
         }
 
         public void ControllerAction(SlimDxGame.Controller controller)
         {
             now_state.ControllerAction(this, controller, ref now_state);
+            if (controller.SelectButton.IsPressed())
+            {
+                _position = new Vector3();
+            }
         }
     }
 }
