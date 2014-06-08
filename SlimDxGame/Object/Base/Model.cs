@@ -4,7 +4,7 @@ using SlimDX.Direct3D9;
 
 namespace SlimDxGame.Object.Base
 {
-    class Model : Component.IDrawableObject
+    public class Model : Component.IDrawableObject
     {
         bool _is_visible = true;
         public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
