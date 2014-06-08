@@ -16,7 +16,6 @@ namespace SlimDxGame.Object
     {
         public Floor()
         {
-            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
         }
         public Collision.Shape.Line Line { get; set; }
         public override void Dispatch(ICollisionObject obj)
@@ -45,9 +44,7 @@ namespace SlimDxGame.Object
         }
         public override void Draw3D(SlimDX.Direct3D9.Device dev)
         {
-            _scale.Y = 0.1f;
-            _scale.X = (float)Math.Pow(Line.TerminalPoint.X - Line.StartingPoint.X, 2) + (float)Math.Pow(Line.TerminalPoint.Y - Line.StartingPoint.Y, 2);
-            base.Draw3D(dev);
+            Line.Draw3D(dev);
         }
     }
 
