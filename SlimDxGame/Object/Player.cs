@@ -314,7 +314,7 @@ namespace SlimDxGame.Object
 
         private void UpdateCollision()
         {
-            FeetCollision.Position = new Vector2(_position.X, _position.Y - LegLength);
+            FeetCollision.Location = new Vector2(_position.X, _position.Y - LegLength);
         }
 
         public void Update()
@@ -323,6 +323,13 @@ namespace SlimDxGame.Object
             UpdateSpeed();
             UpdatePosition();
             UpdateCollision();
+        }
+
+        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            FeetCollision.Draw3D(dev);
+            HeadCollision.Draw3D(dev);
+            base.Draw3D(dev);
         }
 
         public void ControllerAction(SlimDxGame.Controller controller)
