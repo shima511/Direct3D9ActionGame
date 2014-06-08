@@ -16,6 +16,10 @@ namespace SlimDxGame.Core
         private Device.Graphic graphic_dev;
         private Device.Input input_dev;
         private Device.Audio audio_dev;
+        // FPS表示用のフォント
+#if DEBUG
+        SlimDxGame.Asset.Font default_font;
+#endif
 
         public Game(Scene.Base first_scene)
         {
@@ -43,6 +47,9 @@ namespace SlimDxGame.Core
 
         private void TerminateDevices()
         {
+#if DEBUG
+            default_font.Release();
+#endif
             SlimMMDXCore.Instance.Dispose();
             graphic_dev.Terminate();
             input_dev.Terminate();
@@ -68,9 +75,15 @@ namespace SlimDxGame.Core
             //Draw
             var d3d_dev = graphic_dev.D3DDevice;
             var sprite_dev = graphic_dev.D3DSprite;
-            draw_manager.DrawBegin(ref d3d_dev);
-            draw_manager.DrawObjects(ref d3d_dev, ref sprite_dev, ref root_objects.layers);
-            draw_manager.DrawEnd(ref d3d_dev);
+            draw_manager.DrawBegin(d3d_dev);
+            draw_manager.DrawObjects(d3d_dev, sprite_dev, root_objects.layers);
+#if DEBUG
+            sprite_dev.Transform = SlimDX.Matrix.Identity;
+            sprite_dev.Begin(SlimDX.Direct3D9.SpriteFlags.AlphaBlend);
+            fps_mgr.Draw(sprite_dev, default_font.Resource);
+            sprite_dev.End();
+#endif
+            draw_manager.DrawEnd(d3d_dev);
 
             fps_mgr.End();
         }
@@ -100,6 +113,9 @@ namespace SlimDxGame.Core
             AssetFactory.FontFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.ModelFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.AudioMediaFactory.Device = audio_dev.XAudioDevice;
+#if DEBUG
+            default_font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
+#endif
         }
 
         private void FreeAllResources()
@@ -109,6 +125,7 @@ namespace SlimDxGame.Core
             root_objects.sound_container.DeleteAllObject();
             root_objects.model_container.DeleteAllObject();
         }
+
 
         public void Run()
         {
