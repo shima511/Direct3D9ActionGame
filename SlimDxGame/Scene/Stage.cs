@@ -11,16 +11,15 @@ namespace SlimDxGame.Scene
             ExitGame,
             ToTitle
         }
-        private ReturnFrag ret_frag;
-        private Collision.Manager collision_manager = new Collision.Manager();
-        private List<Object.Base.Model> model_decoration = new List<Object.Base.Model>();
-        private Object.CameraManager camera_manager = new Object.CameraManager();
-        private Object.Camera camera = new Object.Camera();
-        private Object.Player player = new Object.Player();
-        private Controller controller = new Controller();
-        private Object.Fader fader = new Object.Fader();
-
-        private GameState<Stage> now_state = new LoadingState();
+        ReturnFrag ret_frag;
+        Collision.Manager collision_manager;
+        List<Object.Base.Model> model_decoration;
+        Object.CameraManager camera_manager;
+        Object.Camera camera;
+        Object.Player player;
+        Controller controller;
+        Object.Fader fader;
+        GameState<Stage> now_state = new LoadingState();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -123,6 +122,7 @@ namespace SlimDxGame.Scene
                 Asset.Model model;
                 root_objects.model_container.TryGetValue("TestModel", out model);
                 player.ModelAsset = model;
+                player.Position = new SlimDX.Vector3(0.0f, 0.0f, 0.0f);
                 root_objects.update_list.Add(player);
                 root_objects.layers[0].Add(player);
             }
@@ -149,17 +149,31 @@ namespace SlimDxGame.Scene
                 {
                     Object.Floor new_floor = new Object.Floor();
                     Collision.Shape.Line line = new Collision.Shape.Line();
-                    line.StartingPoint = new SlimDX.Vector2(-3.0f + i * XLength, -1.0f);
-                    line.TerminalPoint = new SlimDX.Vector2(-2.0f + XLength + i * XLength, 1.0f);
+                    line.StartingPoint = new SlimDX.Vector2(-3.0f + i * XLength, -2.0f);
+                    line.TerminalPoint = new SlimDX.Vector2(-2.0f + XLength + i * XLength, 2.0f);
                     new_floor.Line = line;
                     parent.collision_manager.Add(new_floor);
                 }
 
                 root_objects.update_list.Add(parent.collision_manager);
+                root_objects.layers[0].Add(parent.collision_manager);
+            }
+
+            private void CreateInstance(Stage parent)
+            {
+                parent.collision_manager = new Collision.Manager();
+                parent.model_decoration = new List<Object.Base.Model>();
+                parent.camera_manager = new Object.CameraManager();
+                parent.camera = new Object.Camera();
+                parent.player = new Object.Player();
+                parent.controller = new Controller();
+                parent.fader = new Object.Fader();
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                CreateInstance(parent);
+
                 InitCamera( root_objects,  parent);
 
                 InitInputManager( root_objects,  parent);
