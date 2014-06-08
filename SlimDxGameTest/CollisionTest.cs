@@ -80,7 +80,7 @@ namespace SlimDxGameTest
         {
             SlimDxGame.Collision.Shape.Point point = new SlimDxGame.Collision.Shape.Point()
             {
-                Position = new Vector2(0.0f, 0.0f)
+                Location = new Vector2(0.0f, 0.0f)
             };
             SlimDxGame.Collision.Shape.Line line = new SlimDxGame.Collision.Shape.Line()
             {
@@ -97,7 +97,7 @@ namespace SlimDxGameTest
         {
             SlimDxGame.Collision.Shape.Point point = new SlimDxGame.Collision.Shape.Point()
             {
-                Position = new Vector2(0.0f, 0.0f)
+                Location = new Vector2(0.0f, 0.0f)
             };
             SlimDxGame.Collision.Shape.Line line = new SlimDxGame.Collision.Shape.Line()
             {
