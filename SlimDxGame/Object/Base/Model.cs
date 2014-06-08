@@ -25,7 +25,7 @@ namespace SlimDxGame.Object.Base
             CommonMatrix.WorldMatrix = world_mat;
         }
 
-        public void Draw3D(SlimDX.Direct3D9.Device dev)
+        virtual public void Draw3D(SlimDX.Direct3D9.Device dev)
         {
             UpdateMatrix();
             dev.SetTransform(TransformState.World, CommonMatrix.WorldMatrix);
