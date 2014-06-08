@@ -11,7 +11,7 @@ namespace SlimDxGame.Collision.Shape
         bool Hit(Circle circle);
     }
 
-    public class Line : IShape
+    public class Line : Object.Base.Model, IShape
     {
         /// <summary>
         /// 始点
@@ -23,6 +23,11 @@ namespace SlimDxGame.Collision.Shape
         public Vector2 TerminalPoint { get; set; }
         private const float Allowable = 0.0002f;
 
+        public Line()
+        {
+            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
+        }
+
         public bool Hit(Line line)
         {
             return false;
@@ -31,9 +36,9 @@ namespace SlimDxGame.Collision.Shape
         public bool Hit(Point point)
         {
             var line_length = (StartingPoint -TerminalPoint).Length();
-            var to_line_length = (point.Position - StartingPoint).Length();
-            var x_dot = (TerminalPoint.X - StartingPoint.X) * (point.Position.X - StartingPoint.X);
-            var y_dot = (TerminalPoint.Y - StartingPoint.Y) * (point.Position.Y - StartingPoint.Y);
+            var to_line_length = (point.Location - StartingPoint).Length();
+            var x_dot = (TerminalPoint.X - StartingPoint.X) * (point.Location.X - StartingPoint.X);
+            var y_dot = (TerminalPoint.Y - StartingPoint.Y) * (point.Location.Y - StartingPoint.Y);
             bool face_same_direction = x_dot + y_dot - Allowable <= line_length * to_line_length && x_dot + y_dot + Allowable >= line_length * to_line_length;
             bool on_the_line = line_length >= to_line_length;
             return face_same_direction && on_the_line;
@@ -51,7 +56,6 @@ namespace SlimDxGame.Collision.Shape
             }
             else
             {
-
                 var terminal_to_center_vector = new Vector2(circle.Center.X - TerminalPoint.X, circle.Center.Y - TerminalPoint.Y);
                 if (Vector2.Dot(start_to_center_vector, line_vector) * Vector2.Dot(terminal_to_center_vector, line_vector) <= 0)
                 {
@@ -64,22 +68,33 @@ namespace SlimDxGame.Collision.Shape
             }
             return false;
         }
+
+        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            var center = new SlimDX.Vector2((TerminalPoint.X - StartingPoint.X) / 2, (TerminalPoint.Y - StartingPoint.Y) / 2);
+            _position.X = StartingPoint.X + center.X;
+            _position.Y = StartingPoint.Y + center.Y;
+            _scale.Y = 0.1f;
+            _scale.X = (float)Math.Sqrt(Math.Pow(TerminalPoint.X - StartingPoint.X, 2) + (float)Math.Pow(TerminalPoint.Y - StartingPoint.Y, 2));
+            _rotation.Z = (float)Math.Atan((TerminalPoint.Y - StartingPoint.Y) / (TerminalPoint.X - StartingPoint.X));
+            base.Draw3D(dev);
+        }
     }
 
-    public class Point : IShape
+    public class Point : Object.Base.Model, IShape
     {
         /// <summary>
         /// 位置
         /// </summary>
-        public Vector2 Position { get; set; }
+        public Vector2 Location { get; set; }
         private const float Allowable = 0.0002f;
 
         public bool Hit(Line line)
         {
             var line_length = (line.StartingPoint - line.TerminalPoint).Length();
-            var to_line_length = (Position - line.StartingPoint).Length();
-            var x_dot = (line.TerminalPoint.X - line.StartingPoint.X) * (Position.X - line.StartingPoint.X);
-            var y_dot = (line.TerminalPoint.Y - line.StartingPoint.Y) * (Position.Y - line.StartingPoint.Y);
+            var to_line_length = (Location - line.StartingPoint).Length();
+            var x_dot = (line.TerminalPoint.X - line.StartingPoint.X) * (Location.X - line.StartingPoint.X);
+            var y_dot = (line.TerminalPoint.Y - line.StartingPoint.Y) * (Location.Y - line.StartingPoint.Y);
             bool face_same_direction = x_dot + y_dot - Allowable <= line_length * to_line_length && x_dot + y_dot + Allowable >= line_length * to_line_length;
             bool on_the_line = line_length >= to_line_length;
             return face_same_direction && on_the_line;
@@ -87,19 +102,31 @@ namespace SlimDxGame.Collision.Shape
 
         public bool Hit(Point point)
         {
-            bool x_hit = point.Position.X - Allowable <= Position.X && point.Position.X + Allowable >= Position.X;
-            bool y_hit = point.Position.Y - Allowable <= Position.Y && point.Position.Y + Allowable >= Position.Y;
+            bool x_hit = point.Location.X - Allowable <= Location.X && point.Location.X + Allowable >= Location.X;
+            bool y_hit = point.Location.Y - Allowable <= Location.Y && point.Location.Y + Allowable >= Location.Y;
             return x_hit && y_hit;
         }
 
         public bool Hit(Circle circle)
         {
-            return Math.Pow((circle.Center.X - Position.X), 2) + Math.Pow((circle.Center.Y - Position.Y), 2) <= Math.Pow(circle.Radius, 2);
+            return Math.Pow((circle.Center.X - Location.X), 2) + Math.Pow((circle.Center.Y - Location.Y), 2) <= Math.Pow(circle.Radius, 2);
         }
 
+        public Point()
+        {
+            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
+        }
+
+        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            _position = new Vector3(Location.X, Location.Y, 0.0f);
+            _scale.X = 0.5f;
+            _scale.Y = 0.5f;
+            base.Draw3D(dev);
+        }
     }
 
-    public class Circle : IShape
+    public class Circle : Object.Base.Model, IShape
     {
         /// <summary>
         /// 中心
@@ -109,6 +136,11 @@ namespace SlimDxGame.Collision.Shape
         /// 半径
         /// </summary>
         public float Radius { get; set; }
+
+        public Circle()
+        {
+            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Sphere, System.Drawing.Color.White);
+        }
 
         public bool Hit(Line line)
         {
@@ -137,7 +169,7 @@ namespace SlimDxGame.Collision.Shape
 
         public bool Hit(Point point)
         {
-            return Math.Pow((Center.X - point.Position.X), 2) + Math.Pow((Center.Y - point.Position.Y), 2) <= Math.Pow(Radius, 2);
+            return Math.Pow((Center.X - point.Location.X), 2) + Math.Pow((Center.Y - point.Location.Y), 2) <= Math.Pow(Radius, 2);
         }
 
         public bool Hit(Circle circle)
@@ -145,6 +177,11 @@ namespace SlimDxGame.Collision.Shape
             return Math.Pow((circle.Center.X - Center.X), 2) + Math.Pow((circle.Center.Y - Center.Y), 2) <= Math.Pow(circle.Radius + Radius, 2);
         }
 
+        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            _position = new Vector3(Center.X, Center.Y, 0.0f);
+            base.Draw3D(dev);
+        }
     }
 
 }
