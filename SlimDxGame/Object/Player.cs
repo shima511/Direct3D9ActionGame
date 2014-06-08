@@ -4,13 +4,16 @@ using SlimDX;
 
 namespace SlimDxGame.Object
 {
-    class Player : Base.Model, Component.IUpdateObject, Component.IOperableObject, ICollisionObject
+    class Player : ICollisionObject, Component.IUpdateObject, Component.IOperableObject
     {
         /// <summary>
         /// 足の当たり判定
         /// </summary>
-        private List<Collision.Shape.Circle> _leg_collisions = new List<Collision.Shape.Circle>();
-        public List<Collision.Shape.Circle> LegCollisions { get { return _leg_collisions; } set { _leg_collisions = value; } }
+        public Collision.Shape.Point FeetCollision { get; set; }
+        /// <summary>
+        /// 頭の当たり判定
+        /// </summary>
+        public Collision.Shape.Point HeadCollision { get; set; }
         public const float LegLength = 0.5f;
         private const float WalkSpeed = 0.05f;
         private const float RunSpeed = 0.1f;
@@ -271,32 +274,27 @@ namespace SlimDxGame.Object
             }
         }
 
-        public void Dispatch(ICollisionObject obj)
+        public override void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
         }
-        public void Hit(Player player)
+        public override void Hit(Player player)
         {
 
         }
-        public void Hit(Floor floor)
+        public override void Hit(Floor floor)
         {
 
         }
-        public void Hit(Ceiling ceiling)
+        public override void Hit(Ceiling ceiling)
         {
 
         }
 
         public Player()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                Collision.Shape.Circle circle = new Collision.Shape.Circle();
-                circle.Center = new Vector2(-1.0f + i * 2.0f, 0.0f);
-                circle.Radius = 0.1f;
-                _leg_collisions.Add(circle);
-            }
+            FeetCollision = new Collision.Shape.Point();
+            HeadCollision = new Collision.Shape.Point();
         }
 
         private void UpdateSpeed()
@@ -305,21 +303,18 @@ namespace SlimDxGame.Object
             {
                 _speed.Y -= FallSpeed;
             }
+
         }
 
         private void UpdatePosition()
         {
             _position.X += _speed.X;
             _position.Y += _speed.Y;
-
         }
 
         private void UpdateCollision()
         {
-            foreach (var item in LegCollisions)
-            {
-                item.Center = new Vector2(this.Position.X + _speed.X, this.Position.Y + _speed.Y);
-            }
+            FeetCollision.Position = new Vector2(_position.X, _position.Y - LegLength);
         }
 
         public void Update()
