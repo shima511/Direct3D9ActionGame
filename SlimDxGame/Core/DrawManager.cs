@@ -6,7 +6,7 @@ namespace SlimDxGame.Core
 {
     class DrawManager
     {
-        public void DrawBegin(ref SlimDX.Direct3D9.Device dev){
+        public void DrawBegin(SlimDX.Direct3D9.Device dev){
             try
             {
                 dev.Clear(SlimDX.Direct3D9.ClearFlags.Target | SlimDX.Direct3D9.ClearFlags.ZBuffer, System.Drawing.Color.DarkBlue, 1.0F, 0);
@@ -21,7 +21,7 @@ namespace SlimDxGame.Core
             }
         }
 
-        public void DrawObjects(ref SlimDX.Direct3D9.Device d3d_dev, ref SlimDX.Direct3D9.Sprite sprite_dev, ref List<List<Component.IDrawableObject>> layers)
+        public void DrawObjects(SlimDX.Direct3D9.Device d3d_dev, SlimDX.Direct3D9.Sprite sprite_dev, List<List<Component.IDrawableObject>> layers)
         {
             //Draw3D
             foreach (var layer in layers)
@@ -50,7 +50,7 @@ namespace SlimDxGame.Core
             sprite_dev.End();
         }
 
-        public void DrawEnd(ref SlimDX.Direct3D9.Device dev)
+        public void DrawEnd(SlimDX.Direct3D9.Device dev)
         {
             dev.EndScene();
             dev.Present();
