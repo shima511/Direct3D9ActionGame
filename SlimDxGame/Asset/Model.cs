@@ -2,7 +2,7 @@
 
 namespace SlimDxGame.Asset
 {
-    class Model : Base
+    public class Model : Base
     {
         public SlimDX.Direct3D9.Mesh Mesh { get; set; }
         public List<SlimDX.Direct3D9.Texture> Textures { get; set; }
