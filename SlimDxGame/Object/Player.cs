@@ -242,6 +242,7 @@ namespace SlimDxGame.Object
             {
                 if (controller.AButton.IsPressed() && !parent.jumped_two_times)
                 {
+                    parent._speed.Y = JumpSpeed;
                     new_state = new TwiceJump();
                 }
                 if (controller.RightButton.IsBeingPressed())
@@ -257,14 +258,22 @@ namespace SlimDxGame.Object
 
         private class TwiceJump : ObjectState<Player>
         {
-            int time = 0;
-            const int RequiredFrame = 15;
-
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 base.Update(parent, ref new_state);
             }
 
+            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
+            {
+                if (controller.RightButton.IsBeingPressed())
+                {
+                    parent._speed.X = WalkSpeed;
+                }
+                if (controller.LeftButton.IsBeingPressed())
+                {
+                    parent._speed.X = -WalkSpeed;
+                }
+            }
         }
 
         private class Fall : ObjectState<Player>
@@ -279,6 +288,10 @@ namespace SlimDxGame.Object
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
+                if(controller.AButton.IsPressed() && !parent.jumped_two_times)
+                {
+                    new_state = new TwiceJump();
+                }
                 if (controller.RightButton.IsBeingPressed())
                 {
                     parent._speed.X = WalkSpeed;
