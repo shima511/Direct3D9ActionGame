@@ -4,9 +4,49 @@ using System.Windows.Forms;
 
 namespace SlimDxGame.AssetFactory
 {
+#if DEBUG
+    public enum ModelType
+    {
+        Box,
+        Sphere,
+        Cylinder
+    }
+#endif
+
     class ModelFactory
     {
         static public SlimDX.Direct3D9.Device Device { private get; set; }
+#if DEBUG
+        public static Asset.Model CreateBasicModel(ModelType type, System.Drawing.Color color)
+        {
+            var new_model = new Asset.Model();
+            switch (type)
+            {
+                case ModelType.Box:
+                    new_model.Mesh = SlimDX.Direct3D9.Mesh.CreateBox(Device, 1.0f, 1.0f, 1.0f);
+                    break;
+                case ModelType.Sphere:
+                    new_model.Mesh = SlimDX.Direct3D9.Mesh.CreateSphere(Device, 0.0f, 10, 10);
+                    break;
+                case ModelType.Cylinder:
+                    new_model.Mesh = SlimDX.Direct3D9.Mesh.CreateCylinder(Device, 0.0f, 0.0f, 1.0f, 10, 10);
+                    break;
+                default:
+
+                    break;
+            }
+            var new_mat = new SlimDX.Direct3D9.ExtendedMaterial()
+            {
+                MaterialD3D = new SlimDX.Direct3D9.Material()
+                {
+                    Diffuse = new SlimDX.Color4(color),
+                    Emissive = new SlimDX.Color4(color)
+                }
+            };
+            new_model.Materials.Add(new_mat);
+            return new_model;
+        }
+#endif
 
         public static Asset.Model CreateModelFromFile(string filename)
         {
