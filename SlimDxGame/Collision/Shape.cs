@@ -21,7 +21,7 @@ namespace SlimDxGame.Collision.Shape
         /// 終点
         /// </summary>
         public Vector2 TerminalPoint { get; set; }
-        private const float Allowable = 0.0002f;
+        private const float Allowable = 0.02f;
 
         public Line()
         {
@@ -87,7 +87,7 @@ namespace SlimDxGame.Collision.Shape
         /// 位置
         /// </summary>
         public Vector2 Location { get; set; }
-        private const float Allowable = 0.0002f;
+        private const float Allowable = 0.02f;
 
         public bool Hit(Line line)
         {
