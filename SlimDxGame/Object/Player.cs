@@ -15,10 +15,12 @@ namespace SlimDxGame.Object
         /// </summary>
         public Collision.Shape.Point HeadCollision { get; set; }
         public const float LegLength = 0.5f;
-        private const float WalkSpeed = 0.05f;
-        private const float RunSpeed = 0.1f;
-        private const float JumpSpeed = 0.2f;
-        private const float FallSpeed = 0.01f;
+        const float WalkSpeed = 0.05f;
+        const float RunSpeed = 0.1f;
+        const float JumpSpeed = 0.2f;
+        const float FallSpeed = 0.01f;
+        const float MaxFallSpeed = 0.1f;
+        bool jumped_two_times = false;
         private ObjectState<Player> now_state = new Wait();
         private Vector2 _speed = new Vector2(0.0f, 0.0f);
         private bool _face_right = true;
@@ -36,7 +38,9 @@ namespace SlimDxGame.Object
         {
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
-                parent._speed = new Vector2(0.0f, 0.0f);
+                parent._speed.X = 0.0f;
+                parent.IsInTheAir = false;
+                parent.IsOnTheGround = true;
                 parent._rotation.Z = 0.0f;
             }
 
@@ -236,6 +240,10 @@ namespace SlimDxGame.Object
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
+                if (controller.AButton.IsPressed() && !parent.jumped_two_times)
+                {
+                    new_state = new TwiceJump();
+                }
                 if (controller.RightButton.IsBeingPressed())
                 {
                     parent._speed.X = WalkSpeed;
@@ -247,17 +255,25 @@ namespace SlimDxGame.Object
             }
         }
 
-        private class Fall : ObjectState<Player>
+        private class TwiceJump : ObjectState<Player>
         {
-            private int time = 0;
-            private const int RequiredFrame = 15;
+            int time = 0;
+            const int RequiredFrame = 15;
+
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
-                time++;
-                if (time >= RequiredFrame)
+                base.Update(parent, ref new_state);
+            }
+
+        }
+
+        private class Fall : ObjectState<Player>
+        {
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+                if (!parent.IsInTheAir)
                 {
-                    parent._in_the_air = false;
-                    new_state = new Wait();
+                    new_state = new Land();
                 }
             }
 
@@ -270,6 +286,21 @@ namespace SlimDxGame.Object
                 if (controller.LeftButton.IsBeingPressed())
                 {
                     parent._speed.X = -WalkSpeed;
+                }
+            }
+        }
+
+        private class Land : ObjectState<Player>
+        {
+            int time = 0;
+            const int RequiredFrame = 15;
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+                time++;
+                if (time >= RequiredFrame)
+                {
+                    parent.jumped_two_times = false;
+                    new_state = new Wait();
                 }
             }
         }
@@ -299,7 +330,7 @@ namespace SlimDxGame.Object
 
         private void UpdateSpeed()
         {
-            if (this.IsInTheAir)
+            if (this.IsInTheAir && _speed.Y >= -MaxFallSpeed)
             {
                 _speed.Y -= FallSpeed;
             }
@@ -330,6 +361,11 @@ namespace SlimDxGame.Object
             FeetCollision.Draw3D(dev);
             HeadCollision.Draw3D(dev);
             base.Draw3D(dev);
+        }
+
+        private void ControlSpeed(SlimDxGame.Controller controller)
+        {
+
         }
 
         public void ControllerAction(SlimDxGame.Controller controller)
