@@ -14,13 +14,33 @@ namespace SlimDxGame.Collision.Shape
     public class Line : Object.Base.Model, IShape
     {
         /// <summary>
-        /// 始点
+        /// 始点の値を取得または設定します。
         /// </summary>
         public Vector2 StartingPoint { get; set; }
         /// <summary>
-        /// 終点
+        /// 終点の値を取得又は設定します。
         /// </summary>
         public Vector2 TerminalPoint { get; set; }
+
+        /// <summary>
+        /// 線分の切片を取得します。
+        /// </summary>
+        public float Intercept { get { return StartingPoint.Y; } private set { Intercept = value; } }
+
+        /// <summary>
+        /// 線分の係数を取得します。
+        /// </summary>
+        public float Coefficient { get { return (TerminalPoint.Y - StartingPoint.Y) / (TerminalPoint.X - StartingPoint.X); } private set { Coefficient = value; } }
+
+        /// <summary>
+        /// 線分の傾きを取得します。
+        /// </summary>
+        /// 
+        public float Slope
+        {
+            get { return (float)Math.Atan(Coefficient); }
+            private set { Slope = value; }
+        }
         private const float Allowable = 0.02f;
 
         public Line()
@@ -30,6 +50,11 @@ namespace SlimDxGame.Collision.Shape
 
         public bool Hit(Line line)
         {
+            var tc = (StartingPoint.X - TerminalPoint.X) * (line.StartingPoint.Y - StartingPoint.Y) + (StartingPoint.Y - TerminalPoint.Y) * (StartingPoint.X - line.StartingPoint.X);
+            var td = (StartingPoint.X - TerminalPoint.X) * (line.TerminalPoint.Y - StartingPoint.Y) + (StartingPoint.Y - TerminalPoint.Y) * (StartingPoint.X - line.TerminalPoint.X);
+            var ta = (line.StartingPoint.X - line.TerminalPoint.X) * (StartingPoint.Y - line.StartingPoint.Y) + (line.StartingPoint.Y - line.TerminalPoint.Y) * (line.StartingPoint.X - StartingPoint.X);
+            var tb = (line.StartingPoint.X - line.TerminalPoint.X) * (TerminalPoint.Y - line.StartingPoint.Y) * (line.StartingPoint.Y - line.TerminalPoint.Y) * (line.StartingPoint.X - TerminalPoint.X);
+            if (tc * td < 0 && ta * tb < 0) return true;
             return false;
         }
 
@@ -76,7 +101,7 @@ namespace SlimDxGame.Collision.Shape
             _position.Y = StartingPoint.Y + center.Y;
             _scale.Y = 0.1f;
             _scale.X = (float)Math.Sqrt(Math.Pow(TerminalPoint.X - StartingPoint.X, 2) + (float)Math.Pow(TerminalPoint.Y - StartingPoint.Y, 2));
-            _rotation.Z = (float)Math.Atan((TerminalPoint.Y - StartingPoint.Y) / (TerminalPoint.X - StartingPoint.X));
+            _rotation.Z = Slope;
             base.Draw3D(dev);
         }
     }
@@ -84,7 +109,7 @@ namespace SlimDxGame.Collision.Shape
     public class Point : Object.Base.Model, IShape
     {
         /// <summary>
-        /// 位置
+        /// 点の位置を取得または設定します。
         /// </summary>
         public Vector2 Location { get; set; }
         private const float Allowable = 0.02f;
@@ -129,11 +154,11 @@ namespace SlimDxGame.Collision.Shape
     public class Circle : Object.Base.Model, IShape
     {
         /// <summary>
-        /// 中心
+        /// 円の中心を取得または設定します。
         /// </summary>
         public Vector2 Center { get; set; }
         /// <summary>
-        /// 半径
+        /// 円の半径を取得または設定します。
         /// </summary>
         public float Radius { get; set; }
 
