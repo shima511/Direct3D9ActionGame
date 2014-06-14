@@ -119,6 +119,7 @@
     <Compile Include="Object\Base\PlaneObject.cs" />
     <Compile Include="Object\Base\String.cs" />
     <Compile Include="Scene\Base.cs" />
+    <Compile Include="StageLoader.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Object\Player.cs" />
