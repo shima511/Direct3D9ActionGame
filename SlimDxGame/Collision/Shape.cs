@@ -43,17 +43,19 @@ namespace SlimDxGame.Collision.Shape
         }
         private const float Allowable = 0.02f;
 
+#if DEBUG
         public Line()
         {
             this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
         }
+#endif
 
         public bool Hit(Line line)
         {
             var tc = (StartingPoint.X - TerminalPoint.X) * (line.StartingPoint.Y - StartingPoint.Y) + (StartingPoint.Y - TerminalPoint.Y) * (StartingPoint.X - line.StartingPoint.X);
             var td = (StartingPoint.X - TerminalPoint.X) * (line.TerminalPoint.Y - StartingPoint.Y) + (StartingPoint.Y - TerminalPoint.Y) * (StartingPoint.X - line.TerminalPoint.X);
             var ta = (line.StartingPoint.X - line.TerminalPoint.X) * (StartingPoint.Y - line.StartingPoint.Y) + (line.StartingPoint.Y - line.TerminalPoint.Y) * (line.StartingPoint.X - StartingPoint.X);
-            var tb = (line.StartingPoint.X - line.TerminalPoint.X) * (TerminalPoint.Y - line.StartingPoint.Y) * (line.StartingPoint.Y - line.TerminalPoint.Y) * (line.StartingPoint.X - TerminalPoint.X);
+            var tb = (line.StartingPoint.X - line.TerminalPoint.X) * (TerminalPoint.Y - line.StartingPoint.Y) + (line.StartingPoint.Y - line.TerminalPoint.Y) * (line.StartingPoint.X - TerminalPoint.X);
             if (tc * td < 0 && ta * tb < 0) return true;
             return false;
         }
@@ -137,10 +139,12 @@ namespace SlimDxGame.Collision.Shape
             return Math.Pow((circle.Center.X - Location.X), 2) + Math.Pow((circle.Center.Y - Location.Y), 2) <= Math.Pow(circle.Radius, 2);
         }
 
+#if DEBUG
         public Point()
         {
             this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
         }
+#endif
 
         public override void Draw3D(SlimDX.Direct3D9.Device dev)
         {
@@ -162,10 +166,12 @@ namespace SlimDxGame.Collision.Shape
         /// </summary>
         public float Radius { get; set; }
 
+#if DEBUG
         public Circle()
         {
             this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Sphere, System.Drawing.Color.White);
         }
+#endif
 
         public bool Hit(Line line)
         {
