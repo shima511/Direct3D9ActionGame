@@ -13,7 +13,7 @@ namespace SlimDxGame.Object
         /// <summary>
         /// 頭の当たり判定
         /// </summary>
-        public Collision.Shape.Point HeadCollision { get; set; }
+        public Collision.Shape.Line HeadCollision { get; set; }
         public const float LegLength = 0.5f;
         const float WalkSpeed = 0.05f;
         const float RunSpeed = 0.1f;
@@ -338,7 +338,7 @@ namespace SlimDxGame.Object
         public Player()
         {
             FeetCollision = new Collision.Shape.Line();
-            HeadCollision = new Collision.Shape.Point();
+            HeadCollision = new Collision.Shape.Line();
         }
 
         private void UpdateSpeed()
@@ -358,8 +358,13 @@ namespace SlimDxGame.Object
 
         private void UpdateCollision()
         {
-            FeetCollision.StartingPoint = new Vector2(_position.X - 0.5f, _position.Y - LegLength);
-            FeetCollision.TerminalPoint = new Vector2(_position.X + 0.5f, _position.Y - LegLength);
+            // 頭の当たり判定を更新
+            HeadCollision.StartingPoint = new Vector2(_position.X - 0.3f, _position.Y + 1.0f);
+            HeadCollision.TerminalPoint = new Vector2(_position.X + 0.3f, _position.Y + 1.0f);
+
+            // 足の当たり判定を更新
+            FeetCollision.StartingPoint = new Vector2(_position.X - 0.3f, _position.Y - LegLength);
+            FeetCollision.TerminalPoint = new Vector2(_position.X + 0.3f, _position.Y - LegLength);
         }
 
         public void Update()
