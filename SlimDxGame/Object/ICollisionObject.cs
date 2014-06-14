@@ -24,7 +24,7 @@ namespace SlimDxGame.Object
         }
         public override void Hit(Player player)
         {
-            if (player.FeetCollision.Hit(Line))
+            if (player.FeetCollision.Hit(Line) && player.Speed.Y < 0)
             {
                 var intercept = Line.StartingPoint.Y;
                 var player_y = Line.Coefficient * (player.Position.X - Line.StartingPoint.X) + intercept + Player.LegLength;
@@ -49,21 +49,19 @@ namespace SlimDxGame.Object
 
     class Ceiling : ICollisionObject
     {
-        /// <summary>
-        /// X,Y係数
-        /// </summary>
-        public Vector2 Coefficient { get; set; }
-        /// <summary>
-        /// 定数項
-        /// </summary>
-        public float Nape { get; set; }
+        public Collision.Shape.Line Line { get; set; }
         public override void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
         }
         public override void Hit(Player player)
         {
-
+            if (player.HeadCollision.Hit(Line))
+            {
+                var player_spd = player.Speed;
+                player_spd.Y -= 0.01f;
+                player.Speed = player_spd;
+            }
         }
         public override void Hit(Floor floor)
         {
