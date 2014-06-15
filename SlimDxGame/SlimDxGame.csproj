@@ -50,6 +50,7 @@
     <Reference Include="BulletX%28NP%29">
       <HintPath>..\..\..\..\..\..\..\MMDX\BulletX(NP).dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MikuMikuDanceCore%28SlimDX%29">
       <HintPath>..\..\..\..\..\..\..\MMDX\MikuMikuDanceCore(SlimDX).dll</HintPath>
     </Reference>
@@ -114,6 +115,7 @@
     <Compile Include="GameRootObjects.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Object\Cursor.cs" />
+    <Compile Include="Object\Ground\Base.cs" />
     <Compile Include="Object\ICollisionObject.cs" />
     <Compile Include="Object\LoadingScreen.cs" />
     <Compile Include="Object\Base\PlaneObject.cs" />
