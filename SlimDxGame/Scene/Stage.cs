@@ -80,7 +80,8 @@ namespace SlimDxGame.Scene
 
             void LoadStage(Stage parent)
             {
-                parent.stg_loader.Load(parent.level_id.ToString());
+                string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+                parent.stg_loader.Load(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".csv")));
             }
 
             private void CreateInstance(Stage parent)
@@ -117,6 +118,7 @@ namespace SlimDxGame.Scene
                     List<string> invalid_calls = new List<string>();
                     if (root_objects.IncludeInvalidAsset(ref invalid_calls) || parent.stg_loader.LoadFailed)
                     {
+                        MessageBox.Show("ファイルの読み込みに失敗", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         parent.ret_frag = ReturnFrag.ExitGame;
                         return -1;
                     }
@@ -169,26 +171,22 @@ namespace SlimDxGame.Scene
 
             private void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
             {
-                const float XLength = 2.0f;
                 parent.collision_manager.Player = parent.player;
-                for (int i = 0; i < 10; i++)
+
+                // 地形の衝突判定を追加していく
+                foreach (var item in parent.stg_loader.GroundCollisions)
                 {
-                    Object.Floor new_floor = new Object.Floor();
-                    Collision.Shape.Line line = new Collision.Shape.Line();
-                    line.StartingPoint = new SlimDX.Vector2(-3.0f + i * XLength, -2.0f);
-                    line.TerminalPoint = new SlimDX.Vector2(-2.0f + XLength + i * XLength, 2.0f);
-                    new_floor.Line = line;
-                    parent.collision_manager.Add(new_floor);
+                    parent.collision_manager.Add(item);
                 }
 
                 root_objects.update_list.Add(parent.collision_manager);
+#if DEBUG
                 root_objects.layers[0].Add(parent.collision_manager);
+#endif
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
-                CreateInstance(parent);
-
                 InitCamera( root_objects,  parent);
 
                 InitInputManager( root_objects,  parent);
