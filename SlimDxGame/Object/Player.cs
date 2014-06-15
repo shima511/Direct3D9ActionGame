@@ -326,19 +326,19 @@ namespace SlimDxGame.Object
         {
 
         }
-        public void Hit(Floor floor)
+        public void Hit(Ground.Floor floor)
         {
 
         }
-        public void Hit(Ceiling ceiling)
+        public void Hit(Ground.Ceiling ceiling)
         {
 
         }
-        public void Hit(RightWall wall)
+        public void Hit(Ground.RightWall wall)
         {
 
         }
-        public void Hit(LeftWall wall)
+        public void Hit(Ground.LeftWall wall)
         {
 
         }
