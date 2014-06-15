@@ -4,7 +4,7 @@ using SlimDX;
 
 namespace SlimDxGame.Object
 {
-    class Player : ICollisionObject, Component.IUpdateObject, Component.IOperableObject
+    class Player : Object.Base.Model, ICollisionObject, Component.IUpdateObject, Component.IOperableObject
     {
         /// <summary>
         /// 足の当たり判定
@@ -318,23 +318,30 @@ namespace SlimDxGame.Object
             }
         }
 
-        public override void Dispatch(ICollisionObject obj)
+        public void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
         }
-        public override void Hit(Player player)
+        public void Hit(Player player)
         {
 
         }
-        public override void Hit(Floor floor)
+        public void Hit(Floor floor)
         {
 
         }
-        public override void Hit(Ceiling ceiling)
+        public void Hit(Ceiling ceiling)
         {
 
         }
+        public void Hit(RightWall wall)
+        {
 
+        }
+        public void Hit(LeftWall wall)
+        {
+
+        }
         public Player()
         {
             FeetCollision = new Collision.Shape.Line();

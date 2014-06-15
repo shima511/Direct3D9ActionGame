@@ -4,25 +4,29 @@ using SlimDX;
 
 namespace SlimDxGame.Object
 {
-    abstract class ICollisionObject : Object.Base.Model
+    interface ICollisionObject : Component.IDrawableObject
     {
-        abstract public void Dispatch(ICollisionObject obj);
-        abstract public void Hit(Player player);
-        abstract public void Hit(Floor floor);
-        abstract public void Hit(Ceiling ceiling);
+        void Dispatch(ICollisionObject obj);
+        void Hit(Player player);
+        void Hit(Floor floor);
+        void Hit(Ceiling ceiling);
+        void Hit(RightWall wall);
+        void Hit(LeftWall wall);
     }
 
     class Floor : ICollisionObject
     {
+        bool _is_visible = true;
+        public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
         public Floor()
         {
         }
         public Collision.Shape.Line Line { get; set; }
-        public override void Dispatch(ICollisionObject obj)
+        public void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
         }
-        public override void Hit(Player player)
+        public void Hit(Player player)
         {
             if (player.FeetCollision.Hit(Line) && player.Speed.Y < 0)
             {
@@ -33,15 +37,27 @@ namespace SlimDxGame.Object
                 player.IsInTheAir = false;
             }
         }
-        public override void Hit(Floor floor)
+        public void Hit(Floor floor)
         {
 
         }
-        public override void Hit(Ceiling ceiling)
+        public void Hit(Ceiling ceiling)
         {
 
         }
-        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        public void Hit(RightWall wall)
+        {
+
+        }
+        public void Hit(LeftWall wall)
+        {
+
+        }
+        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+        {
+
+        }
+        public void Draw3D(SlimDX.Direct3D9.Device dev)
         {
             Line.Draw3D(dev);
         }
@@ -49,12 +65,14 @@ namespace SlimDxGame.Object
 
     class Ceiling : ICollisionObject
     {
+        bool _is_visible = true;
+        public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
         public Collision.Shape.Line Line { get; set; }
-        public override void Dispatch(ICollisionObject obj)
+        public void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
         }
-        public override void Hit(Player player)
+        public void Hit(Player player)
         {
             if (player.HeadCollision.Hit(Line))
             {
@@ -63,15 +81,118 @@ namespace SlimDxGame.Object
                 player.Speed = player_spd;
             }
         }
-        public override void Hit(Floor floor)
+        public void Hit(Floor floor)
         {
 
         }
-        public override void Hit(Ceiling ceiling)
+        public void Hit(Ceiling ceiling)
         {
 
+        }
+        public void Hit(RightWall wall)
+        {
+
+        }
+        public void Hit(LeftWall wall)
+        {
+
+        }
+        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+        {
+
+        }
+        public void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            Line.Draw3D(dev);
         }
     }
-    
-    
+
+    class RightWall : ICollisionObject
+    {
+        bool _is_visible = true;
+        public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
+
+        public Collision.Shape.Line Line { get; set; }
+        public void Dispatch(ICollisionObject obj)
+        {
+            obj.Hit(this);
+        }
+        public void Hit(Player player)
+        {
+            if (player.HeadCollision.Hit(Line))
+            {
+                var player_spd = player.Speed;
+                player_spd.Y -= 0.01f;
+                player.Speed = player_spd;
+            }
+        }
+        public void Hit(Floor floor)
+        {
+
+        }
+        public void Hit(Ceiling ceiling)
+        {
+
+        }
+        public void Hit(RightWall wall)
+        {
+
+        }
+        public void Hit(LeftWall wall)
+        {
+
+        }
+        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+        {
+
+        }
+        public void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            Line.Draw3D(dev);
+        }
+    }
+    class LeftWall : ICollisionObject
+    {
+        bool _is_visible = true;
+        public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
+
+        public Collision.Shape.Line Line { get; set; }
+        public void Dispatch(ICollisionObject obj)
+        {
+            obj.Hit(this);
+        }
+        public void Hit(Player player)
+        {
+            if (player.HeadCollision.Hit(Line))
+            {
+                var player_spd = player.Speed;
+                player_spd.Y -= 0.01f;
+                player.Speed = player_spd;
+            }
+        }
+        public void Hit(Floor floor)
+        {
+
+        }
+        public void Hit(Ceiling ceiling)
+        {
+
+        }
+        public void Hit(RightWall wall)
+        {
+
+        }
+        public void Hit(LeftWall wall)
+        {
+
+        }
+        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+        {
+
+        }
+        public void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            Line.Draw3D(dev);
+        }
+    }
 }
