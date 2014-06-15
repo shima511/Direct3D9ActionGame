@@ -11,6 +11,11 @@ namespace SlimDxGame.Scene
             ExitGame,
             ToTitle
         }
+        /// <summary>
+        /// ステージ番号
+        /// </summary>
+        int level_id = 0;
+        StageLoader stg_loader;
         ReturnFrag ret_frag;
         Collision.Manager collision_manager;
         List<Object.Base.Model> model_decoration;
@@ -73,10 +78,29 @@ namespace SlimDxGame.Scene
                 model_container.Add("NormalFloor", new_model);
             }
 
+            void LoadStage(Stage parent)
+            {
+                parent.stg_loader.Load(parent.level_id.ToString());
+            }
+
+            private void CreateInstance(Stage parent)
+            {
+                parent.stg_loader = new StageLoader();
+                parent.collision_manager = new Collision.Manager();
+                parent.model_decoration = new List<Object.Base.Model>();
+                parent.camera_manager = new Object.CameraManager();
+                parent.camera = new Object.Camera();
+                parent.player = new Object.Player();
+                parent.controller = new Controller();
+                parent.fader = new Object.Fader();
+            }
+
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 if (!thread_created)
                 {
+                    CreateInstance(parent);
+
                     InitLayer( root_objects);
 
                     thread_created = true;
@@ -84,12 +108,14 @@ namespace SlimDxGame.Scene
 
                 LoadTextures( root_objects.tex_container);
                 LoadModels( root_objects.model_container);
+                LoadStage(parent);
+
                 load_completed = true;
 
                 if (load_completed)
                 {
                     List<string> invalid_calls = new List<string>();
-                    if (root_objects.IncludeInvalidAsset(ref invalid_calls))
+                    if (root_objects.IncludeInvalidAsset(ref invalid_calls) || parent.stg_loader.LoadFailed)
                     {
                         parent.ret_frag = ReturnFrag.ExitGame;
                         return -1;
@@ -157,17 +183,6 @@ namespace SlimDxGame.Scene
 
                 root_objects.update_list.Add(parent.collision_manager);
                 root_objects.layers[0].Add(parent.collision_manager);
-            }
-
-            private void CreateInstance(Stage parent)
-            {
-                parent.collision_manager = new Collision.Manager();
-                parent.model_decoration = new List<Object.Base.Model>();
-                parent.camera_manager = new Object.CameraManager();
-                parent.camera = new Object.Camera();
-                parent.player = new Object.Player();
-                parent.controller = new Controller();
-                parent.fader = new Object.Fader();
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
