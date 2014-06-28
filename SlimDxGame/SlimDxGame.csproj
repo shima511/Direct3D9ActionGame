@@ -117,6 +117,9 @@
     <Compile Include="Object\Cursor.cs" />
     <Compile Include="Object\Ground\Ground.cs" />
     <Compile Include="Object\ICollisionObject.cs" />
+    <Compile Include="Object\Item\Coin.cs" />
+    <Compile Include="Object\Item\IBase.cs" />
+    <Compile Include="Object\Item\Portion.cs" />
     <Compile Include="Object\LoadingScreen.cs" />
     <Compile Include="Object\Base\PlaneObject.cs" />
     <Compile Include="Object\Base\String.cs" />
@@ -182,6 +185,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
