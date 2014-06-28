@@ -115,7 +115,7 @@
     <Compile Include="GameRootObjects.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Object\Cursor.cs" />
-    <Compile Include="Object\Ground\Base.cs" />
+    <Compile Include="Object\Ground\Ground.cs" />
     <Compile Include="Object\ICollisionObject.cs" />
     <Compile Include="Object\LoadingScreen.cs" />
     <Compile Include="Object\Base\PlaneObject.cs" />
