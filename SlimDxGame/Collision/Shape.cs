@@ -25,12 +25,18 @@ namespace SlimDxGame.Collision.Shape
         /// <summary>
         /// 線分の切片を取得します。
         /// </summary>
-        public float Intercept { get { return StartingPoint.Y; } private set { Intercept = value; } }
+        public float Intercept {
+            get { return StartingPoint.Y; }
+            private set { }
+        }
 
         /// <summary>
         /// 線分の係数を取得します。
         /// </summary>
-        public float Coefficient { get { return (TerminalPoint.Y - StartingPoint.Y) / (TerminalPoint.X - StartingPoint.X); } private set { Coefficient = value; } }
+        public float Coefficient {
+            get { return (TerminalPoint.Y - StartingPoint.Y) / (TerminalPoint.X - StartingPoint.X); }
+            private set { }
+        }
 
         /// <summary>
         /// 線分の傾きを取得します。
@@ -39,8 +45,18 @@ namespace SlimDxGame.Collision.Shape
         public float Slope
         {
             get { return (float)Math.Atan(Coefficient); }
-            private set { Slope = value; }
+            private set { }
         }
+        /// <summary>
+        /// 始点から終点へのベクトルを取得します。
+        /// </summary>
+        /// 
+        public Vector2 Vector
+        {
+            get { return new Vector2(TerminalPoint.X - StartingPoint.X, TerminalPoint.Y - StartingPoint.Y); }
+            private set { }
+        }
+
         private const float Allowable = 0.02f;
 
 #if DEBUG
