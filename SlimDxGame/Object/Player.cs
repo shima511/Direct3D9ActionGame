@@ -14,6 +14,14 @@ namespace SlimDxGame.Object
         /// 頭の当たり判定
         /// </summary>
         public Collision.Shape.Line HeadCollision { get; set; }
+        /// <summary>
+        /// プレイヤー右側の当たり判定
+        /// </summary>
+        public Collision.Shape.Line RightSideCollision { get; set; }
+        /// <summary>
+        /// プレイヤー左側の当たり判定
+        /// </summary>
+        public Collision.Shape.Line LeftSideCollision { get; set; }
         public const float LegLength = 0.5f;
         const float WalkSpeed = 0.05f;
         const float RunSpeed = 0.1f;
@@ -41,32 +49,40 @@ namespace SlimDxGame.Object
                 parent._speed.X = 0.0f;
                 parent.IsInTheAir = false;
                 parent.IsOnTheGround = true;
-                parent._rotation.Z = 0.0f;
+                parent._rotation.Z = (float)Math.PI / 2;
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
-                if (controller.LeftButton.IsPressed() || controller.RightButton.IsPressed())
+                // 左ボタンが押された場合
+                if (controller.LeftButton.IsBeingPressed())
                 {
-                    new_state = new WalkStart();
+                    // 右を向いている場合
+                    if (parent.FaceRight)
+                    {
+                        parent.FaceRight = false;
+                        parent._is_turning = true;
+                        new_state = new Turn();
+                    }
+                    else
+                    {
+                        new_state = new WalkStart();
+                    }
                 }
-                // 右を向いている状態で左ボタンが押された場合
-                if (parent.FaceRight && controller.LeftButton.IsPressed())
+                // 右ボタンが押された場合
+                if (controller.RightButton.IsBeingPressed())
                 {
-                    parent.FaceRight = false;
-                    parent._is_turning = true;
-                    new_state = new Turn();
-                }
-                // 左を向いている状態で右ボタンが押された場合
-                if (!parent.FaceRight && controller.RightButton.IsPressed())
-                {
-                    parent.FaceRight = true;
-                    parent._is_turning = true;
-                    new_state = new Turn();
-                }
-                if (controller.LeftButton.IsBeingPressed() || controller.RightButton.IsBeingPressed())
-                {
-                    new_state = new Walk();
+                    // 左を向いている場合
+                    if (!parent.FaceRight)
+                    {
+                        parent.FaceRight = true;
+                        parent._is_turning = true;
+                        new_state = new Turn();
+                    }
+                    else
+                    {
+                        new_state = new WalkStart();
+                    }
                 }
                 if (controller.AButton.IsPressed())
                 {
@@ -306,10 +322,11 @@ namespace SlimDxGame.Object
         private class Land : ObjectState<Player>
         {
             int time = 0;
-            const int RequiredFrame = 15;
+            const int RequiredFrame = 5;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
+                parent.Speed = new Vector2();
                 if (time >= RequiredFrame)
                 {
                     parent.jumped_two_times = false;
@@ -344,8 +361,11 @@ namespace SlimDxGame.Object
         }
         public Player()
         {
+            _rotation.Z = (float)Math.PI / 4;
             FeetCollision = new Collision.Shape.Line();
             HeadCollision = new Collision.Shape.Line();
+            RightSideCollision = new Collision.Shape.Line();
+            LeftSideCollision = new Collision.Shape.Line();
         }
 
         private void UpdateSpeed()
@@ -366,12 +386,20 @@ namespace SlimDxGame.Object
         private void UpdateCollision()
         {
             // 頭の当たり判定を更新
-            HeadCollision.StartingPoint = new Vector2(_position.X - 0.3f, _position.Y + 1.0f);
-            HeadCollision.TerminalPoint = new Vector2(_position.X + 0.3f, _position.Y + 1.0f);
+            HeadCollision.StartingPoint = new Vector2(_position.X, _position.Y);
+            HeadCollision.TerminalPoint = new Vector2(_position.X, _position.Y + 1.0f);
 
             // 足の当たり判定を更新
             FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y);
             FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - LegLength);
+
+            // 右側の当たり判定を更新
+            RightSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
+            RightSideCollision.TerminalPoint = new Vector2(_position.X + 0.5f, _position.Y);
+
+            // 左側の当たり判定を更新
+            LeftSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
+            LeftSideCollision.TerminalPoint = new Vector2(_position.X - 0.5f, _position.Y);
         }
 
         public void Update()
@@ -386,6 +414,8 @@ namespace SlimDxGame.Object
         {
             FeetCollision.Draw3D(dev);
             HeadCollision.Draw3D(dev);
+            RightSideCollision.Draw3D(dev);
+            LeftSideCollision.Draw3D(dev);
             base.Draw3D(dev);
         }
 
