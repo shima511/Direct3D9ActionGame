@@ -74,6 +74,7 @@ namespace SlimDxGame.Object.Ground
 
     class Ceiling : Base
     {
+        const float HitEffect = 0.05f;
         public override void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
@@ -83,7 +84,7 @@ namespace SlimDxGame.Object.Ground
             if (player.HeadCollision.Hit(CollisionLine))
             {
                 var player_spd = player.Speed;
-                player_spd.Y -= 0.01f;
+                player_spd.Y -= HitEffect;
                 player.Speed = player_spd;
             }
         }
@@ -97,7 +98,15 @@ namespace SlimDxGame.Object.Ground
         }
         public override void Hit(Player player)
         {
-
+            if (player.RightSideCollision.Hit(CollisionLine))
+            {
+                var player_vector = new SlimDX.Vector2(player.Speed.X, player.Speed.Y);
+                float common_denomi = (float)Math.Sqrt(Math.Pow(CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X, 2.0) + Math.Pow(CollisionLine.TerminalPoint.Y - CollisionLine.StartingPoint.Y, 2.0));
+                var n_normal = new SlimDX.Vector2((CollisionLine.StartingPoint.Y - CollisionLine.TerminalPoint.Y) / common_denomi, (CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X) / common_denomi);
+                var length = -SlimDX.Vector2.Dot(player_vector, n_normal);
+                var w_vec = player_vector + length * n_normal;
+                player.Speed = new SlimDX.Vector2(w_vec.X, w_vec.Y);
+            }
         }
     }
     class LeftWall : Base
