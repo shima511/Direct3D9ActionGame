@@ -370,8 +370,8 @@ namespace SlimDxGame.Object
             HeadCollision.TerminalPoint = new Vector2(_position.X + 0.3f, _position.Y + 1.0f);
 
             // 足の当たり判定を更新
-            FeetCollision.StartingPoint = new Vector2(_position.X - 0.3f, _position.Y - LegLength);
-            FeetCollision.TerminalPoint = new Vector2(_position.X + 0.3f, _position.Y - LegLength);
+            FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y);
+            FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - LegLength);
         }
 
         public void Update()
