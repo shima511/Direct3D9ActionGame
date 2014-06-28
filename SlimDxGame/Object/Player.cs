@@ -22,7 +22,8 @@ namespace SlimDxGame.Object
         /// プレイヤー左側の当たり判定
         /// </summary>
         public Collision.Shape.Line LeftSideCollision { get; set; }
-        public const float LegLength = 0.5f;
+        public bool IsBesideOfRightWall { get; set; }
+        public bool IsBesideOfLeftWall { get; set; }
         const float WalkSpeed = 0.05f;
         const float RunSpeed = 0.1f;
         const float JumpSpeed = 0.2f;
@@ -35,6 +36,8 @@ namespace SlimDxGame.Object
         private bool _is_turning = false;
         private bool _in_the_air = false;
         private bool _is_on_the_ground = true;
+        public float Width { get; private set; }
+        public float Height { get; private set; }
         public Vector2 Speed { get { return _speed; } set { _speed = value; } }
         public bool IsInTheAir { get { return _in_the_air; } set { _in_the_air = value; } }
         public bool FaceRight { get { return _face_right; } set { _face_right = value; } }
@@ -94,7 +97,7 @@ namespace SlimDxGame.Object
         private class Turn : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 30;
+            private const int RequiredFrame = 10;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -212,7 +215,7 @@ namespace SlimDxGame.Object
         private class Break : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 15;
+            private const int RequiredFrame = 5;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -261,11 +264,11 @@ namespace SlimDxGame.Object
                     parent._speed.Y = JumpSpeed;
                     new_state = new TwiceJump();
                 }
-                if (controller.RightButton.IsBeingPressed())
+                if (controller.RightButton.IsBeingPressed() && !parent.IsBesideOfRightWall)
                 {
                     parent._speed.X = WalkSpeed;
                 }
-                if (controller.LeftButton.IsBeingPressed())
+                if (controller.LeftButton.IsBeingPressed() && !parent.IsBesideOfLeftWall)
                 {
                     parent._speed.X = -WalkSpeed;
                 }
@@ -361,7 +364,10 @@ namespace SlimDxGame.Object
         }
         public Player()
         {
+            IsBesideOfRightWall = false;
             _rotation.Z = (float)Math.PI / 4;
+            Width = 1.0f;
+            Height = 1.0f;
             FeetCollision = new Collision.Shape.Line();
             HeadCollision = new Collision.Shape.Line();
             RightSideCollision = new Collision.Shape.Line();
@@ -379,7 +385,10 @@ namespace SlimDxGame.Object
 
         private void UpdatePosition()
         {
-            _position.X += _speed.X;
+            if ((Speed.X < 0 && !IsBesideOfLeftWall) || (Speed.X > 0 && !IsBesideOfRightWall))
+            {
+                _position.X += _speed.X;
+            }
             _position.Y += _speed.Y;
         }
 
@@ -387,19 +396,19 @@ namespace SlimDxGame.Object
         {
             // 頭の当たり判定を更新
             HeadCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            HeadCollision.TerminalPoint = new Vector2(_position.X, _position.Y + 1.0f);
+            HeadCollision.TerminalPoint = new Vector2(_position.X, _position.Y + Height / 2);
 
             // 足の当たり判定を更新
             FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - LegLength);
+            FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - Height / 2);
 
             // 右側の当たり判定を更新
             RightSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            RightSideCollision.TerminalPoint = new Vector2(_position.X + 0.5f, _position.Y);
+            RightSideCollision.TerminalPoint = new Vector2(_position.X + Width / 2, _position.Y);
 
             // 左側の当たり判定を更新
             LeftSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            LeftSideCollision.TerminalPoint = new Vector2(_position.X - 0.5f, _position.Y);
+            LeftSideCollision.TerminalPoint = new Vector2(_position.X - Width / 2, _position.Y);
         }
 
         public void Update()
