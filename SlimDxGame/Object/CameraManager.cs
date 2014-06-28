@@ -22,7 +22,7 @@ namespace SlimDxGame.Object
                     Camera.EyePosition = new SlimDX.Vector3(Camera.EyePosition.X + MoveStrength, Player.Position.Y, Camera.EyePosition.Z);
                     Camera.AtPosition = new SlimDX.Vector3(Camera.AtPosition.X + MoveStrength, Player.Position.Y, Camera.AtPosition.Z);
                 }
-                if (Player.FaceLeft && Camera.EyePosition.X >= Player.Position.X - Distance)
+                if (!Player.FaceRight && Camera.EyePosition.X >= Player.Position.X - Distance)
                 {
                     Camera.EyePosition = new SlimDX.Vector3(Camera.EyePosition.X - MoveStrength, Player.Position.Y, Camera.EyePosition.Z);
                     Camera.AtPosition = new SlimDX.Vector3(Camera.AtPosition.X - MoveStrength, Player.Position.Y, Camera.AtPosition.Z);

@@ -10,7 +10,6 @@ namespace SlimDxGame.Collision
         public Object.Player Player { private get; set; }
         public void Update()
         {
-            Player.IsOnTheGround = false;
             Player.IsInTheAir = true;
             Player.IsBesideOfRightWall = false;
             Player.IsBesideOfLeftWall = false;

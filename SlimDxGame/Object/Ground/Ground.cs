@@ -66,7 +66,6 @@ namespace SlimDxGame.Object.Ground
                 var intercept = CollisionLine.StartingPoint.Y;
                 var player_y = CollisionLine.Coefficient * (player.Position.X - CollisionLine.StartingPoint.X) + intercept + player.Height / 2;
                 player.Position = new SlimDX.Vector3(player.Position.X, player_y, player.Position.Z);
-                player.IsOnTheGround = true;
                 player.IsInTheAir = false;
             }
         }
