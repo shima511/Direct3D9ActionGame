@@ -64,7 +64,7 @@ namespace SlimDxGame.Object.Ground
             if (player.FeetCollision.Hit(CollisionLine) && player.Speed.Y < 0)
             {
                 var intercept = CollisionLine.StartingPoint.Y;
-                var player_y = CollisionLine.Coefficient * (player.Position.X - CollisionLine.StartingPoint.X) + intercept + Player.LegLength;
+                var player_y = CollisionLine.Coefficient * (player.Position.X - CollisionLine.StartingPoint.X) + intercept + player.Height / 2;
                 player.Position = new SlimDX.Vector3(player.Position.X, player_y, player.Position.Z);
                 player.IsOnTheGround = true;
                 player.IsInTheAir = false;
@@ -106,6 +106,7 @@ namespace SlimDxGame.Object.Ground
                 var length = -SlimDX.Vector2.Dot(player_vector, n_normal);
                 var w_vec = player_vector + length * n_normal;
                 player.Speed = new SlimDX.Vector2(w_vec.X, w_vec.Y);
+                player.IsBesideOfRightWall = true;
             }
         }
     }
@@ -117,7 +118,16 @@ namespace SlimDxGame.Object.Ground
         }
         public override void Hit(Player player)
         {
-
+            if (player.LeftSideCollision.Hit(CollisionLine))
+            {
+                var player_vector = new SlimDX.Vector2(player.Speed.X, player.Speed.Y);
+                float common_denomi = (float)Math.Sqrt(Math.Pow(CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X, 2.0) + Math.Pow(CollisionLine.TerminalPoint.Y - CollisionLine.StartingPoint.Y, 2.0));
+                var n_normal = new SlimDX.Vector2((CollisionLine.StartingPoint.Y - CollisionLine.TerminalPoint.Y) / common_denomi, (CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X) / common_denomi);
+                var length = -SlimDX.Vector2.Dot(player_vector, n_normal);
+                var w_vec = player_vector + length * n_normal;
+                player.Speed = new SlimDX.Vector2(w_vec.X, w_vec.Y);
+                player.IsBesideOfLeftWall = true;
+            }
         }
     }
 

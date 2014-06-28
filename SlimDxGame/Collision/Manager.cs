@@ -12,6 +12,8 @@ namespace SlimDxGame.Collision
         {
             Player.IsOnTheGround = false;
             Player.IsInTheAir = true;
+            Player.IsBesideOfRightWall = false;
+            Player.IsBesideOfLeftWall = false;
             foreach (var obj in this)
             {
                 obj.Hit(Player);
