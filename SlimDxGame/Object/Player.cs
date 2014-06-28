@@ -6,6 +6,12 @@ namespace SlimDxGame.Object
 {
     class Player : Object.Base.Model, ICollisionObject, Component.IUpdateObject, Component.IOperableObject
     {
+        public class Status
+        {
+            public int HP { get; set; }
+            public int Score { get; set; }
+        }
+
         /// <summary>
         /// 足の当たり判定
         /// </summary>
@@ -32,18 +38,13 @@ namespace SlimDxGame.Object
         bool jumped_two_times = false;
         private ObjectState<Player> now_state = new Wait();
         private Vector2 _speed = new Vector2(0.0f, 0.0f);
-        private bool _face_right = true;
-        private bool _is_turning = false;
-        private bool _in_the_air = false;
-        private bool _is_on_the_ground = true;
         public float Width { get; private set; }
         public float Height { get; private set; }
         public Vector2 Speed { get { return _speed; } set { _speed = value; } }
-        public bool IsInTheAir { get { return _in_the_air; } set { _in_the_air = value; } }
-        public bool FaceRight { get { return _face_right; } set { _face_right = value; } }
-        public bool FaceLeft { get { return !_face_right; } set { _face_right = !value; } }
-        public bool IsTurning { get { return _is_turning; } set { _is_turning = value; } }
-        public bool IsOnTheGround { get { return _is_on_the_ground; } set { _is_on_the_ground = value; } }
+        public bool IsInTheAir { get; set; }
+        public bool FaceRight { get; set; }
+        public bool IsTurning { get; set; }
+        public Status State { get; set; }
 
         private class Wait : ObjectState<Player>
         {
@@ -51,7 +52,6 @@ namespace SlimDxGame.Object
             {
                 parent._speed.X = 0.0f;
                 parent.IsInTheAir = false;
-                parent.IsOnTheGround = true;
                 parent._rotation.Z = (float)Math.PI / 2;
             }
 
@@ -64,7 +64,7 @@ namespace SlimDxGame.Object
                     if (parent.FaceRight)
                     {
                         parent.FaceRight = false;
-                        parent._is_turning = true;
+                        parent.IsTurning = true;
                         new_state = new Turn();
                     }
                     else
@@ -79,7 +79,7 @@ namespace SlimDxGame.Object
                     if (!parent.FaceRight)
                     {
                         parent.FaceRight = true;
-                        parent._is_turning = true;
+                        parent.IsTurning = true;
                         new_state = new Turn();
                     }
                     else
@@ -104,7 +104,7 @@ namespace SlimDxGame.Object
                 parent._rotation.Y += (float)Math.PI / RequiredFrame;
                 if (time >= RequiredFrame)
                 {
-                    parent._is_turning = false;
+                    parent.IsTurning = false;
                     new_state = new WalkStart();
                 }
             }
@@ -238,7 +238,7 @@ namespace SlimDxGame.Object
                 {
                     // 初速度
                     parent._speed.Y = JumpSpeed;
-                    parent._in_the_air = true;
+                    parent.IsInTheAir = true;
                     new_state = new Jump();
                 }
             }
@@ -365,7 +365,18 @@ namespace SlimDxGame.Object
         public Player()
         {
             IsBesideOfRightWall = false;
+            IsTurning = false;
+            IsInTheAir = true;
+            IsBesideOfLeftWall = false;
+
             _rotation.Z = (float)Math.PI / 4;
+
+            State = new Status()
+            {
+                HP = 10,
+                Score = 0
+            };
+
             Width = 1.0f;
             Height = 1.0f;
             FeetCollision = new Collision.Shape.Line();
