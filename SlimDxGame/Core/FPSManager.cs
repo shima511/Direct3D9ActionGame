@@ -8,11 +8,12 @@ namespace SlimDxGame.Core
 {
     class FPSManager
     {
+        const int FPS = 60;
         float fps = 0;
         int count = 0;
         int time_begin = 0;
-        int ideal_time = (int)(1000.0F / 60.0F);
-        const int Sample = 60;
+        int ideal_time = (int)(1000.0F / FPS);
+        const int Sample = FPS;
 
         public void Begin()
         {
