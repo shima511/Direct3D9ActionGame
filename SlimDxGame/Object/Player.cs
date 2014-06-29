@@ -30,6 +30,7 @@ namespace SlimDxGame.Object
         public Collision.Shape.Line LeftSideCollision { get; set; }
         public bool IsBesideOfRightWall { get; set; }
         public bool IsBesideOfLeftWall { get; set; }
+        int fall_time = 0;
         const float WalkSpeed = 0.05f;
         const float RunSpeed = 0.1f;
         const float JumpSpeed = 0.2f;
@@ -51,7 +52,6 @@ namespace SlimDxGame.Object
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 parent._speed.X = 0.0f;
-                parent.IsInTheAir = false;
                 parent._rotation.Z = (float)Math.PI / 2;
             }
 
@@ -160,6 +160,10 @@ namespace SlimDxGame.Object
 
         private class Walk : ObjectState<Player>
         {
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+            }
+
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
                 if (controller.RightButton.IsBeingPressed() && parent.FaceRight)
@@ -189,6 +193,10 @@ namespace SlimDxGame.Object
 
         private class Run : ObjectState<Player>
         {
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+            }
+
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
                 if (controller.RightButton.IsBeingPressed() && parent.FaceRight)
@@ -261,8 +269,7 @@ namespace SlimDxGame.Object
             {
                 if (controller.AButton.IsPressed() && !parent.jumped_two_times)
                 {
-                    parent._speed.Y = JumpSpeed;
-                    new_state = new TwiceJump();
+                    new_state = new TwiceJump(parent);
                 }
                 if (controller.RightButton.IsBeingPressed() && !parent.IsBesideOfRightWall)
                 {
@@ -277,9 +284,21 @@ namespace SlimDxGame.Object
 
         private class TwiceJump : ObjectState<Player>
         {
+            int time = 0;
+            const int RequiredFrame = 5;
+            public TwiceJump(Player parent)
+            {
+                parent._speed.Y = JumpSpeed;
+                parent.jumped_two_times = true;
+            }
+
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
-                base.Update(parent, ref new_state);
+                time++;
+                if (time >= RequiredFrame)
+                {
+                    new_state = new Fall();
+                }
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
@@ -309,7 +328,7 @@ namespace SlimDxGame.Object
             {
                 if(controller.AButton.IsPressed() && !parent.jumped_two_times)
                 {
-                    new_state = new TwiceJump();
+                    new_state = new TwiceJump(parent);
                 }
                 if (controller.RightButton.IsBeingPressed())
                 {
@@ -422,12 +441,33 @@ namespace SlimDxGame.Object
             LeftSideCollision.TerminalPoint = new Vector2(_position.X - Width / 2, _position.Y);
         }
 
+        void UpdateFallTime()
+        {
+            if(IsInTheAir){
+                fall_time++;
+            }
+            else
+            {
+                fall_time = 0;
+            }
+        }
+
+        void UpdateState()
+        {
+            if (fall_time == 10)
+            {
+                now_state = new Fall();
+            }
+            now_state.Update(this, ref now_state);
+        }
+
         public void Update()
         {
-            now_state.Update(this, ref now_state);
+            UpdateState();
             UpdateSpeed();
             UpdatePosition();
             UpdateCollision();
+            UpdateFallTime();
         }
 
         public override void Draw3D(SlimDX.Direct3D9.Device dev)
