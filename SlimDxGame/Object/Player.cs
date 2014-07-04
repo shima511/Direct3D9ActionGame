@@ -31,11 +31,12 @@ namespace SlimDxGame.Object
         public bool IsBesideOfRightWall { get; set; }
         public bool IsBesideOfLeftWall { get; set; }
         int fall_time = 0;
-        const float WalkSpeed = 0.05f;
-        const float RunSpeed = 0.1f;
-        const float JumpSpeed = 0.2f;
-        const float FallSpeed = 0.01f;
-        const float MaxFallSpeed = 0.1f;
+        readonly float MoveSpeed = 0.01f;
+        readonly float WalkSpeed = 0.05f;
+        readonly float RunSpeed = 0.1f;
+        readonly float JumpSpeed = 0.2f;
+        readonly float FallSpeed = 0.01f;
+        readonly float MaxFallSpeed = 0.1f;
         bool jumped_two_times = false;
         private ObjectState<Player> now_state = new Wait();
         private Vector2 _speed = new Vector2(0.0f, 0.0f);
@@ -168,12 +169,12 @@ namespace SlimDxGame.Object
             {
                 if (controller.RightButton.IsBeingPressed() && parent.FaceRight)
                 {
-                    parent._speed.X = WalkSpeed;
+                    parent._speed.X = parent.WalkSpeed;
                     parent._rotation.Z = (float)Math.PI / 6;
                 }
                 else if (controller.LeftButton.IsBeingPressed() && !parent.FaceRight)
                 {
-                    parent._speed.X = -WalkSpeed;
+                    parent._speed.X = -parent.WalkSpeed;
                     parent._rotation.Z = (float)Math.PI / 6;
                 }
                 if (controller.RightButton.IsReleased() || controller.LeftButton.IsReleased())
@@ -201,12 +202,12 @@ namespace SlimDxGame.Object
             {
                 if (controller.RightButton.IsBeingPressed() && parent.FaceRight)
                 {
-                    parent._speed.X = RunSpeed;
+                    parent._speed.X = parent.RunSpeed;
                     parent._rotation.Z = (float)Math.PI / 4;
                 }
                 else if (controller.LeftButton.IsBeingPressed() && !parent.FaceRight)
                 {
-                    parent._speed.X = -RunSpeed;
+                    parent._speed.X = -parent.RunSpeed;
                     parent._rotation.Z = (float)Math.PI / 4;
                 }
                 if (controller.RightButton.IsReleased() || controller.LeftButton.IsReleased())
@@ -245,7 +246,7 @@ namespace SlimDxGame.Object
                 if (time <= RequiredFrame)
                 {
                     // 初速度
-                    parent._speed.Y = JumpSpeed;
+                    parent._speed.Y = parent.JumpSpeed;
                     parent.IsInTheAir = true;
                     new_state = new Jump();
                 }
@@ -271,13 +272,13 @@ namespace SlimDxGame.Object
                 {
                     new_state = new TwiceJump(parent);
                 }
-                if (controller.RightButton.IsBeingPressed() && !parent.IsBesideOfRightWall)
+                if (controller.RightButton.IsBeingPressed() && parent.Speed.X < parent.RunSpeed)
                 {
-                    parent._speed.X = WalkSpeed;
+                    parent._speed.X += parent.MoveSpeed;
                 }
-                if (controller.LeftButton.IsBeingPressed() && !parent.IsBesideOfLeftWall)
+                if (controller.LeftButton.IsBeingPressed() && parent.Speed.X > -parent.RunSpeed)
                 {
-                    parent._speed.X = -WalkSpeed;
+                    parent._speed.X -= parent.MoveSpeed;
                 }
             }
         }
@@ -288,7 +289,7 @@ namespace SlimDxGame.Object
             const int RequiredFrame = 5;
             public TwiceJump(Player parent)
             {
-                parent._speed.Y = JumpSpeed;
+                parent._speed.Y = parent.JumpSpeed;
                 parent.jumped_two_times = true;
             }
 
@@ -303,13 +304,13 @@ namespace SlimDxGame.Object
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
-                if (controller.RightButton.IsBeingPressed())
+                if (controller.RightButton.IsBeingPressed() && parent.Speed.X < parent.RunSpeed)
                 {
-                    parent._speed.X = WalkSpeed;
+                    parent._speed.X += parent.MoveSpeed;
                 }
-                if (controller.LeftButton.IsBeingPressed())
+                if (controller.LeftButton.IsBeingPressed() && parent.Speed.X > -parent.RunSpeed)
                 {
-                    parent._speed.X = -WalkSpeed;
+                    parent._speed.X -= parent.MoveSpeed;
                 }
             }
         }
@@ -330,13 +331,13 @@ namespace SlimDxGame.Object
                 {
                     new_state = new TwiceJump(parent);
                 }
-                if (controller.RightButton.IsBeingPressed())
+                if (controller.RightButton.IsBeingPressed() && parent.Speed.X < parent.RunSpeed)
                 {
-                    parent._speed.X = WalkSpeed;
+                    parent._speed.X += parent.MoveSpeed;
                 }
-                if (controller.LeftButton.IsBeingPressed())
+                if (controller.LeftButton.IsBeingPressed() && parent.Speed.X > -parent.RunSpeed)
                 {
-                    parent._speed.X = -WalkSpeed;
+                    parent._speed.X -= parent.MoveSpeed;
                 }
             }
         }
