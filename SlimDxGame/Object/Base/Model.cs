@@ -40,7 +40,7 @@ namespace SlimDxGame.Object.Base
             }
         }
 
-        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+        virtual public void Draw2D(SlimDX.Direct3D9.Sprite dev)
         {
 
         }
