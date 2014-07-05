@@ -15,6 +15,7 @@ namespace SlimDxGame.Scene
         /// ステージ番号
         /// </summary>
         int level_id = 0;
+        Status.Stage StageState;
         StageLoader stg_loader;
         ReturnFrag ret_frag;
         Collision.Manager collision_manager;
@@ -24,6 +25,7 @@ namespace SlimDxGame.Scene
         Object.Player player;
         Controller controller;
         Object.Fader fader;
+        Object.StateDrawer state_drawer;
         GameState<Stage> now_state = new LoadingState();
 
         // ステージの読み込みなどを行う
@@ -78,10 +80,21 @@ namespace SlimDxGame.Scene
                 model_container.Add("NormalFloor", new_model);
             }
 
-            void LoadStage(Stage parent)
+            void LoadStage(GameRootObjects root, Stage parent)
             {
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                 parent.stg_loader.Load(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".csv")));
+                parent.StageState = new Status.Stage()
+                {
+                    Score = 0,
+                    Time = 100
+                };
+            }
+
+            void LoadFont(GameRootObjects root)
+            {
+                var font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
+                root.font_container.Add("Arial", font);
             }
 
             private void CreateInstance(Stage parent)
@@ -109,7 +122,8 @@ namespace SlimDxGame.Scene
 
                 LoadTextures( root_objects.tex_container);
                 LoadModels( root_objects.model_container);
-                LoadStage(parent);
+                LoadStage(root_objects, parent);
+                LoadFont(root_objects);
 
                 load_completed = true;
 
@@ -185,6 +199,16 @@ namespace SlimDxGame.Scene
 #endif
             }
 
+            void InitStateDrawer(GameRootObjects root_objects, Stage parent)
+            {
+                parent.state_drawer = new Object.StateDrawer(parent.StageState, parent.player.State);
+                Asset.Font font;
+                root_objects.font_container.TryGetValue("Arial", out font);
+                parent.state_drawer.Font = font;
+                root_objects.update_list.Add(parent.state_drawer);
+                root_objects.layers[0].Add(parent.state_drawer);
+            }
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 InitCamera( root_objects,  parent);
@@ -196,6 +220,8 @@ namespace SlimDxGame.Scene
                 InitDecoration(root_objects, parent);
 
                 InitCollisionObjects(root_objects, parent);
+
+                InitStateDrawer(root_objects, parent);
 
                 new_state = new FadeInState( root_objects,  parent);
                 return 0;
