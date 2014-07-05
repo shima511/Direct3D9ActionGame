@@ -8,11 +8,13 @@ namespace SlimDxGame.Object.Item
 {
     class Coin : Object.Base.Model, Object.ICollisionObject, IBase
     {
-        int score;
+        Collision.Shape.Point HitCollision;
+        readonly int score = 10;
 
         public Coin()
         {
-            score = 10;
+            HitCollision = new Collision.Shape.Point();
+            IsCatched = false;
         }
 
         public bool IsCatched { get; set; }
@@ -22,7 +24,9 @@ namespace SlimDxGame.Object.Item
         }
         public void Hit(Player player)
         {
-
+            if (player.RightSideCollision.Hit(HitCollision))
+            {
+            }
         }
         public void Hit(Ground.Floor floor)
         {
