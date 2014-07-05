@@ -6,12 +6,6 @@ namespace SlimDxGame.Object
 {
     class Player : Object.Base.Model, ICollisionObject, Component.IUpdateObject, Component.IOperableObject
     {
-        public class Status
-        {
-            public int HP { get; set; }
-            public int Score { get; set; }
-        }
-
         /// <summary>
         /// 足の当たり判定
         /// </summary>
@@ -46,7 +40,7 @@ namespace SlimDxGame.Object
         public bool IsInTheAir { get; set; }
         public bool FaceRight { get; set; }
         public bool IsTurning { get; set; }
-        public Status State { get; set; }
+        public Status.Charactor State { get; set; }
 
         private class Wait : ObjectState<Player>
         {
@@ -391,10 +385,9 @@ namespace SlimDxGame.Object
 
             _rotation.Z = (float)Math.PI / 4;
 
-            State = new Status()
+            State = new Status.Charactor()
             {
-                HP = 10,
-                Score = 0
+                HP = 10
             };
 
             Width = 1.0f;
@@ -470,6 +463,7 @@ namespace SlimDxGame.Object
             UpdateCollision();
             UpdateFallTime();
         }
+
 
         public override void Draw3D(SlimDX.Direct3D9.Device dev)
         {
