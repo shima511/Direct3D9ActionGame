@@ -85,16 +85,18 @@ namespace BinaryParser
 
         public void Write(string filename, Objects objects)
         {
-            BinaryWriter writer = new BinaryWriter(File.OpenRead(filename));
-            AddObjectsSizeInfo(ref objects);
-            AddCheckSum(ref objects);
-            AddPlayerData(ref objects);
-            AddStageData(ref objects);
-            AddCollisionsData(ref objects);
-            AddItemsData(ref objects);
-            AddDecolationsData(ref objects);
-            AddEnemiesData(ref objects);
-            writer.Write(byteArray.ToArray());
+            using (BinaryWriter writer = new BinaryWriter(File.OpenRead(filename)))
+            {
+                AddCheckSum(ref objects);
+                AddObjectsSizeInfo(ref objects);
+                AddPlayerData(ref objects);
+                AddStageData(ref objects);
+                AddCollisionsData(ref objects);
+                AddItemsData(ref objects);
+                AddDecolationsData(ref objects);
+                AddEnemiesData(ref objects);
+                writer.Write(byteArray.ToArray());
+            }
         }
     }
 }
