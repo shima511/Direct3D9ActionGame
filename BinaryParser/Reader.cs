@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BinaryParser
 {
-    public class Class1
+    public class Reader
     {
     }
 }
