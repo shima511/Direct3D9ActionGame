@@ -37,6 +37,7 @@
             this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.元に戻すToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.やり直しRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ファイルを開くStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +56,7 @@
             // 
             this.ファイルFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新規作成ToolStripMenuItem,
+            this.ファイルを開くStripMenuItem1,
             this.上書き保存ToolStripMenuItem,
             this.名前を付けて保存ToolStripMenuItem,
             this.終了XToolStripMenuItem});
@@ -115,6 +117,13 @@
             this.やり直しRToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.やり直しRToolStripMenuItem.Text = "やり直し(R)";
             // 
+            // ファイルを開くStripMenuItem1
+            // 
+            this.ファイルを開くStripMenuItem1.Name = "ファイルを開くStripMenuItem1";
+            this.ファイルを開くStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.ファイルを開くStripMenuItem1.Size = new System.Drawing.Size(227, 22);
+            this.ファイルを開くStripMenuItem1.Text = "ファイルを開く(O)";
+            // 
             // LevelCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -143,6 +152,7 @@
         private System.Windows.Forms.ToolStripMenuItem 編集ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 元に戻すToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem やり直しRToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ファイルを開くStripMenuItem1;
 
     }
 }

@@ -12,9 +12,13 @@ namespace LevelCreator
 {
     public partial class LevelCreator : Form
     {
+        PropertyForm propertyForm = new PropertyForm();
+
         public LevelCreator()
         {
             InitializeComponent();
+            propertyForm.Owner = this;
+            propertyForm.Show();
         }
 
         private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
