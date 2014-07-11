@@ -14,11 +14,14 @@ namespace LevelCreator
     {
         PropertyForm propertyForm = new PropertyForm();
         List<Object.IBase> objects = new List<Object.IBase>();
+        GraphicDevice graphic_device;
 
         public LevelCreator()
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            graphic_device = new GraphicDevice(this);
+            graphic_device.Initialize();
             propertyForm.Owner = this;
             propertyForm.Show();
         }
@@ -54,16 +57,43 @@ namespace LevelCreator
             base.OnKeyDown(e);
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            graphic_device.Dispose();
+            base.OnClosing(e);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
-
-            foreach (var item in objects)
+            try
             {
-                item.Update();
-//                item.Draw();
-            }
+                graphic_device.D3DDevice.Clear(SlimDX.Direct3D9.ClearFlags.Target | SlimDX.Direct3D9.ClearFlags.ZBuffer, System.Drawing.Color.AliceBlue, 1.0f, 0);
+                graphic_device.D3DDevice.BeginScene();
 
-            base.OnPaint(e);
+                foreach (var item in objects)
+                {
+                    item.Update();
+                    item.Draw(graphic_device.D3DDevice);
+                }
+
+                graphic_device.D3DDevice.EndScene();
+                graphic_device.D3DDevice.Present();
+            }
+            catch (SlimDX.Direct3D9.Direct3D9Exception ex)
+            {
+                if(ex.ResultCode == SlimDX.Direct3D9.ResultCode.DeviceLost)
+                {
+                    graphic_device.D3DDevice.Reset(graphic_device.SettingParam);
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+            finally
+            {
+                base.OnPaint(e);
+            }
         }
     }
 }
