@@ -123,6 +123,7 @@
             this.ファイルを開くStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.ファイルを開くStripMenuItem1.Size = new System.Drawing.Size(227, 22);
             this.ファイルを開くStripMenuItem1.Text = "ファイルを開く(O)";
+            this.ファイルを開くStripMenuItem1.Click += new System.EventHandler(this.ファイルを開くStripMenuItem1_Click);
             // 
             // LevelCreator
             // 

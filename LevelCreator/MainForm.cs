@@ -30,5 +30,16 @@ namespace LevelCreator
         {
             this.Close();
         }
+
+        private void ファイルを開くStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog diag = new OpenFileDialog())
+            {
+                if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                }
+            }
+        }
     }
 }
