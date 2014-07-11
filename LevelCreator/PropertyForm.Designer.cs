@@ -62,28 +62,30 @@
             this.label8 = new System.Windows.Forms.Label();
             this.DecolationZAxis = new System.Windows.Forms.MaskedTextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.DecolationType = new System.Windows.Forms.ComboBox();
+            this.EnemyTypeId = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox3 = new System.Windows.Forms.MaskedTextBox();
+            this.EnemyPositionYAxis = new System.Windows.Forms.MaskedTextBox();
+            this.EnemyPositionXAxis = new System.Windows.Forms.MaskedTextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.maskedTextBox4 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox5 = new System.Windows.Forms.MaskedTextBox();
+            this.PlayerPositionYAxis = new System.Windows.Forms.MaskedTextBox();
+            this.PlayerPositionXAxis = new System.Windows.Forms.MaskedTextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.maskedTextBox6 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox7 = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBox8 = new System.Windows.Forms.MaskedTextBox();
+            this.LimitLineBottom = new System.Windows.Forms.MaskedTextBox();
+            this.LimitLineTop = new System.Windows.Forms.MaskedTextBox();
+            this.LimitLineRight = new System.Windows.Forms.MaskedTextBox();
             this.label17 = new System.Windows.Forms.Label();
-            this.maskedTextBox9 = new System.Windows.Forms.MaskedTextBox();
+            this.LimitLineLeft = new System.Windows.Forms.MaskedTextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.LimitTime = new System.Windows.Forms.MaskedTextBox();
             this.tabControl.SuspendLayout();
             this.GroundTab.SuspendLayout();
             this.ItemTab.SuspendLayout();
@@ -148,7 +150,7 @@
             // 
             // DecolationTab
             // 
-            this.DecolationTab.Controls.Add(this.comboBox1);
+            this.DecolationTab.Controls.Add(this.DecolationType);
             this.DecolationTab.Controls.Add(this.label9);
             this.DecolationTab.Controls.Add(this.DecolationZAxis);
             this.DecolationTab.Controls.Add(this.DecolationYAxis);
@@ -167,10 +169,10 @@
             // 
             // EnemyTab
             // 
-            this.EnemyTab.Controls.Add(this.comboBox2);
+            this.EnemyTab.Controls.Add(this.EnemyTypeId);
             this.EnemyTab.Controls.Add(this.label10);
-            this.EnemyTab.Controls.Add(this.maskedTextBox1);
-            this.EnemyTab.Controls.Add(this.maskedTextBox3);
+            this.EnemyTab.Controls.Add(this.EnemyPositionYAxis);
+            this.EnemyTab.Controls.Add(this.EnemyPositionXAxis);
             this.EnemyTab.Controls.Add(this.label11);
             this.EnemyTab.Controls.Add(this.label12);
             this.EnemyTab.Controls.Add(this.label13);
@@ -184,8 +186,8 @@
             // 
             // PlayerTab
             // 
-            this.PlayerTab.Controls.Add(this.maskedTextBox4);
-            this.PlayerTab.Controls.Add(this.maskedTextBox5);
+            this.PlayerTab.Controls.Add(this.PlayerPositionYAxis);
+            this.PlayerTab.Controls.Add(this.PlayerPositionXAxis);
             this.PlayerTab.Controls.Add(this.label14);
             this.PlayerTab.Controls.Add(this.label15);
             this.PlayerTab.Controls.Add(this.label16);
@@ -200,11 +202,13 @@
             // 
             // StageTab
             // 
-            this.StageTab.Controls.Add(this.maskedTextBox6);
-            this.StageTab.Controls.Add(this.maskedTextBox7);
-            this.StageTab.Controls.Add(this.maskedTextBox8);
+            this.StageTab.Controls.Add(this.LimitTime);
+            this.StageTab.Controls.Add(this.label22);
+            this.StageTab.Controls.Add(this.LimitLineBottom);
+            this.StageTab.Controls.Add(this.LimitLineTop);
+            this.StageTab.Controls.Add(this.LimitLineRight);
             this.StageTab.Controls.Add(this.label17);
-            this.StageTab.Controls.Add(this.maskedTextBox9);
+            this.StageTab.Controls.Add(this.LimitLineLeft);
             this.StageTab.Controls.Add(this.label18);
             this.StageTab.Controls.Add(this.label19);
             this.StageTab.Controls.Add(this.label20);
@@ -459,28 +463,28 @@
             this.label9.TabIndex = 9;
             this.label9.Text = "種類";
             // 
-            // comboBox1
+            // DecolationType
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.DecolationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.DecolationType.FormattingEnabled = true;
+            this.DecolationType.Items.AddRange(new object[] {
             "Pole"});
-            this.comboBox1.Location = new System.Drawing.Point(11, 78);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 20);
-            this.comboBox1.TabIndex = 3;
+            this.DecolationType.Location = new System.Drawing.Point(11, 78);
+            this.DecolationType.Name = "DecolationType";
+            this.DecolationType.Size = new System.Drawing.Size(121, 20);
+            this.DecolationType.TabIndex = 3;
             // 
-            // comboBox2
+            // EnemyTypeId
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.EnemyTypeId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EnemyTypeId.FormattingEnabled = true;
+            this.EnemyTypeId.Items.AddRange(new object[] {
             "Coin",
             "Portion"});
-            this.comboBox2.Location = new System.Drawing.Point(11, 78);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 20);
-            this.comboBox2.TabIndex = 2;
+            this.EnemyTypeId.Location = new System.Drawing.Point(11, 78);
+            this.EnemyTypeId.Name = "EnemyTypeId";
+            this.EnemyTypeId.Size = new System.Drawing.Size(121, 20);
+            this.EnemyTypeId.TabIndex = 2;
             // 
             // label10
             // 
@@ -491,21 +495,21 @@
             this.label10.TabIndex = 12;
             this.label10.Text = "種類";
             // 
-            // maskedTextBox1
+            // EnemyPositionYAxis
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(122, 36);
-            this.maskedTextBox1.Mask = "#000.000";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox1.TabIndex = 1;
+            this.EnemyPositionYAxis.Location = new System.Drawing.Point(122, 36);
+            this.EnemyPositionYAxis.Mask = "#000.000";
+            this.EnemyPositionYAxis.Name = "EnemyPositionYAxis";
+            this.EnemyPositionYAxis.Size = new System.Drawing.Size(100, 19);
+            this.EnemyPositionYAxis.TabIndex = 1;
             // 
-            // maskedTextBox3
+            // EnemyPositionXAxis
             // 
-            this.maskedTextBox3.Location = new System.Drawing.Point(9, 36);
-            this.maskedTextBox3.Mask = "#000.000";
-            this.maskedTextBox3.Name = "maskedTextBox3";
-            this.maskedTextBox3.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox3.TabIndex = 0;
+            this.EnemyPositionXAxis.Location = new System.Drawing.Point(9, 36);
+            this.EnemyPositionXAxis.Mask = "#000.000";
+            this.EnemyPositionXAxis.Name = "EnemyPositionXAxis";
+            this.EnemyPositionXAxis.Size = new System.Drawing.Size(100, 19);
+            this.EnemyPositionXAxis.TabIndex = 0;
             // 
             // label11
             // 
@@ -534,21 +538,21 @@
             this.label13.TabIndex = 7;
             this.label13.Text = "位置";
             // 
-            // maskedTextBox4
+            // PlayerPositionYAxis
             // 
-            this.maskedTextBox4.Location = new System.Drawing.Point(122, 36);
-            this.maskedTextBox4.Mask = "#000.000";
-            this.maskedTextBox4.Name = "maskedTextBox4";
-            this.maskedTextBox4.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox4.TabIndex = 1;
+            this.PlayerPositionYAxis.Location = new System.Drawing.Point(122, 36);
+            this.PlayerPositionYAxis.Mask = "#000.000";
+            this.PlayerPositionYAxis.Name = "PlayerPositionYAxis";
+            this.PlayerPositionYAxis.Size = new System.Drawing.Size(100, 19);
+            this.PlayerPositionYAxis.TabIndex = 1;
             // 
-            // maskedTextBox5
+            // PlayerPositionXAxis
             // 
-            this.maskedTextBox5.Location = new System.Drawing.Point(9, 36);
-            this.maskedTextBox5.Mask = "#000.000";
-            this.maskedTextBox5.Name = "maskedTextBox5";
-            this.maskedTextBox5.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox5.TabIndex = 0;
+            this.PlayerPositionXAxis.Location = new System.Drawing.Point(9, 36);
+            this.PlayerPositionXAxis.Mask = "#000.000";
+            this.PlayerPositionXAxis.Name = "PlayerPositionXAxis";
+            this.PlayerPositionXAxis.Size = new System.Drawing.Size(100, 19);
+            this.PlayerPositionXAxis.TabIndex = 0;
             // 
             // label14
             // 
@@ -577,83 +581,100 @@
             this.label16.TabIndex = 13;
             this.label16.Text = "位置";
             // 
-            // maskedTextBox6
+            // LimitLineBottom
             // 
-            this.maskedTextBox6.Location = new System.Drawing.Point(121, 72);
-            this.maskedTextBox6.Mask = "#000.000";
-            this.maskedTextBox6.Name = "maskedTextBox6";
-            this.maskedTextBox6.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox6.TabIndex = 12;
+            this.LimitLineBottom.Location = new System.Drawing.Point(122, 73);
+            this.LimitLineBottom.Mask = "#000.000";
+            this.LimitLineBottom.Name = "LimitLineBottom";
+            this.LimitLineBottom.Size = new System.Drawing.Size(100, 19);
+            this.LimitLineBottom.TabIndex = 12;
             // 
-            // maskedTextBox7
+            // LimitLineTop
             // 
-            this.maskedTextBox7.Location = new System.Drawing.Point(121, 35);
-            this.maskedTextBox7.Mask = "#000.000";
-            this.maskedTextBox7.Name = "maskedTextBox7";
-            this.maskedTextBox7.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox7.TabIndex = 6;
+            this.LimitLineTop.Location = new System.Drawing.Point(122, 36);
+            this.LimitLineTop.Mask = "#000.000";
+            this.LimitLineTop.Name = "LimitLineTop";
+            this.LimitLineTop.Size = new System.Drawing.Size(100, 19);
+            this.LimitLineTop.TabIndex = 6;
             // 
-            // maskedTextBox8
+            // LimitLineRight
             // 
-            this.maskedTextBox8.Location = new System.Drawing.Point(8, 72);
-            this.maskedTextBox8.Mask = "#000.000";
-            this.maskedTextBox8.Name = "maskedTextBox8";
-            this.maskedTextBox8.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox8.TabIndex = 9;
+            this.LimitLineRight.Location = new System.Drawing.Point(9, 73);
+            this.LimitLineRight.Mask = "#000.000";
+            this.LimitLineRight.Name = "LimitLineRight";
+            this.LimitLineRight.Size = new System.Drawing.Size(100, 19);
+            this.LimitLineRight.TabIndex = 9;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(119, 57);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(36, 12);
+            this.label17.Size = new System.Drawing.Size(17, 12);
             this.label17.TabIndex = 10;
-            this.label17.Text = "Y座標";
+            this.label17.Text = "下";
             // 
-            // maskedTextBox9
+            // LimitLineLeft
             // 
-            this.maskedTextBox9.Location = new System.Drawing.Point(8, 35);
-            this.maskedTextBox9.Mask = "#000.000";
-            this.maskedTextBox9.Name = "maskedTextBox9";
-            this.maskedTextBox9.Size = new System.Drawing.Size(100, 19);
-            this.maskedTextBox9.TabIndex = 4;
+            this.LimitLineLeft.Location = new System.Drawing.Point(9, 36);
+            this.LimitLineLeft.Mask = "#000.000";
+            this.LimitLineLeft.Name = "LimitLineLeft";
+            this.LimitLineLeft.Size = new System.Drawing.Size(100, 19);
+            this.LimitLineLeft.TabIndex = 4;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(8, 57);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(36, 12);
+            this.label18.Size = new System.Drawing.Size(17, 12);
             this.label18.TabIndex = 7;
-            this.label18.Text = "X座標";
+            this.label18.Text = "右";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(119, 19);
+            this.label19.Location = new System.Drawing.Point(120, 20);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(36, 12);
+            this.label19.Size = new System.Drawing.Size(17, 12);
             this.label19.TabIndex = 11;
-            this.label19.Text = "Y座標";
+            this.label19.Text = "上";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(8, 19);
+            this.label20.Location = new System.Drawing.Point(9, 20);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(36, 12);
+            this.label20.Size = new System.Drawing.Size(17, 12);
             this.label20.TabIndex = 8;
-            this.label20.Text = "X座標";
+            this.label20.Text = "左";
             this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(6, 3);
+            this.label21.Location = new System.Drawing.Point(7, 4);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(29, 12);
+            this.label21.Size = new System.Drawing.Size(41, 12);
             this.label21.TabIndex = 5;
-            this.label21.Text = "始点";
+            this.label21.Text = "境界線";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(9, 99);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(53, 12);
+            this.label22.TabIndex = 13;
+            this.label22.Text = "制限時間";
+            // 
+            // LimitTime
+            // 
+            this.LimitTime.Location = new System.Drawing.Point(11, 115);
+            this.LimitTime.Mask = "000";
+            this.LimitTime.Name = "LimitTime";
+            this.LimitTime.Size = new System.Drawing.Size(100, 19);
+            this.LimitTime.TabIndex = 14;
             // 
             // PropertyForm
             // 
@@ -716,28 +737,30 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.MaskedTextBox DecolationZAxis;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox DecolationType;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox EnemyTypeId;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox3;
+        private System.Windows.Forms.MaskedTextBox EnemyPositionYAxis;
+        private System.Windows.Forms.MaskedTextBox EnemyPositionXAxis;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox4;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox5;
+        private System.Windows.Forms.MaskedTextBox PlayerPositionYAxis;
+        private System.Windows.Forms.MaskedTextBox PlayerPositionXAxis;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox6;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox7;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox8;
+        private System.Windows.Forms.MaskedTextBox LimitLineBottom;
+        private System.Windows.Forms.MaskedTextBox LimitLineTop;
+        private System.Windows.Forms.MaskedTextBox LimitLineRight;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox9;
+        private System.Windows.Forms.MaskedTextBox LimitLineLeft;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.MaskedTextBox LimitTime;
+        private System.Windows.Forms.Label label22;
     }
 }
