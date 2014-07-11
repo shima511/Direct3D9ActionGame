@@ -28,59 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.GroundTab = new System.Windows.Forms.TabPage();
+            this.ItemTab = new System.Windows.Forms.TabPage();
+            this.DecolationTab = new System.Windows.Forms.TabPage();
+            this.EnemyTab = new System.Windows.Forms.TabPage();
+            this.PlayerTab = new System.Windows.Forms.TabPage();
+            this.StageTab = new System.Windows.Forms.TabPage();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(260, 238);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl.Controls.Add(this.GroundTab);
+            this.tabControl.Controls.Add(this.ItemTab);
+            this.tabControl.Controls.Add(this.DecolationTab);
+            this.tabControl.Controls.Add(this.EnemyTab);
+            this.tabControl.Controls.Add(this.PlayerTab);
+            this.tabControl.Controls.Add(this.StageTab);
+            this.tabControl.Location = new System.Drawing.Point(12, 12);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(360, 238);
+            this.tabControl.TabIndex = 1;
             // 
-            // tabPage1
+            // GroundTab
             // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(252, 212);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.GroundTab.Location = new System.Drawing.Point(4, 22);
+            this.GroundTab.Name = "GroundTab";
+            this.GroundTab.Padding = new System.Windows.Forms.Padding(3);
+            this.GroundTab.Size = new System.Drawing.Size(252, 212);
+            this.GroundTab.TabIndex = 0;
+            this.GroundTab.Text = "地形";
+            this.GroundTab.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // ItemTab
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 74);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.ItemTab.Location = new System.Drawing.Point(4, 22);
+            this.ItemTab.Name = "ItemTab";
+            this.ItemTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ItemTab.Size = new System.Drawing.Size(252, 212);
+            this.ItemTab.TabIndex = 1;
+            this.ItemTab.Text = "アイテム";
+            this.ItemTab.UseVisualStyleBackColor = true;
+            // 
+            // DecolationTab
+            // 
+            this.DecolationTab.Location = new System.Drawing.Point(4, 22);
+            this.DecolationTab.Name = "DecolationTab";
+            this.DecolationTab.Padding = new System.Windows.Forms.Padding(3);
+            this.DecolationTab.Size = new System.Drawing.Size(252, 212);
+            this.DecolationTab.TabIndex = 2;
+            this.DecolationTab.Text = "装飾";
+            this.DecolationTab.UseVisualStyleBackColor = true;
+            // 
+            // EnemyTab
+            // 
+            this.EnemyTab.Location = new System.Drawing.Point(4, 22);
+            this.EnemyTab.Name = "EnemyTab";
+            this.EnemyTab.Padding = new System.Windows.Forms.Padding(3);
+            this.EnemyTab.Size = new System.Drawing.Size(352, 212);
+            this.EnemyTab.TabIndex = 3;
+            this.EnemyTab.Text = "敵";
+            this.EnemyTab.UseVisualStyleBackColor = true;
+            // 
+            // PlayerTab
+            // 
+            this.PlayerTab.Location = new System.Drawing.Point(4, 22);
+            this.PlayerTab.Name = "PlayerTab";
+            this.PlayerTab.Padding = new System.Windows.Forms.Padding(3);
+            this.PlayerTab.Size = new System.Drawing.Size(352, 212);
+            this.PlayerTab.TabIndex = 4;
+            this.PlayerTab.Text = "プレイヤー";
+            this.PlayerTab.UseVisualStyleBackColor = true;
+            this.PlayerTab.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // StageTab
+            // 
+            this.StageTab.Location = new System.Drawing.Point(4, 22);
+            this.StageTab.Name = "StageTab";
+            this.StageTab.Padding = new System.Windows.Forms.Padding(3);
+            this.StageTab.Size = new System.Drawing.Size(352, 212);
+            this.StageTab.TabIndex = 5;
+            this.StageTab.Text = "ステージ";
+            this.StageTab.UseVisualStyleBackColor = true;
             // 
             // PropertyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(384, 262);
+            this.Controls.Add(this.tabControl);
+            this.MaximizeBox = false;
             this.Name = "PropertyForm";
             this.Text = "PropertyForm";
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage GroundTab;
+        private System.Windows.Forms.TabPage ItemTab;
+        private System.Windows.Forms.TabPage DecolationTab;
+        private System.Windows.Forms.TabPage EnemyTab;
+        private System.Windows.Forms.TabPage PlayerTab;
+        private System.Windows.Forms.TabPage StageTab;
     }
 }
