@@ -13,6 +13,7 @@ namespace LevelCreator
     public partial class LevelCreator : Form
     {
         PropertyForm propertyForm = new PropertyForm();
+        List<Object.IBase> objects = new List<Object.IBase>();
 
         public LevelCreator()
         {
@@ -41,6 +42,28 @@ namespace LevelCreator
 
                 }
             }
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            foreach (var item in objects)
+            {
+                item.InputAction(e);
+            }
+            this.Invalidate();
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+
+            foreach (var item in objects)
+            {
+                item.Update();
+//                item.Draw();
+            }
+
+            base.OnPaint(e);
         }
     }
 }
