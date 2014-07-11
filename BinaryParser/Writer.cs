@@ -85,7 +85,7 @@ namespace BinaryParser
 
         public void Write(string filename, Objects objects)
         {
-            using (BinaryWriter writer = new BinaryWriter(File.OpenRead(filename)))
+            using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(filename)))
             {
                 AddCheckSum(ref objects);
                 AddObjectsSizeInfo(ref objects);

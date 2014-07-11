@@ -26,6 +26,10 @@ namespace BinaryParser
 
         void SetCapacity(ref Objects objects)
         {
+            objects.Collisions = new List<Property.Collision>();
+            objects.Items = new List<Property.Item>();
+            objects.Decolations = new List<Property.Decolation>();
+            objects.Enemies = new List<Property.Enemy>();
             byte[] bytes = reader.ReadBytes(sizeof(int) * 4);
             objects.Collisions.Capacity = BitConverter.ToInt32(bytes, 0);
             objects.Items.Capacity = BitConverter.ToInt32(bytes, sizeof(int));
