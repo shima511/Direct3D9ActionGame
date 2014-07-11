@@ -35,7 +35,20 @@
             this.EnemyTab = new System.Windows.Forms.TabPage();
             this.PlayerTab = new System.Windows.Forms.TabPage();
             this.StageTab = new System.Windows.Forms.TabPage();
+            this.StartPoint = new System.Windows.Forms.Label();
+            this.StartXAxis = new System.Windows.Forms.Label();
+            this.StartYAxis = new System.Windows.Forms.Label();
+            this.StartXAxisTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
+            this.TerminatePoint = new System.Windows.Forms.Label();
+            this.TerminatePointXAxis = new System.Windows.Forms.Label();
+            this.TerminatePointYAxis = new System.Windows.Forms.Label();
+            this.TerminatePointXAxisTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.TerminatePointYAxitTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.TypeId = new System.Windows.Forms.Label();
+            this.CollisionType = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
+            this.GroundTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -54,10 +67,22 @@
             // 
             // GroundTab
             // 
+            this.GroundTab.Controls.Add(this.CollisionType);
+            this.GroundTab.Controls.Add(this.TypeId);
+            this.GroundTab.Controls.Add(this.TerminatePointYAxitTextBox);
+            this.GroundTab.Controls.Add(this.maskedTextBox2);
+            this.GroundTab.Controls.Add(this.TerminatePointXAxisTextBox);
+            this.GroundTab.Controls.Add(this.TerminatePointYAxis);
+            this.GroundTab.Controls.Add(this.StartXAxisTextBox);
+            this.GroundTab.Controls.Add(this.TerminatePointXAxis);
+            this.GroundTab.Controls.Add(this.StartYAxis);
+            this.GroundTab.Controls.Add(this.StartXAxis);
+            this.GroundTab.Controls.Add(this.TerminatePoint);
+            this.GroundTab.Controls.Add(this.StartPoint);
             this.GroundTab.Location = new System.Drawing.Point(4, 22);
             this.GroundTab.Name = "GroundTab";
             this.GroundTab.Padding = new System.Windows.Forms.Padding(3);
-            this.GroundTab.Size = new System.Drawing.Size(252, 212);
+            this.GroundTab.Size = new System.Drawing.Size(352, 212);
             this.GroundTab.TabIndex = 0;
             this.GroundTab.Text = "地形";
             this.GroundTab.UseVisualStyleBackColor = true;
@@ -113,6 +138,115 @@
             this.StageTab.Text = "ステージ";
             this.StageTab.UseVisualStyleBackColor = true;
             // 
+            // StartPoint
+            // 
+            this.StartPoint.AutoSize = true;
+            this.StartPoint.Location = new System.Drawing.Point(7, 4);
+            this.StartPoint.Name = "StartPoint";
+            this.StartPoint.Size = new System.Drawing.Size(29, 12);
+            this.StartPoint.TabIndex = 0;
+            this.StartPoint.Text = "始点";
+            // 
+            // StartXAxis
+            // 
+            this.StartXAxis.AutoSize = true;
+            this.StartXAxis.Location = new System.Drawing.Point(9, 20);
+            this.StartXAxis.Name = "StartXAxis";
+            this.StartXAxis.Size = new System.Drawing.Size(36, 12);
+            this.StartXAxis.TabIndex = 1;
+            this.StartXAxis.Text = "X座標";
+            // 
+            // StartYAxis
+            // 
+            this.StartYAxis.AutoSize = true;
+            this.StartYAxis.Location = new System.Drawing.Point(120, 20);
+            this.StartYAxis.Name = "StartYAxis";
+            this.StartYAxis.Size = new System.Drawing.Size(36, 12);
+            this.StartYAxis.TabIndex = 2;
+            this.StartYAxis.Text = "Y座標";
+            // 
+            // StartXAxisTextBox
+            // 
+            this.StartXAxisTextBox.Location = new System.Drawing.Point(9, 36);
+            this.StartXAxisTextBox.Mask = "000.000";
+            this.StartXAxisTextBox.Name = "StartXAxisTextBox";
+            this.StartXAxisTextBox.Size = new System.Drawing.Size(100, 19);
+            this.StartXAxisTextBox.TabIndex = 0;
+            // 
+            // maskedTextBox2
+            // 
+            this.maskedTextBox2.Location = new System.Drawing.Point(122, 36);
+            this.maskedTextBox2.Mask = "000.000";
+            this.maskedTextBox2.Name = "maskedTextBox2";
+            this.maskedTextBox2.Size = new System.Drawing.Size(100, 19);
+            this.maskedTextBox2.TabIndex = 1;
+            // 
+            // TerminatePoint
+            // 
+            this.TerminatePoint.AutoSize = true;
+            this.TerminatePoint.Location = new System.Drawing.Point(7, 71);
+            this.TerminatePoint.Name = "TerminatePoint";
+            this.TerminatePoint.Size = new System.Drawing.Size(29, 12);
+            this.TerminatePoint.TabIndex = 0;
+            this.TerminatePoint.Text = "終点";
+            // 
+            // TerminatePointXAxis
+            // 
+            this.TerminatePointXAxis.AutoSize = true;
+            this.TerminatePointXAxis.Location = new System.Drawing.Point(9, 87);
+            this.TerminatePointXAxis.Name = "TerminatePointXAxis";
+            this.TerminatePointXAxis.Size = new System.Drawing.Size(36, 12);
+            this.TerminatePointXAxis.TabIndex = 1;
+            this.TerminatePointXAxis.Text = "X座標";
+            // 
+            // TerminatePointYAxis
+            // 
+            this.TerminatePointYAxis.AutoSize = true;
+            this.TerminatePointYAxis.Location = new System.Drawing.Point(120, 87);
+            this.TerminatePointYAxis.Name = "TerminatePointYAxis";
+            this.TerminatePointYAxis.Size = new System.Drawing.Size(36, 12);
+            this.TerminatePointYAxis.TabIndex = 2;
+            this.TerminatePointYAxis.Text = "Y座標";
+            // 
+            // TerminatePointXAxisTextBox
+            // 
+            this.TerminatePointXAxisTextBox.Location = new System.Drawing.Point(9, 103);
+            this.TerminatePointXAxisTextBox.Mask = "000.000";
+            this.TerminatePointXAxisTextBox.Name = "TerminatePointXAxisTextBox";
+            this.TerminatePointXAxisTextBox.Size = new System.Drawing.Size(100, 19);
+            this.TerminatePointXAxisTextBox.TabIndex = 2;
+            // 
+            // TerminatePointYAxitTextBox
+            // 
+            this.TerminatePointYAxitTextBox.Location = new System.Drawing.Point(122, 103);
+            this.TerminatePointYAxitTextBox.Mask = "000.000";
+            this.TerminatePointYAxitTextBox.Name = "TerminatePointYAxitTextBox";
+            this.TerminatePointYAxitTextBox.Size = new System.Drawing.Size(100, 19);
+            this.TerminatePointYAxitTextBox.TabIndex = 3;
+            // 
+            // TypeId
+            // 
+            this.TypeId.AutoSize = true;
+            this.TypeId.Location = new System.Drawing.Point(9, 129);
+            this.TypeId.Name = "TypeId";
+            this.TypeId.Size = new System.Drawing.Size(29, 12);
+            this.TypeId.TabIndex = 5;
+            this.TypeId.Text = "種類";
+            // 
+            // CollisionType
+            // 
+            this.CollisionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CollisionType.FormattingEnabled = true;
+            this.CollisionType.Items.AddRange(new object[] {
+            "Floor",
+            "RightWall",
+            "LeftWall",
+            "Ceiling"});
+            this.CollisionType.Location = new System.Drawing.Point(9, 145);
+            this.CollisionType.Name = "CollisionType";
+            this.CollisionType.Size = new System.Drawing.Size(121, 20);
+            this.CollisionType.TabIndex = 4;
+            // 
             // PropertyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -123,6 +257,8 @@
             this.Name = "PropertyForm";
             this.Text = "PropertyForm";
             this.tabControl.ResumeLayout(false);
+            this.GroundTab.ResumeLayout(false);
+            this.GroundTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -136,5 +272,17 @@
         private System.Windows.Forms.TabPage EnemyTab;
         private System.Windows.Forms.TabPage PlayerTab;
         private System.Windows.Forms.TabPage StageTab;
+        private System.Windows.Forms.MaskedTextBox StartXAxisTextBox;
+        private System.Windows.Forms.Label StartYAxis;
+        private System.Windows.Forms.Label StartXAxis;
+        private System.Windows.Forms.Label StartPoint;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.MaskedTextBox TerminatePointYAxitTextBox;
+        private System.Windows.Forms.MaskedTextBox TerminatePointXAxisTextBox;
+        private System.Windows.Forms.Label TerminatePointYAxis;
+        private System.Windows.Forms.Label TerminatePointXAxis;
+        private System.Windows.Forms.Label TerminatePoint;
+        private System.Windows.Forms.ComboBox CollisionType;
+        private System.Windows.Forms.Label TypeId;
     }
 }

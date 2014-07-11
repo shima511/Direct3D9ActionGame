@@ -15,6 +15,8 @@ namespace LevelCreator
         public PropertyForm()
         {
             InitializeComponent();
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.CollisionType.SelectedIndex = 0;
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
