@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace LevelCreator
 {
-    public partial class Form1 : Form
+    public partial class LevelCreator : Form
     {
-        public Form1()
+        public LevelCreator()
         {
             InitializeComponent();
+        }
+
+        private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 終了XToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
