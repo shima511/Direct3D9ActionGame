@@ -47,8 +47,16 @@
             this.TerminatePointYAxitTextBox = new System.Windows.Forms.MaskedTextBox();
             this.TypeId = new System.Windows.Forms.Label();
             this.CollisionType = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ItemPositionXAxis = new System.Windows.Forms.MaskedTextBox();
+            this.ItemPositionYAxis = new System.Windows.Forms.MaskedTextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ItemType = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.GroundTab.SuspendLayout();
+            this.ItemTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -89,10 +97,17 @@
             // 
             // ItemTab
             // 
+            this.ItemTab.Controls.Add(this.ItemType);
+            this.ItemTab.Controls.Add(this.label4);
+            this.ItemTab.Controls.Add(this.ItemPositionYAxis);
+            this.ItemTab.Controls.Add(this.ItemPositionXAxis);
+            this.ItemTab.Controls.Add(this.label3);
+            this.ItemTab.Controls.Add(this.label2);
+            this.ItemTab.Controls.Add(this.label1);
             this.ItemTab.Location = new System.Drawing.Point(4, 22);
             this.ItemTab.Name = "ItemTab";
             this.ItemTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ItemTab.Size = new System.Drawing.Size(252, 212);
+            this.ItemTab.Size = new System.Drawing.Size(352, 212);
             this.ItemTab.TabIndex = 1;
             this.ItemTab.Text = "アイテム";
             this.ItemTab.UseVisualStyleBackColor = true;
@@ -247,6 +262,70 @@
             this.CollisionType.Size = new System.Drawing.Size(121, 20);
             this.CollisionType.TabIndex = 4;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "位置";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 12);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "X座標";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(120, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 12);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Y座標";
+            // 
+            // ItemPositionXAxis
+            // 
+            this.ItemPositionXAxis.Location = new System.Drawing.Point(9, 36);
+            this.ItemPositionXAxis.Mask = "000.000";
+            this.ItemPositionXAxis.Name = "ItemPositionXAxis";
+            this.ItemPositionXAxis.Size = new System.Drawing.Size(100, 19);
+            this.ItemPositionXAxis.TabIndex = 0;
+            // 
+            // ItemPositionYAxis
+            // 
+            this.ItemPositionYAxis.Location = new System.Drawing.Point(122, 36);
+            this.ItemPositionYAxis.Mask = "000.000";
+            this.ItemPositionYAxis.Name = "ItemPositionYAxis";
+            this.ItemPositionYAxis.Size = new System.Drawing.Size(100, 19);
+            this.ItemPositionYAxis.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "種類";
+            // 
+            // ItemType
+            // 
+            this.ItemType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ItemType.FormattingEnabled = true;
+            this.ItemType.Items.AddRange(new object[] {
+            "Coin",
+            "Portion"});
+            this.ItemType.Location = new System.Drawing.Point(11, 78);
+            this.ItemType.Name = "ItemType";
+            this.ItemType.Size = new System.Drawing.Size(121, 20);
+            this.ItemType.TabIndex = 2;
+            // 
             // PropertyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -259,6 +338,8 @@
             this.tabControl.ResumeLayout(false);
             this.GroundTab.ResumeLayout(false);
             this.GroundTab.PerformLayout();
+            this.ItemTab.ResumeLayout(false);
+            this.ItemTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -284,5 +365,12 @@
         private System.Windows.Forms.Label TerminatePoint;
         private System.Windows.Forms.ComboBox CollisionType;
         private System.Windows.Forms.Label TypeId;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.MaskedTextBox ItemPositionXAxis;
+        private System.Windows.Forms.MaskedTextBox ItemPositionYAxis;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox ItemType;
     }
 }
