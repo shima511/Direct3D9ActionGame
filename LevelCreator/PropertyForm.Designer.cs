@@ -63,10 +63,18 @@
             this.DecolationZAxis = new System.Windows.Forms.MaskedTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.maskedTextBox3 = new System.Windows.Forms.MaskedTextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.GroundTab.SuspendLayout();
             this.ItemTab.SuspendLayout();
             this.DecolationTab.SuspendLayout();
+            this.EnemyTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -143,6 +151,13 @@
             // 
             // EnemyTab
             // 
+            this.EnemyTab.Controls.Add(this.comboBox2);
+            this.EnemyTab.Controls.Add(this.label10);
+            this.EnemyTab.Controls.Add(this.maskedTextBox1);
+            this.EnemyTab.Controls.Add(this.maskedTextBox3);
+            this.EnemyTab.Controls.Add(this.label11);
+            this.EnemyTab.Controls.Add(this.label12);
+            this.EnemyTab.Controls.Add(this.label13);
             this.EnemyTab.Location = new System.Drawing.Point(4, 22);
             this.EnemyTab.Name = "EnemyTab";
             this.EnemyTab.Padding = new System.Windows.Forms.Padding(3);
@@ -425,6 +440,70 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 20);
             this.comboBox1.TabIndex = 10;
             // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Coin",
+            "Portion"});
+            this.comboBox2.Location = new System.Drawing.Point(11, 78);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 20);
+            this.comboBox2.TabIndex = 10;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(9, 62);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 12);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "種類";
+            // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(122, 36);
+            this.maskedTextBox1.Mask = "000.000";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(100, 19);
+            this.maskedTextBox1.TabIndex = 8;
+            // 
+            // maskedTextBox3
+            // 
+            this.maskedTextBox3.Location = new System.Drawing.Point(9, 36);
+            this.maskedTextBox3.Mask = "000.000";
+            this.maskedTextBox3.Name = "maskedTextBox3";
+            this.maskedTextBox3.Size = new System.Drawing.Size(100, 19);
+            this.maskedTextBox3.TabIndex = 6;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(120, 20);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(36, 12);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Y座標";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(9, 20);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(36, 12);
+            this.label12.TabIndex = 9;
+            this.label12.Text = "X座標";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(7, 4);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(29, 12);
+            this.label13.TabIndex = 7;
+            this.label13.Text = "位置";
+            // 
             // PropertyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -441,6 +520,8 @@
             this.ItemTab.PerformLayout();
             this.DecolationTab.ResumeLayout(false);
             this.DecolationTab.PerformLayout();
+            this.EnemyTab.ResumeLayout(false);
+            this.EnemyTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -482,5 +563,12 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox3;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }
