@@ -17,6 +17,7 @@ namespace LevelCreator
         public LevelCreator()
         {
             InitializeComponent();
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             propertyForm.Owner = this;
             propertyForm.Show();
         }
