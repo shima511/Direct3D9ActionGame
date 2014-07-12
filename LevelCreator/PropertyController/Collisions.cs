@@ -27,45 +27,60 @@ namespace LevelCreator.PropertyController
 
         void TypeId_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var col = CollisionList[CurrentIndex];
-            col.TypeId = TypeId.SelectedIndex;
-            CollisionList[CurrentIndex] = col;
+            if (CollisionList.Count != 0)
+            {
+                var col = CollisionList[CurrentIndex];
+                col.TypeId = TypeId.SelectedIndex;
+                CollisionList[CurrentIndex] = col;
+            }
         }
 
         void TerminatePointYAxis_LostFocus(object sender, EventArgs e)
         {
-            var col = CollisionList[CurrentIndex];
-            var pos = col.TerminatePoint;
-            pos.Y = float.Parse(TerminatePointYAxis.Text);
-            col.TerminatePoint = pos;
-            CollisionList[CurrentIndex] = col;
+            if (CollisionList.Count != 0)
+            {
+                var col = CollisionList[CurrentIndex];
+                var pos = col.TerminatePoint;
+                pos.Y = float.Parse(TerminatePointYAxis.Text);
+                col.TerminatePoint = pos;
+                CollisionList[CurrentIndex] = col;
+            }
         }
 
         void TerminatePointXAxis_LostFocus(object sender, EventArgs e)
         {
-            var col = CollisionList[CurrentIndex];
-            var pos = col.TerminatePoint;
-            pos.X = float.Parse(TerminatePointXAxis.Text);
-            col.TerminatePoint = pos;
-            CollisionList[CurrentIndex] = col;
+            if (CollisionList.Count != 0)
+            {
+                var col = CollisionList[CurrentIndex];
+                var pos = col.TerminatePoint;
+                pos.X = float.Parse(TerminatePointXAxis.Text);
+                col.TerminatePoint = pos;
+                CollisionList[CurrentIndex] = col;
+            }
         }
 
         void StartPointYAxis_LostFocus(object sender, EventArgs e)
         {
-            var col = CollisionList[CurrentIndex];
-            var pos = col.StartingPoint;
-            pos.Y = float.Parse(StartPointYAxis.Text);
-            col.StartingPoint = pos;
-            CollisionList[CurrentIndex] = col;
+            if (CollisionList.Count != 0)
+            {
+                var col = CollisionList[CurrentIndex];
+                var pos = col.StartingPoint;
+                pos.Y = float.Parse(StartPointYAxis.Text);
+                col.StartingPoint = pos;
+                CollisionList[CurrentIndex] = col;
+            }
         }
 
         void StartPointXAxis_LostFocus(object sender, EventArgs e)
         {
-            var col = CollisionList[CurrentIndex];
-            var pos = col.StartingPoint;
-            pos.X = float.Parse(StartPointXAxis.Text);
-            col.StartingPoint = pos;
-            CollisionList[CurrentIndex] = col;
+            if (CollisionList.Count != 0)
+            {
+                var col = CollisionList[CurrentIndex];
+                var pos = col.StartingPoint;
+                pos.X = float.Parse(StartPointXAxis.Text);
+                col.StartingPoint = pos;
+                CollisionList[CurrentIndex] = col;
+            }
         }
 
         protected override void Add()
