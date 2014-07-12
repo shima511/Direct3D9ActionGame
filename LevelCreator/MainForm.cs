@@ -15,6 +15,8 @@ namespace LevelCreator
         PropertyForm propertyForm = new PropertyForm();
         List<Object.IBase> objects = new List<Object.IBase>();
         Object.Camera camera;
+        Object.Player player = new Object.Player();
+        
         GraphicDevice graphic_device;
         public Asset.Factory.ModelFactory ModelFactory { get; private set; }
         public StageObjectController CurrentController { get; set; }
@@ -33,6 +35,10 @@ namespace LevelCreator
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
             graphic_device = new GraphicDevice(this);
             graphic_device.Initialize();
 
@@ -40,8 +46,14 @@ namespace LevelCreator
             propertyForm.Owner = this;
             propertyForm.Show();
 
+            player.ModelAsset = ModelFactory.FindModel("Sphere");
+            player.PlayerInfo = StageObject.Player;
+
             camera = new Object.Camera(this);
             objects.Add(camera);
+            objects.Add(player);
+
+            base.OnShown(e);
         }
 
         private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -90,10 +102,6 @@ namespace LevelCreator
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            foreach (var item in objects)
-            {
-                item.Dispose();
-            }
             ModelFactory.Dispose();
             graphic_device.Dispose();
             base.OnClosing(e);
@@ -103,7 +111,7 @@ namespace LevelCreator
         {
             try
             {
-                graphic_device.D3DDevice.Clear(SlimDX.Direct3D9.ClearFlags.Target | SlimDX.Direct3D9.ClearFlags.ZBuffer, System.Drawing.Color.AliceBlue, 1.0f, 0);
+                graphic_device.D3DDevice.Clear(SlimDX.Direct3D9.ClearFlags.Target | SlimDX.Direct3D9.ClearFlags.ZBuffer, System.Drawing.Color.DarkBlue, 1.0f, 0);
                 graphic_device.D3DDevice.BeginScene();
 
                 foreach (var item in objects)
