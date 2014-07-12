@@ -14,7 +14,20 @@ namespace LevelCreator
     {
         PropertyForm propertyForm = new PropertyForm();
         List<Object.IBase> objects = new List<Object.IBase>();
+        Object.Camera camera;
         GraphicDevice graphic_device;
+        public Asset.Factory.ModelFactory ModelFactory { get; private set; }
+        public StageObjectController CurrentController { get; set; }
+        BinaryParser.Objects _stage_object = new BinaryParser.Objects()
+        {
+            Collisions = new List<BinaryParser.Property.Collision>(),
+            Items = new List<BinaryParser.Property.Item>(),
+            Decolations = new List<BinaryParser.Property.Decolation>(),
+            Enemies = new List<BinaryParser.Property.Enemy>(),
+            Player = new BinaryParser.Property.Player(),
+            Stage = new BinaryParser.Property.Stage()
+        };
+        public BinaryParser.Objects StageObject { get { return _stage_object; } set { _stage_object = value; } }
 
         public LevelCreator()
         {
@@ -22,8 +35,13 @@ namespace LevelCreator
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             graphic_device = new GraphicDevice(this);
             graphic_device.Initialize();
+
+            ModelFactory = new Asset.Factory.ModelFactory(graphic_device.D3DDevice);
             propertyForm.Owner = this;
             propertyForm.Show();
+
+            camera = new Object.Camera(this);
+            objects.Add(camera);
         }
 
         private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -42,9 +60,21 @@ namespace LevelCreator
             {
                 if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-
+                    BinaryParser.Reader reader = new BinaryParser.Reader();
+                    BinaryParser.Objects stage_objects;
+                    reader.Read(diag.FileName, out stage_objects);
+                    StageObject = stage_objects;
                 }
             }
+        }
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+
+            }
+            base.OnMouseClick(e);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -53,12 +83,18 @@ namespace LevelCreator
             {
                 item.InputAction(e);
             }
+            CurrentController.KeyAction(e);
             this.Invalidate();
             base.OnKeyDown(e);
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            foreach (var item in objects)
+            {
+                item.Dispose();
+            }
+            ModelFactory.Dispose();
             graphic_device.Dispose();
             base.OnClosing(e);
         }
@@ -94,6 +130,11 @@ namespace LevelCreator
             {
                 base.OnPaint(e);
             }
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

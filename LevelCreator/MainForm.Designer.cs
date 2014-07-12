@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新規作成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +39,14 @@
             this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.元に戻すToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.やり直しRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.地形ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.アイテムToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.敵ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.装飾ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -125,11 +133,55 @@
             this.やり直しRToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.やり直しRToolStripMenuItem.Text = "やり直し(R)";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 26);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.地形ToolStripMenuItem,
+            this.アイテムToolStripMenuItem,
+            this.敵ToolStripMenuItem,
+            this.装飾ToolStripMenuItem});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.testToolStripMenuItem.Text = "部品追加";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
+            // 地形ToolStripMenuItem
+            // 
+            this.地形ToolStripMenuItem.Name = "地形ToolStripMenuItem";
+            this.地形ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.地形ToolStripMenuItem.Text = "地形";
+            // 
+            // アイテムToolStripMenuItem
+            // 
+            this.アイテムToolStripMenuItem.Name = "アイテムToolStripMenuItem";
+            this.アイテムToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.アイテムToolStripMenuItem.Text = "アイテム";
+            // 
+            // 敵ToolStripMenuItem
+            // 
+            this.敵ToolStripMenuItem.Name = "敵ToolStripMenuItem";
+            this.敵ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.敵ToolStripMenuItem.Text = "敵";
+            // 
+            // 装飾ToolStripMenuItem
+            // 
+            this.装飾ToolStripMenuItem.Name = "装飾ToolStripMenuItem";
+            this.装飾ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.装飾ToolStripMenuItem.Text = "装飾";
+            // 
             // LevelCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 562);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
@@ -138,6 +190,7 @@
             this.Text = "LevelCreator";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,6 +208,12 @@
         private System.Windows.Forms.ToolStripMenuItem 元に戻すToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem やり直しRToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ファイルを開くStripMenuItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 地形ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem アイテムToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 敵ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 装飾ToolStripMenuItem;
 
     }
 }
