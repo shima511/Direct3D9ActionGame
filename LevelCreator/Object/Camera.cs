@@ -25,15 +25,17 @@ namespace LevelCreator.Object
             form = f;
         }
 
-        public override void Update()
+        public void Update()
         {
 
         }
-        public override void InputAction(KeyEventArgs e)
+
+        public void InputAction(KeyEventArgs e)
         {
 
         }
-        public override void Draw(SlimDX.Direct3D9.Device dev)
+
+        public void Draw(SlimDX.Direct3D9.Device dev)
         {
             var view_mat = Matrix.LookAtLH(EyePosition, AtPosition, UpDirection);
             var proj_mat = Matrix.PerspectiveFovLH(_range, (float)form.Width / form.Height, 0.1f, 20.0f);
