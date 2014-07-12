@@ -20,7 +20,7 @@ namespace LevelCreator.Object
         public Vector3 Scale { get { return _scale; } set { _scale = value; } }
         public Vector3 Rotation { get { return _rotation; } set { _rotation = value; } }
 
-        public void Update()
+        public virtual void Update()
         {
 
         }

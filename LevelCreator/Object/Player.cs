@@ -10,7 +10,7 @@ namespace LevelCreator.Object
     {
         public BinaryParser.Property.Player PlayerInfo { private get; set; }
 
-        public void Update()
+        public override void Update()
         {
             _position.X = PlayerInfo.Position.X;
             _position.Y = PlayerInfo.Position.Y;
