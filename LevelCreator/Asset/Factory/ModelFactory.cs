@@ -9,10 +9,10 @@ using System.Windows.Forms;
 
 namespace LevelCreator.Asset.Factory
 {
-    class ModelFactory : IDisposable
+    public class ModelFactory : IDisposable
     {
         Device D3DDevice { get; set; }
-        Dictionary<string, Asset.Model> models;
+        Dictionary<string, Asset.Model> models = new Dictionary<string,Model>();
 
         public ModelFactory(Device d3ddev)
         {
@@ -32,6 +32,14 @@ namespace LevelCreator.Asset.Factory
         {
             var new_model = new Asset.Model();
             new_model.Materials = new List<ExtendedMaterial>();
+            new_model.Materials.Add(new ExtendedMaterial(){
+                MaterialD3D = new Material()
+                {
+                    Diffuse = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f),
+                    Emissive = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f),
+                    Ambient = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f)
+                }
+            });
             new_model.Textures = new List<Texture>();
             switch (type)
             {
@@ -40,7 +48,7 @@ namespace LevelCreator.Asset.Factory
                     models.Add("Box", new_model);
                     break;
                 case ModelType.Sphere:
-                    new_model.Mesh = Mesh.CreateSphere(D3DDevice, 0.0f, 15, 15);
+                    new_model.Mesh = Mesh.CreateSphere(D3DDevice, 1.0f, 15, 15);
                     models.Add("Sphere", new_model);
                     break;
                 default:
