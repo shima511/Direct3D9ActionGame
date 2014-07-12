@@ -7,13 +7,10 @@ using System.Windows.Forms;
 
 namespace LevelCreator.Object
 {
-    abstract class IBase
+    interface IBase
     {
-        public abstract void Update();
-        public virtual void InputAction(KeyEventArgs e)
-        {
-
-        }
-        public abstract void Draw(SlimDX.Direct3D9.Device dev);
+        void Update();
+        void InputAction(KeyEventArgs e);
+        void Draw(SlimDX.Direct3D9.Device dev);
     }
 }
