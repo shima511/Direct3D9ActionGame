@@ -12,7 +12,7 @@ namespace LevelCreator.Object
     class Model : IBase
     {
         public bool Selected { get; set; }
-        public Asset.Model ModelAsset { private get; set; }
+        public Asset.Model ModelAsset { protected get; set; }
         protected Vector3 _position = new Vector3();
         protected Vector3 _scale = new Vector3(1.0f, 1.0f, 1.0f);
         protected Vector3 _rotation = new Vector3();
