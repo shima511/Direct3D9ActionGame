@@ -35,9 +35,8 @@ namespace LevelCreator.Asset.Factory
             new_model.Materials.Add(new ExtendedMaterial(){
                 MaterialD3D = new Material()
                 {
-                    Diffuse = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f),
-                    Emissive = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f),
-                    Ambient = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f)
+                    Diffuse = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
+                    Emissive = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
                 }
             });
             new_model.Textures = new List<Texture>();
