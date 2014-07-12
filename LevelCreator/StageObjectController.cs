@@ -7,10 +7,11 @@ using System.Windows.Forms;
 
 namespace LevelCreator
 {
-    public class StageObjectController
+    public abstract class StageObjectController
     {
         protected int _current_index = 0;
         public int CurrentIndex { get { return _current_index; } set { _current_index = value; } }
+        public virtual int CurrentSize { get; set; }
         public Asset.Factory.ModelFactory ModelFactory { private get; set; }
 
         public void KeyAction(KeyEventArgs e)
@@ -44,12 +45,20 @@ namespace LevelCreator
 
         protected virtual void Incliment()
         {
-
+            CurrentIndex++;
+            if (CurrentIndex >= CurrentSize)
+            {
+                CurrentIndex = 0;
+            }
         }
 
         protected virtual void Decliment()
         {
-
+            CurrentIndex--;
+            if (CurrentIndex <= -1)
+            {
+                CurrentIndex = CurrentSize - 1;
+            }
         }
 
         protected virtual void Add()

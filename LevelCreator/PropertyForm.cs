@@ -32,6 +32,7 @@ namespace LevelCreator
                 TerminatePointYAxis = this.TerminatePointYAxisTextBox,
                 TypeId = this.CollisionType
             };
+            form.CurrentController.Initialize();
 
             base.OnShown(e);
         }
@@ -54,6 +55,7 @@ namespace LevelCreator
                     };
                     break;
                 case 1:
+                    
                     // TODO アイテム
                     break;
                 case 2:

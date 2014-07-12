@@ -10,6 +10,16 @@ namespace LevelCreator.PropertyController
     sealed class Collisions : StageObjectController
     {
         public List<BinaryParser.Property.Collision> CollisionList { get; set; }
+        public override int CurrentSize
+        {
+            get
+            {
+                return CollisionList.Count;
+            }
+            set
+            {
+            }
+        }
         public MaskedTextBox StartPointXAxis { private get; set; }
         public MaskedTextBox StartPointYAxis { private get; set; }
         public MaskedTextBox TerminatePointXAxis { private get; set; }
@@ -90,11 +100,26 @@ namespace LevelCreator.PropertyController
             new_collision.TerminatePoint = new SlimDX.Vector2(1.0f, 0.0f);
             new_collision.TypeId = 0;
             CollisionList.Add(new_collision);
+            SetTextBoxValue();
+        }
+
+        void SetTextBoxValue()
+        {
+            if (CurrentSize != 0)
+            {
+                var col = CollisionList[CurrentIndex];
+                StartPointXAxis.Text = col.StartingPoint.X.ToString();
+                StartPointYAxis.Text = col.StartingPoint.Y.ToString();
+                TerminatePointXAxis.Text = col.TerminatePoint.X.ToString();
+                TerminatePointYAxis.Text = col.TerminatePoint.Y.ToString();
+                TypeId.SelectedIndex = col.TypeId;
+            }
         }
 
         protected override void Decliment()
         {
             base.Decliment();
+            SetTextBoxValue();
         }
 
         protected override void Delete()
@@ -108,6 +133,7 @@ namespace LevelCreator.PropertyController
         protected override void Incliment()
         {
             base.Incliment();
+            SetTextBoxValue();
         }
     }
 }
