@@ -80,17 +80,18 @@ namespace LevelCreator
             }
         }
 
-        protected override void OnMouseClick(MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-
-            }
-            base.OnMouseClick(e);
+            camera.MouseAction(e);
+            base.OnMouseMove(e);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            if (e.Control && e.KeyCode == Keys.Tab)
+            {
+                propertyForm.Activate();
+            }
             foreach (var item in objects)
             {
                 item.InputAction(e);
