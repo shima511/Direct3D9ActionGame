@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asset\Factory\ModelFactory.cs" />
+    <Compile Include="Asset\Model.cs" />
     <Compile Include="GraphicDevice.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -52,7 +54,19 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModelType.cs" />
+    <Compile Include="Object\Player.cs" />
+    <Compile Include="PropertyController\Collisions.cs" />
+    <Compile Include="PropertyController\Decolations.cs" />
+    <Compile Include="PropertyController\Enemies.cs" />
+    <Compile Include="PropertyController\Items.cs" />
+    <Compile Include="PropertyController\Player.cs" />
+    <Compile Include="PropertyController\Stage.cs" />
+    <Compile Include="StageObjectController.cs" />
+    <Compile Include="Object\Camera.cs" />
+    <Compile Include="Object\Model.cs" />
     <Compile Include="Object\IBase.cs" />
+    <Compile Include="Object\Line.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyForm.cs">
@@ -88,6 +102,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BinaryParser\BinaryParser.csproj">
+      <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
+      <Name>BinaryParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
