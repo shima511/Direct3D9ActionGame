@@ -7,7 +7,7 @@ using SlimDX.Direct3D9;
 
 namespace LevelCreator.Asset
 {
-    class Model : IDisposable
+    public class Model : IDisposable
     {
         public Mesh Mesh { get; set; }
         public List<SlimDX.Direct3D9.Texture> Textures { get; set; }
