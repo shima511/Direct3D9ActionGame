@@ -93,12 +93,14 @@
             this.上書き保存ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.上書き保存ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.上書き保存ToolStripMenuItem.Text = "上書き保存";
+            this.上書き保存ToolStripMenuItem.Click += new System.EventHandler(this.上書き保存ToolStripMenuItem_Click);
             // 
             // 名前を付けて保存ToolStripMenuItem
             // 
             this.名前を付けて保存ToolStripMenuItem.Name = "名前を付けて保存ToolStripMenuItem";
             this.名前を付けて保存ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.名前を付けて保存ToolStripMenuItem.Text = "名前を付けて保存";
+            this.名前を付けて保存ToolStripMenuItem.Click += new System.EventHandler(this.名前を付けて保存ToolStripMenuItem_Click);
             // 
             // 終了XToolStripMenuItem
             // 
@@ -155,25 +157,25 @@
             // 地形ToolStripMenuItem
             // 
             this.地形ToolStripMenuItem.Name = "地形ToolStripMenuItem";
-            this.地形ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.地形ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.地形ToolStripMenuItem.Text = "地形";
             // 
             // アイテムToolStripMenuItem
             // 
             this.アイテムToolStripMenuItem.Name = "アイテムToolStripMenuItem";
-            this.アイテムToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.アイテムToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.アイテムToolStripMenuItem.Text = "アイテム";
             // 
             // 敵ToolStripMenuItem
             // 
             this.敵ToolStripMenuItem.Name = "敵ToolStripMenuItem";
-            this.敵ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.敵ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.敵ToolStripMenuItem.Text = "敵";
             // 
             // 装飾ToolStripMenuItem
             // 
             this.装飾ToolStripMenuItem.Name = "装飾ToolStripMenuItem";
-            this.装飾ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.装飾ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.装飾ToolStripMenuItem.Text = "装飾";
             // 
             // LevelCreator

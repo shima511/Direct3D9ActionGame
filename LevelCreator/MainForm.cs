@@ -145,5 +145,15 @@ namespace LevelCreator
         {
 
         }
+
+        private void 上書き保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 名前を付けて保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
