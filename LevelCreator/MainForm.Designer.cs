@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.新規作成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ファイルを開くStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.上書き保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.名前を付けて保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.終了XToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenFileStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.OverSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.元に戻すToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.やり直しRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,52 +63,52 @@
             // ファイルFToolStripMenuItem
             // 
             this.ファイルFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.新規作成ToolStripMenuItem,
-            this.ファイルを開くStripMenuItem1,
-            this.上書き保存ToolStripMenuItem,
-            this.名前を付けて保存ToolStripMenuItem,
-            this.終了XToolStripMenuItem});
+            this.NewProjectToolStripMenuItem,
+            this.OpenFileStripMenuItem1,
+            this.OverSaveToolStripMenuItem,
+            this.NewSaveToolStripMenuItem,
+            this.ExitToolStripMenuItem});
             this.ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
             this.ファイルFToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
             this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(85, 22);
             this.ファイルFToolStripMenuItem.Text = "ファイル(F)";
             // 
-            // 新規作成ToolStripMenuItem
+            // NewProjectToolStripMenuItem
             // 
-            this.新規作成ToolStripMenuItem.Name = "新規作成ToolStripMenuItem";
-            this.新規作成ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.新規作成ToolStripMenuItem.Text = "新規作成";
+            this.NewProjectToolStripMenuItem.Name = "NewProjectToolStripMenuItem";
+            this.NewProjectToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.NewProjectToolStripMenuItem.Text = "新規作成";
             // 
-            // ファイルを開くStripMenuItem1
+            // OpenFileStripMenuItem1
             // 
-            this.ファイルを開くStripMenuItem1.Name = "ファイルを開くStripMenuItem1";
-            this.ファイルを開くStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.ファイルを開くStripMenuItem1.Size = new System.Drawing.Size(227, 22);
-            this.ファイルを開くStripMenuItem1.Text = "ファイルを開く(O)";
-            this.ファイルを開くStripMenuItem1.Click += new System.EventHandler(this.ファイルを開くStripMenuItem1_Click);
+            this.OpenFileStripMenuItem1.Name = "OpenFileStripMenuItem1";
+            this.OpenFileStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.OpenFileStripMenuItem1.Size = new System.Drawing.Size(227, 22);
+            this.OpenFileStripMenuItem1.Text = "ファイルを開く(O)";
+            this.OpenFileStripMenuItem1.Click += new System.EventHandler(this.OpenFileStripMenuItem1_Click);
             // 
-            // 上書き保存ToolStripMenuItem
+            // OverSaveToolStripMenuItem
             // 
-            this.上書き保存ToolStripMenuItem.Name = "上書き保存ToolStripMenuItem";
-            this.上書き保存ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.上書き保存ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.上書き保存ToolStripMenuItem.Text = "上書き保存";
-            this.上書き保存ToolStripMenuItem.Click += new System.EventHandler(this.上書き保存ToolStripMenuItem_Click);
+            this.OverSaveToolStripMenuItem.Name = "OverSaveToolStripMenuItem";
+            this.OverSaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.OverSaveToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.OverSaveToolStripMenuItem.Text = "上書き保存";
+            this.OverSaveToolStripMenuItem.Click += new System.EventHandler(this.OverSaveToolStripMenuItem_Click);
             // 
-            // 名前を付けて保存ToolStripMenuItem
+            // NewSaveToolStripMenuItem
             // 
-            this.名前を付けて保存ToolStripMenuItem.Name = "名前を付けて保存ToolStripMenuItem";
-            this.名前を付けて保存ToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.名前を付けて保存ToolStripMenuItem.Text = "名前を付けて保存";
-            this.名前を付けて保存ToolStripMenuItem.Click += new System.EventHandler(this.名前を付けて保存ToolStripMenuItem_Click);
+            this.NewSaveToolStripMenuItem.Name = "NewSaveToolStripMenuItem";
+            this.NewSaveToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.NewSaveToolStripMenuItem.Text = "名前を付けて保存";
+            this.NewSaveToolStripMenuItem.Click += new System.EventHandler(this.NewSaveToolStripMenuItem_Click);
             // 
-            // 終了XToolStripMenuItem
+            // ExitToolStripMenuItem
             // 
-            this.終了XToolStripMenuItem.Name = "終了XToolStripMenuItem";
-            this.終了XToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.終了XToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.終了XToolStripMenuItem.Text = "終了(X)";
-            this.終了XToolStripMenuItem.Click += new System.EventHandler(this.終了XToolStripMenuItem_Click);
+            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            this.ExitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.ExitToolStripMenuItem.Text = "終了(X)";
+            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // 編集ToolStripMenuItem
             // 
@@ -119,7 +119,7 @@
             this.編集ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
             this.編集ToolStripMenuItem.Size = new System.Drawing.Size(61, 22);
             this.編集ToolStripMenuItem.Text = "編集(E)";
-            this.編集ToolStripMenuItem.Click += new System.EventHandler(this.編集ToolStripMenuItem_Click);
+            this.編集ToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
             // 元に戻すToolStripMenuItem
             // 
@@ -202,14 +202,14 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ファイルFToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 新規作成ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 上書き保存ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 名前を付けて保存ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 終了XToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OverSaveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewSaveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 編集ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 元に戻すToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem やり直しRToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ファイルを開くStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem OpenFileStripMenuItem1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 地形ToolStripMenuItem;

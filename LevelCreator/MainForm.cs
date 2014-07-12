@@ -16,7 +16,7 @@ namespace LevelCreator
         List<Object.IBase> objects = new List<Object.IBase>();
         Object.Camera camera;
         Object.Player player = new Object.Player();
-        
+        string current_filename;
         GraphicDevice graphic_device;
         public Asset.Factory.ModelFactory ModelFactory { get; private set; }
         public StageObjectController CurrentController { get; set; }
@@ -35,6 +35,7 @@ namespace LevelCreator
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Text = "無題";
         }
 
         protected override void OnShown(EventArgs e)
@@ -56,17 +57,17 @@ namespace LevelCreator
             base.OnShown(e);
         }
 
-        private void 編集ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void 終了XToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void ファイルを開くStripMenuItem1_Click(object sender, EventArgs e)
+        private void OpenFileStripMenuItem1_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog diag = new OpenFileDialog())
             {
@@ -146,14 +147,23 @@ namespace LevelCreator
 
         }
 
-        private void 上書き保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OverSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (current_filename == null)
+            {
+                NewSaveToolStripMenuItem_Click(sender, e);
+            }
         }
 
-        private void 名前を付けて保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            SaveFileDialog diag = new SaveFileDialog();
+            diag.Filter = "datファイル(.dat)| *.dat";
+            if(diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                current_filename = System.IO.Path.GetFileName(diag.FileName);
+                this.Text = current_filename;
+            }
         }
     }
 }
