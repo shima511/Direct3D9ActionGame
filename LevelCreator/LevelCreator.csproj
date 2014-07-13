@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SlimDX, Version=4.0.11.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,14 +45,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Asset\Factory\ModelFactory.cs" />
+    <Compile Include="Asset\Model.cs" />
+    <Compile Include="GraphicDevice.cs" />
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MaskedTextParser.cs" />
+    <Compile Include="ModelType.cs" />
+    <Compile Include="Object\ExProperty\Collision.cs" />
+    <Compile Include="Object\ExProperty\Decolation.cs" />
+    <Compile Include="Object\ExProperty\Enemy.cs" />
+    <Compile Include="Object\ExProperty\Item.cs" />
+    <Compile Include="Object\ExProperty\Player.cs" />
+    <Compile Include="Object\ExProperty\Property.cs" />
+    <Compile Include="Object\ExProperty\Stage.cs" />
+    <Compile Include="Object\Player.cs" />
+    <Compile Include="PropertyController\Collisions.cs" />
+    <Compile Include="PropertyController\Decolations.cs" />
+    <Compile Include="PropertyController\Enemies.cs" />
+    <Compile Include="PropertyController\Items.cs" />
+    <Compile Include="PropertyController\Player.cs" />
+    <Compile Include="PropertyController\Stage.cs" />
+    <Compile Include="StageObjectController.cs" />
+    <Compile Include="Object\Camera.cs" />
+    <Compile Include="Object\Model.cs" />
+    <Compile Include="Object\IBase.cs" />
+    <Compile Include="Object\Line.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyForm.Designer.cs">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -61,6 +95,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="PropertyForm.resx">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -73,6 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BinaryParser\BinaryParser.csproj">
+      <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
+      <Name>BinaryParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
