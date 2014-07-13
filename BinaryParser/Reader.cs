@@ -18,6 +18,11 @@ namespace BinaryParser
         /// </summary>
         public bool Valid { get; private set; }
 
+        /// <summary>
+        /// エラーの原因をメッセージで表示します。
+        /// </summary>
+        public string ErrorMessage { get; private set; }
+
         void ReadSum()
         {
             byte[] bytes = reader.ReadBytes(sizeof(int));
@@ -81,7 +86,7 @@ namespace BinaryParser
                 new_collision.StartingPoint = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
                 new_collision.TerminatePoint = new SlimDX.Vector2(BitConverter.ToSingle(bytes, sizeof(float) * 2), BitConverter.ToSingle(bytes, sizeof(float) * 3));
                 new_collision.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 4);
-                objects.Collisions[i] = new_collision;
+                objects.Collisions.Add(new_collision);
             }
         }
 
@@ -93,7 +98,7 @@ namespace BinaryParser
                 byte[] bytes = reader.ReadBytes(Marshal.SizeOf(new_item));
                 new_item.Position = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
                 new_item.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 2);
-                objects.Items[i] = new_item;
+                objects.Items.Add(new_item);
             }
         }
 
@@ -106,7 +111,7 @@ namespace BinaryParser
 
                 new_item.Position = new SlimDX.Vector3(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)), BitConverter.ToSingle(bytes, sizeof(float) * 2));
                 new_item.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 3);
-                objects.Decolations[i] = new_item;
+                objects.Decolations.Add(new_item);
             }
         }
 
@@ -118,7 +123,7 @@ namespace BinaryParser
                 byte[] bytes = reader.ReadBytes(Marshal.SizeOf(new_item));
                 new_item.Position = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
                 new_item.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 2);
-                objects.Enemies[i] = new_item;
+                objects.Enemies.Add(new_item);
             }
         }
 
@@ -139,9 +144,10 @@ namespace BinaryParser
                     ReadDecolationsData(ref objects);
                     ReadEnemiesData(ref objects);
                     Valid = true;
-                }catch(SystemException)
+                }catch(SystemException ex)
                 {
                     Valid = false;
+                    ErrorMessage = ex.Message;
                 }
             }
         }
