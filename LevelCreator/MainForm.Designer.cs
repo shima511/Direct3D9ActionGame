@@ -30,15 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.ファイルFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.OverSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewSaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.元に戻すToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.やり直しRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RedoRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.地形ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,26 +52,26 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ファイルFToolStripMenuItem,
-            this.編集ToolStripMenuItem});
+            this.FileToolStripMenuItem,
+            this.EditToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(984, 26);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // ファイルFToolStripMenuItem
+            // FileToolStripMenuItem
             // 
-            this.ファイルFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewProjectToolStripMenuItem,
             this.OpenFileStripMenuItem1,
             this.OverSaveToolStripMenuItem,
             this.NewSaveToolStripMenuItem,
             this.ExitToolStripMenuItem});
-            this.ファイルFToolStripMenuItem.Name = "ファイルFToolStripMenuItem";
-            this.ファイルFToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.ファイルFToolStripMenuItem.Size = new System.Drawing.Size(85, 22);
-            this.ファイルFToolStripMenuItem.Text = "ファイル(F)";
+            this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
+            this.FileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(85, 22);
+            this.FileToolStripMenuItem.Text = "ファイル(F)";
             // 
             // NewProjectToolStripMenuItem
             // 
@@ -111,30 +111,30 @@
             this.ExitToolStripMenuItem.Text = "終了(X)";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
-            // 編集ToolStripMenuItem
+            // EditToolStripMenuItem
             // 
-            this.編集ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.元に戻すToolStripMenuItem,
-            this.やり直しRToolStripMenuItem});
-            this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
-            this.編集ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.編集ToolStripMenuItem.Size = new System.Drawing.Size(61, 22);
-            this.編集ToolStripMenuItem.Text = "編集(E)";
-            this.編集ToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
+            this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UndoToolStripMenuItem,
+            this.RedoRToolStripMenuItem});
+            this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
+            this.EditToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(61, 22);
+            this.EditToolStripMenuItem.Text = "編集(E)";
+            this.EditToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
-            // 元に戻すToolStripMenuItem
+            // UndoToolStripMenuItem
             // 
-            this.元に戻すToolStripMenuItem.Name = "元に戻すToolStripMenuItem";
-            this.元に戻すToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.元に戻すToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.元に戻すToolStripMenuItem.Text = "元に戻す(U)";
+            this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
+            this.UndoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.UndoToolStripMenuItem.Text = "元に戻す(U)";
             // 
-            // やり直しRToolStripMenuItem
+            // RedoRToolStripMenuItem
             // 
-            this.やり直しRToolStripMenuItem.Name = "やり直しRToolStripMenuItem";
-            this.やり直しRToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.やり直しRToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.やり直しRToolStripMenuItem.Text = "やり直し(R)";
+            this.RedoRToolStripMenuItem.Name = "RedoRToolStripMenuItem";
+            this.RedoRToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.RedoRToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.RedoRToolStripMenuItem.Text = "やり直し(R)";
             // 
             // contextMenuStrip1
             // 
@@ -202,14 +202,14 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ファイルFToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OverSaveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NewSaveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 編集ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 元に戻すToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem やり直しRToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RedoRToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenFileStripMenuItem1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
