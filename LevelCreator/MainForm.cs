@@ -77,6 +77,7 @@ namespace LevelCreator
                     BinaryParser.Objects stage_objects;
                     reader.Read(diag.FileName, out stage_objects);
                     StageObject = stage_objects;
+                    this.Invalidate();
                 }
             }
         }
@@ -153,6 +154,16 @@ namespace LevelCreator
             {
                 NewSaveToolStripMenuItem_Click(sender, e);
             }
+            else
+            {
+                SaveData();
+            }
+        }
+
+        void SaveData()
+        {
+            BinaryParser.Writer writer = new BinaryParser.Writer();
+            writer.Write(current_filename, StageObject);
         }
 
         private void NewSaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -161,9 +172,15 @@ namespace LevelCreator
             diag.Filter = "datファイル(.dat)| *.dat";
             if(diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                current_filename = System.IO.Path.GetFileName(diag.FileName);
-                this.Text = current_filename;
+                current_filename = diag.FileName;
+                this.Text = System.IO.Path.GetFileName(diag.FileName);
+                SaveData();
             }
+        }
+
+        private void NewProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

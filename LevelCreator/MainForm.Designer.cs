@@ -78,6 +78,7 @@
             this.NewProjectToolStripMenuItem.Name = "NewProjectToolStripMenuItem";
             this.NewProjectToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.NewProjectToolStripMenuItem.Text = "新規作成";
+            this.NewProjectToolStripMenuItem.Click += new System.EventHandler(this.NewProjectToolStripMenuItem_Click);
             // 
             // OpenFileStripMenuItem1
             // 
