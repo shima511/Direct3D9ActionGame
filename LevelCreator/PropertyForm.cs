@@ -51,26 +51,52 @@ namespace LevelCreator
                         TerminatePointXAxis = this.TerminatePointXAxisTextBox,
                         TerminatePointYAxis = this.TerminatePointYAxisTextBox,
                         TypeId = this.CollisionType,
-                        ModelFactory = form.ModelFactory
                     };
                     break;
                 case 1:
-                    
-                    // TODO アイテム
+                    form.CurrentController = new PropertyController.Items()
+                    {
+                        PositionXAxis = this.ItemPositionXAxis,
+                        PositionYAxis = this.ItemPositionYAxis,
+                        TypeId = this.ItemType
+                    };
                     break;
                 case 2:
-                    // TODO 装飾
+                    form.CurrentController = new PropertyController.Decolations()
+                    {
+                        PositionXAxis = this.DecolationXAxis,
+                        PositionYAxis = this.DecolationYAxis,
+                        PositionZAxis = this.DecolationZAxis,
+                        TypeId = this.DecolationType
+                    };
                     break;
                 case 3:
-                    // TODO 敵
+                    form.CurrentController = new PropertyController.Enemies()
+                    {
+                        PositionXAxis = this.EnemyPositionXAxis,
+                        PositionYAxis = this.EnemyPositionYAxis,
+                        TypeId = this.EnemyType
+                    };
                     break;
                 case 4:
-                    // TODO プレイヤー
+                    form.CurrentController = new PropertyController.Player() 
+                    { 
+                        PositionXAxis = this.PlayerPositionXAxis,
+                        PositionYAxis = this.PlayerPositionYAxis
+                    };
                     break;
                 case 5:
-                    // TODO ステージ
+                    form.CurrentController = new PropertyController.Stage()
+                    {
+                        LimitLineLeft = this.LimitLineLeft,
+                        LimitLineRight = this.LimitLineRight,
+                        LimitLineBottom = this.LimitLineBottom,
+                        LimitLineTop = this.LimitLineTop,
+                        LimitTime = this.LimitTime
+                    };
                     break;
             }
+            form.CurrentController.ModelFactory = form.ModelFactory;
             form.CurrentController.Initialize();
         }
 
