@@ -55,6 +55,13 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ModelType.cs" />
+    <Compile Include="Object\ExProperty\Collision.cs" />
+    <Compile Include="Object\ExProperty\Decolation.cs" />
+    <Compile Include="Object\ExProperty\Enemy.cs" />
+    <Compile Include="Object\ExProperty\Item.cs" />
+    <Compile Include="Object\ExProperty\Player.cs" />
+    <Compile Include="Object\ExProperty\Property.cs" />
+    <Compile Include="Object\ExProperty\Stage.cs" />
     <Compile Include="Object\Player.cs" />
     <Compile Include="PropertyController\Collisions.cs" />
     <Compile Include="PropertyController\Decolations.cs" />

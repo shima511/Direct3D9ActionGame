@@ -9,7 +9,7 @@ namespace LevelCreator.PropertyController
 {
     sealed class Collisions : StageObjectController
     {
-        public List<BinaryParser.Property.Collision> CollisionList { get; set; }
+        public List<Object.ExProperty.Collision> CollisionList { get; set; }
         public override int CurrentSize
         {
             get
@@ -39,9 +39,9 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
-                var col = CollisionList[CurrentIndex];
+                var col = CollisionList[CurrentIndex].CollisionInfo;
                 col.TypeId = TypeId.SelectedIndex;
-                CollisionList[CurrentIndex] = col;
+                CollisionList[CurrentIndex].CollisionInfo = col;
             }
         }
 
@@ -49,11 +49,11 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
-                var col = CollisionList[CurrentIndex];
+                var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
                 pos.Y = float.Parse(TerminatePointYAxis.Text);
                 col.TerminatePoint = pos;
-                CollisionList[CurrentIndex] = col;
+                CollisionList[CurrentIndex].CollisionInfo = col;
             }
         }
 
@@ -61,11 +61,11 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
-                var col = CollisionList[CurrentIndex];
+                var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
                 pos.X = float.Parse(TerminatePointXAxis.Text);
                 col.TerminatePoint = pos;
-                CollisionList[CurrentIndex] = col;
+                CollisionList[CurrentIndex].CollisionInfo = col;
             }
         }
 
@@ -73,11 +73,11 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
-                var col = CollisionList[CurrentIndex];
+                var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.StartingPoint;
                 pos.Y = float.Parse(StartPointYAxis.Text);
                 col.StartingPoint = pos;
-                CollisionList[CurrentIndex] = col;
+                CollisionList[CurrentIndex].CollisionInfo = col;
             }
         }
 
@@ -85,20 +85,25 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
-                var col = CollisionList[CurrentIndex];
+                var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.StartingPoint;
                 pos.X = float.Parse(StartPointXAxis.Text);
                 col.StartingPoint = pos;
-                CollisionList[CurrentIndex] = col;
+                CollisionList[CurrentIndex].CollisionInfo = col;
             }
         }
 
         protected override void Add()
         {
-            BinaryParser.Property.Collision new_collision = new BinaryParser.Property.Collision();
-            new_collision.StartingPoint = new SlimDX.Vector2(-1.0f, 0.0f);
-            new_collision.TerminatePoint = new SlimDX.Vector2(1.0f, 0.0f);
-            new_collision.TypeId = 0;
+            Object.ExProperty.Collision new_collision = new Object.ExProperty.Collision() 
+            {
+                CollisionInfo = new BinaryParser.Property.Collision() 
+                {
+                    StartingPoint = new SlimDX.Vector2(-1.0f, 0.0f),
+                    TerminatePoint = new SlimDX.Vector2(1.0f, 0.0f),
+                    TypeId = 0
+                }
+            };
             CollisionList.Add(new_collision);
             SetTextBoxValue();
         }
@@ -107,7 +112,7 @@ namespace LevelCreator.PropertyController
         {
             if (CurrentSize != 0)
             {
-                var col = CollisionList[CurrentIndex];
+                var col = CollisionList[CurrentIndex].CollisionInfo;
                 StartPointXAxis.Text = col.StartingPoint.X.ToString();
                 StartPointYAxis.Text = col.StartingPoint.Y.ToString();
                 TerminatePointXAxis.Text = col.TerminatePoint.X.ToString();

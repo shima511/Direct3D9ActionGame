@@ -25,7 +25,7 @@ namespace LevelCreator
             LevelCreator form = this.Owner as LevelCreator;
             form.CurrentController = new PropertyController.Collisions()
             {
-                CollisionList = form.StageObject.Collisions,
+                CollisionList = form.StageObjects.Collisions,
                 StartPointXAxis = this.StartPointXAxisTextBox,
                 StartPointYAxis = this.StartPointYAxisTextBox,
                 TerminatePointXAxis = this.TerminatePointXAxisTextBox,
@@ -45,7 +45,7 @@ namespace LevelCreator
                 case 0:
                     form.CurrentController = new PropertyController.Collisions()
                     {
-                        CollisionList = form.StageObject.Collisions,
+                        CollisionList = form.StageObjects.Collisions,
                         StartPointXAxis = this.StartPointXAxisTextBox,
                         StartPointYAxis = this.StartPointYAxisTextBox,
                         TerminatePointXAxis = this.TerminatePointXAxisTextBox,

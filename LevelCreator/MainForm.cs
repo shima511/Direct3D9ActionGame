@@ -18,18 +18,11 @@ namespace LevelCreator
         Object.Player player = new Object.Player();
         string current_filename;
         GraphicDevice graphic_device;
+        public List<Object.IBase> Objects { get { return objects; } set { } }
         public Asset.Factory.ModelFactory ModelFactory { get; private set; }
         public StageObjectController CurrentController { get; set; }
-        BinaryParser.Objects _stage_object = new BinaryParser.Objects()
-        {
-            Collisions = new List<BinaryParser.Property.Collision>(),
-            Items = new List<BinaryParser.Property.Item>(),
-            Decolations = new List<BinaryParser.Property.Decolation>(),
-            Enemies = new List<BinaryParser.Property.Enemy>(),
-            Player = new BinaryParser.Property.Player(),
-            Stage = new BinaryParser.Property.Stage()
-        };
-        public BinaryParser.Objects StageObject { get { return _stage_object; } set { _stage_object = value; } }
+        Object.ExProperty.Property _stage_objects = new Object.ExProperty.Property(); 
+        public Object.ExProperty.Property StageObjects { get { return _stage_objects; } set { _stage_objects = value; } }
 
         public LevelCreator()
         {
@@ -48,7 +41,7 @@ namespace LevelCreator
             propertyForm.Show();
 
             player.ModelAsset = ModelFactory.FindModel("Sphere");
-            player.PlayerInfo = StageObject.Player;
+            player.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
 
             camera = new Object.Camera(this);
             objects.Add(camera);
@@ -76,7 +69,7 @@ namespace LevelCreator
                     BinaryParser.Reader reader = new BinaryParser.Reader();
                     BinaryParser.Objects stage_objects;
                     reader.Read(diag.FileName, out stage_objects);
-                    StageObject = stage_objects;
+                    StageObjects = new Object.ExProperty.Property(stage_objects);
                     this.Invalidate();
                 }
             }
@@ -123,6 +116,7 @@ namespace LevelCreator
                     item.Draw(graphic_device.D3DDevice);
                 }
 
+
                 graphic_device.D3DDevice.EndScene();
                 graphic_device.D3DDevice.Present();
             }
@@ -163,7 +157,7 @@ namespace LevelCreator
         void SaveData()
         {
             BinaryParser.Writer writer = new BinaryParser.Writer();
-            writer.Write(current_filename, StageObject);
+            writer.Write(current_filename, StageObjects.ToStructObjects());
         }
 
         private void NewSaveToolStripMenuItem_Click(object sender, EventArgs e)
