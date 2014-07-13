@@ -11,9 +11,12 @@ namespace LevelCreator
         public static float ToSingle(string text)
         {
             float ret = 0;
-
-
-
+            text = text.Replace(" ", "");
+            if (text[0] == '-' || text[0] == '.')
+            {
+                text = "0.0";
+            }
+            ret = float.Parse(text);
             return ret;
         }
     }
