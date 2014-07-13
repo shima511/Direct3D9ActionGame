@@ -12,7 +12,7 @@ namespace LevelCreator
         {
             float ret = 0;
             text = text.Replace(" ", "");
-            if (text[0] == '-' || text[0] == '.')
+            if (text[0] == '-' && text[1] == '.' || text[0] == '.')
             {
                 text = "0.0";
             }

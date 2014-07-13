@@ -122,6 +122,7 @@ namespace LevelCreator.PropertyController
             };
             new_collision.Line.Selected = true;
             CollisionList.Add(new_collision);
+            CurrentIndex = CollisionList.IndexOf(new_collision);
             SetTextBoxValue();
         }
 

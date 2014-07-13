@@ -40,7 +40,10 @@ namespace LevelCreator
 
         void CurrentController_OnLostFocus(object sender, EventArgs e)
         {
-            this.Owner.Invalidate();
+            if (this.Owner != null)
+            {
+                this.Owner.Invalidate();
+            }
         }
 
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
