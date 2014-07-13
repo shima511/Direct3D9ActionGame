@@ -16,6 +16,13 @@ namespace BinaryParserTest
             objects.Collisions = new List<BinaryParser.Property.Collision>();
             objects.Decolations = new List<BinaryParser.Property.Decolation>();
             objects.Enemies = new List<BinaryParser.Property.Enemy>();
+
+            objects.Collisions.Add(new BinaryParser.Property.Collision()
+            {
+                StartingPoint = new SlimDX.Vector2(2.0f, 1.0f),
+                TerminatePoint = new SlimDX.Vector2(),
+                TypeId = 1
+            });
         }
 
         static void PrintData(ref BinaryParser.Objects objects)
@@ -72,6 +79,7 @@ namespace BinaryParserTest
             else
             {
                 Console.WriteLine("Invalidデータ");
+                Console.WriteLine(reader.ErrorMessage);
             }
         }
     }
