@@ -9,7 +9,7 @@ using SlimDX;
 
 namespace LevelCreator.Object
 {
-    class Model : IBase
+    public class Model : IBase
     {
         public bool Selected { get; set; }
         public Asset.Model ModelAsset { protected get; set; }

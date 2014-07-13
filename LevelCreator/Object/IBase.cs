@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace LevelCreator.Object
 {
-    interface IBase
+    public interface IBase
     {
         void Update();
         void InputAction(KeyEventArgs e);
