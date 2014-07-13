@@ -27,7 +27,46 @@ namespace LevelCreator.Object.ExProperty
 
         public Property(BinaryParser.Objects objects)
         {
+            Collisions = new List<Object.ExProperty.Collision>();
+            Decolations = new List<Object.ExProperty.Decolation>();
+            Enemies = new List<Object.ExProperty.Enemy>();
+            Items = new List<Object.ExProperty.Item>();
+            PlayerInfo = new Object.ExProperty.Player();
+            StageInfo = new Object.ExProperty.Stage();
 
+            PlayerInfo.PlayerInfo = objects.Player;
+            StageInfo.StageInfo = objects.Stage;
+
+            foreach (var item in objects.Collisions)
+            {
+                Collisions.Add(new Collision()
+                {
+                    CollisionInfo = item,
+                    Line = new Line()
+                });
+            }
+
+            foreach (var item in objects.Decolations)
+            {
+                Decolations.Add(new Decolation()
+                {
+                    DecolationInfo = item
+                });
+            }
+            foreach (var item in objects.Enemies)
+            {
+                Enemies.Add(new Enemy()
+                {
+                    EnemyInfo = item
+                });
+            }
+            foreach (var item in objects.Items)
+            {
+                Items.Add(new Item()
+                {
+                    ItemInfo = item
+                });
+            }
         }
 
         public BinaryParser.Objects ToStructObjects()

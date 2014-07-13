@@ -31,6 +31,16 @@ namespace LevelCreator
             this.Text = "無題";
         }
 
+        void OnSetAssets()
+        {
+            player.ModelAsset = ModelFactory.FindModel("Sphere");
+
+            foreach (var item in StageObjects.Collisions)
+            {
+                item.Line.ModelAsset = ModelFactory.FindModel("Box");
+            }
+        }
+
         protected override void OnShown(EventArgs e)
         {
             graphic_device = new GraphicDevice(this);
@@ -40,13 +50,13 @@ namespace LevelCreator
             propertyForm.Owner = this;
             propertyForm.Show();
 
-            player.ModelAsset = ModelFactory.FindModel("Sphere");
             player.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
 
             camera = new Object.Camera(this);
             objects.Add(camera);
             objects.Add(player);
 
+            OnSetAssets();
             base.OnShown(e);
         }
 
@@ -70,6 +80,9 @@ namespace LevelCreator
                     BinaryParser.Objects stage_objects;
                     reader.Read(diag.FileName, out stage_objects);
                     StageObjects = new Object.ExProperty.Property(stage_objects);
+                    OnSetAssets();
+                    current_filename = diag.FileName;
+                    this.Text = System.IO.Path.GetFileName(current_filename);
                     this.Invalidate();
                 }
             }
