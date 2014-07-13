@@ -33,7 +33,7 @@ namespace LevelCreator
                 TypeId = this.CollisionType
             };
             form.CurrentController.Initialize();
-
+            form.CurrentController.ModelFactory = form.ModelFactory;
             base.OnShown(e);
         }
 
