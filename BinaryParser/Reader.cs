@@ -74,7 +74,6 @@ namespace BinaryParser
 
         void ReadCollisionsData(ref Objects objects)
         {
-            objects.Collisions = new List<Property.Collision>();
             for (int i = 0; i < objects.Collisions.Capacity; i++)
             {
                 var new_collision = new Property.Collision();
@@ -88,7 +87,6 @@ namespace BinaryParser
 
         void ReadItemsData(ref Objects objects)
         {
-            objects.Items = new List<Property.Item>();
             for (int i = 0; i < objects.Items.Capacity; i++)
             {
                 var new_item = new Property.Item();
@@ -101,7 +99,6 @@ namespace BinaryParser
 
         void ReadDecolationsData(ref Objects objects)
         {
-            objects.Decolations = new List<Property.Decolation>();
             for (int i = 0; i < objects.Decolations.Capacity; i++)
             {
                 var new_item = new Property.Decolation();
@@ -115,7 +112,6 @@ namespace BinaryParser
 
         void ReadEnemiesData(ref Objects objects)
         {
-            objects.Enemies = new List<Property.Enemy>();
             for (int i = 0; i < objects.Enemies.Capacity; i++)
             {
                 var new_item = new Property.Enemy();
