@@ -102,6 +102,10 @@ namespace LevelCreator.PropertyController
                     StartingPoint = new SlimDX.Vector2(-1.0f, 0.0f),
                     TerminatePoint = new SlimDX.Vector2(1.0f, 0.0f),
                     TypeId = 0
+                },
+                Line = new Object.Line()
+                {
+                    ModelAsset = ModelFactory.FindModel("Box")
                 }
             };
             CollisionList.Add(new_collision);

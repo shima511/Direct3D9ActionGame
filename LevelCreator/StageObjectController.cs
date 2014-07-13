@@ -12,7 +12,7 @@ namespace LevelCreator
         protected int _current_index = 0;
         public int CurrentIndex { get { return _current_index; } set { _current_index = value; } }
         public virtual int CurrentSize { get; set; }
-        public Asset.Factory.ModelFactory ModelFactory { private get; set; }
+        public Asset.Factory.ModelFactory ModelFactory { protected get; set; }
 
         public void KeyAction(KeyEventArgs e)
         {

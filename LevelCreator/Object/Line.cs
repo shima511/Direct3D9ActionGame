@@ -7,7 +7,7 @@ using SlimDX;
 
 namespace LevelCreator.Object
 {
-    class Line : Model
+    public class Line : Model
     {
         public Vector2 StartPoint { get; set; }
         public Vector2 TerminatePoint { get; set; }

@@ -115,7 +115,11 @@ namespace LevelCreator
                     item.Update();
                     item.Draw(graphic_device.D3DDevice);
                 }
-
+                foreach (var item in StageObjects.Collisions)
+                {
+                    item.Update();
+                    item.Draw(graphic_device.D3DDevice);
+                }
 
                 graphic_device.D3DDevice.EndScene();
                 graphic_device.D3DDevice.Present();
