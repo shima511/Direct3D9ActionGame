@@ -26,12 +26,19 @@ namespace LevelCreator.PropertyController
         public MaskedTextBox TerminatePointYAxis { private get; set; }
         public ComboBox TypeId { private get; set; }
 
+
         public override void Initialize()
         {
+            SetTextBoxValue();
+
             StartPointXAxis.LostFocus += StartPointXAxis_LostFocus;
+            StartPointXAxis.LostFocus += GrobalLostFocusEvent;
             StartPointYAxis.LostFocus += StartPointYAxis_LostFocus;
+            StartPointYAxis.LostFocus += GrobalLostFocusEvent;
             TerminatePointXAxis.LostFocus += TerminatePointXAxis_LostFocus;
+            TerminatePointXAxis.LostFocus += GrobalLostFocusEvent;
             TerminatePointYAxis.LostFocus += TerminatePointYAxis_LostFocus;
+            TerminatePointYAxis.LostFocus += GrobalLostFocusEvent;
             TypeId.SelectedIndexChanged += TypeId_SelectedIndexChanged;
         }
 
@@ -49,9 +56,10 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
+                
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
-                pos.Y = float.Parse(TerminatePointYAxis.Text);
+                pos.Y = MaskedTextParser.ToSingle(TerminatePointYAxis.Text);
                 col.TerminatePoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -63,7 +71,7 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
-                pos.X = float.Parse(TerminatePointXAxis.Text);
+                pos.X = MaskedTextParser.ToSingle(TerminatePointXAxis.Text);
                 col.TerminatePoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -75,7 +83,7 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.StartingPoint;
-                pos.Y = float.Parse(StartPointYAxis.Text);
+                pos.Y = MaskedTextParser.ToSingle(StartPointYAxis.Text);
                 col.StartingPoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -87,7 +95,7 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.StartingPoint;
-                pos.X = float.Parse(StartPointXAxis.Text);
+                pos.X = MaskedTextParser.ToSingle(StartPointXAxis.Text);
                 col.StartingPoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -95,6 +103,10 @@ namespace LevelCreator.PropertyController
 
         protected override void Add()
         {
+            if (CollisionList.Count != 0)
+            {
+                CollisionList[CurrentIndex].Line.Selected = false;
+            }
             Object.ExProperty.Collision new_collision = new Object.ExProperty.Collision() 
             {
                 CollisionInfo = new BinaryParser.Property.Collision() 
@@ -108,6 +120,7 @@ namespace LevelCreator.PropertyController
                     ModelAsset = ModelFactory.FindModel("Box")
                 }
             };
+            new_collision.Line.Selected = true;
             CollisionList.Add(new_collision);
             SetTextBoxValue();
         }
@@ -127,8 +140,13 @@ namespace LevelCreator.PropertyController
 
         protected override void Decliment()
         {
-            base.Decliment();
-            SetTextBoxValue();
+            if (CurrentSize != 0)
+            {
+                CollisionList[CurrentIndex].Line.Selected = false;
+                base.Decliment();
+                SetTextBoxValue();
+                CollisionList[CurrentIndex].Line.Selected = true;
+            }
         }
 
         protected override void Delete()
@@ -141,8 +159,13 @@ namespace LevelCreator.PropertyController
 
         protected override void Incliment()
         {
-            base.Incliment();
-            SetTextBoxValue();
+            if (CurrentSize != 0)
+            {
+                CollisionList[CurrentIndex].Line.Selected = false;
+                base.Incliment();
+                SetTextBoxValue();
+                CollisionList[CurrentIndex].Line.Selected = true;
+            }
         }
     }
 }

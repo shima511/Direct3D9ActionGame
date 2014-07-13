@@ -9,6 +9,15 @@ namespace LevelCreator
 {
     public abstract class StageObjectController
     {
+        public delegate void LostFocusEvent(object sender, EventArgs e);
+
+        public event LostFocusEvent OnLostFocus;
+
+        protected void GrobalLostFocusEvent(object sender, EventArgs e)
+        {
+            OnLostFocus(sender, e);
+        }
+
         protected int _current_index = 0;
         public int CurrentIndex { get { return _current_index; } set { _current_index = value; } }
         public virtual int CurrentSize { get; set; }

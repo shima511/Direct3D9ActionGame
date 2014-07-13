@@ -34,7 +34,13 @@ namespace LevelCreator
             };
             form.CurrentController.Initialize();
             form.CurrentController.ModelFactory = form.ModelFactory;
+            form.CurrentController.OnLostFocus += CurrentController_OnLostFocus;
             base.OnShown(e);
+        }
+
+        void CurrentController_OnLostFocus(object sender, EventArgs e)
+        {
+            this.Owner.Invalidate();
         }
 
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -97,6 +103,7 @@ namespace LevelCreator
                     break;
             }
             form.CurrentController.ModelFactory = form.ModelFactory;
+            form.CurrentController.OnLostFocus += CurrentController_OnLostFocus;
             form.CurrentController.Initialize();
         }
 
