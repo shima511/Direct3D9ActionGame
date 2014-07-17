@@ -54,7 +54,7 @@ namespace LevelCreator.PropertyController
         {
             var info = StageInfo.StageInfo;
             var line = info.LimitLine;
-            line.Height = MaskedTextParser.ToInt32(LimitLineBottom.Text);
+            line.Height = -MaskedTextParser.ToInt32(LimitLineTop.Text) + MaskedTextParser.ToInt32(LimitLineBottom.Text);
             info.LimitLine = line;
             StageInfo.StageInfo = info;
         }
@@ -91,9 +91,9 @@ namespace LevelCreator.PropertyController
         void SetTextBoxValue()
         {
             var info = StageInfo.StageInfo;
-            LimitLineBottom.Text = (info.LimitLine.Y - info.LimitLine.Height).ToString();
+            LimitLineBottom.Text = info.LimitLine.Bottom.ToString();
             LimitLineLeft.Text = info.LimitLine.X.ToString();
-            LimitLineRight.Text = (info.LimitLine.X + info.LimitLine.Width).ToString();
+            LimitLineRight.Text = info.LimitLine.Right.ToString();
             LimitLineTop.Text = info.LimitLine.Y.ToString();
         }
     }

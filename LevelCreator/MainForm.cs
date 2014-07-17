@@ -58,7 +58,7 @@ namespace LevelCreator
                 {
                     LimitLine = new Rectangle()
                     {
-                        X = -6, Y = 5, Width = 12, Height = 10
+                        X = -6, Y = 5, Width = 12, Height = -10
                     },
                     LimitTime = 100
                 }
