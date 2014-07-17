@@ -33,15 +33,18 @@ namespace LevelCreator
                         Add();
                         break;
                     case Keys.D:
-                        Delete();
+                        if (CurrentSize != 0)
+                        {
+                            Delete();
+                        }
                         break;
                 }
             }
-            if (e.KeyCode == Keys.Tab && !e.Shift)
+            if (e.KeyCode == Keys.Tab && !e.Shift && CurrentSize != 0)
             {
                 Incliment();
             }
-            if (e.KeyCode == Keys.Tab && e.Shift)
+            if (e.KeyCode == Keys.Tab && e.Shift && CurrentSize != 0)
             {
                 Decliment();
             }
@@ -52,6 +55,11 @@ namespace LevelCreator
 
         }
 
+        public virtual void Clean()
+        {
+
+        }
+        
         protected virtual void Incliment()
         {
             CurrentIndex++;

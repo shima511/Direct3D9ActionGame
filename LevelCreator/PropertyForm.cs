@@ -49,6 +49,7 @@ namespace LevelCreator
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             LevelCreator form = this.Owner as LevelCreator;
+            form.CurrentController.Clean();
             switch (this.tabControl.SelectedIndex)
             {
                 case 0:
@@ -65,6 +66,7 @@ namespace LevelCreator
                 case 1:
                     form.CurrentController = new PropertyController.Items()
                     {
+                        ItemList = form.StageObjects.Items,
                         PositionXAxis = this.ItemPositionXAxis,
                         PositionYAxis = this.ItemPositionYAxis,
                         TypeId = this.ItemType
@@ -73,6 +75,7 @@ namespace LevelCreator
                 case 2:
                     form.CurrentController = new PropertyController.Decolations()
                     {
+                        DecolationList = form.StageObjects.Decolations,
                         PositionXAxis = this.DecolationXAxis,
                         PositionYAxis = this.DecolationYAxis,
                         PositionZAxis = this.DecolationZAxis,
@@ -82,6 +85,7 @@ namespace LevelCreator
                 case 3:
                     form.CurrentController = new PropertyController.Enemies()
                     {
+                        EnemyList = form.StageObjects.Enemies,
                         PositionXAxis = this.EnemyPositionXAxis,
                         PositionYAxis = this.EnemyPositionYAxis,
                         TypeId = this.EnemyType
@@ -90,6 +94,7 @@ namespace LevelCreator
                 case 4:
                     form.CurrentController = new PropertyController.Player() 
                     { 
+                        PlayerInfo = form.StageObjects.PlayerInfo,
                         PositionXAxis = this.PlayerPositionXAxis,
                         PositionYAxis = this.PlayerPositionYAxis
                     };
@@ -97,6 +102,7 @@ namespace LevelCreator
                 case 5:
                     form.CurrentController = new PropertyController.Stage()
                     {
+                        StageInfo = form.StageObjects.StageInfo,
                         LimitLineLeft = this.LimitLineLeft,
                         LimitLineRight = this.LimitLineRight,
                         LimitLineBottom = this.LimitLineBottom,

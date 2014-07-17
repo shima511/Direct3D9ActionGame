@@ -37,16 +37,7 @@ namespace LevelCreator.Object
             }
             else
             {
-                var mat_list = ModelAsset.Materials;
-                mat_list[0] = new SlimDX.Direct3D9.ExtendedMaterial()
-                {
-                    MaterialD3D = new SlimDX.Direct3D9.Material()
-                    {
-                        Diffuse = new Color4(System.Drawing.Color.White),
-                        Emissive = new Color4(System.Drawing.Color.White)
-                    }
-                };
-                ModelAsset.Materials = mat_list;
+                ModelAsset.Materials = new List<SlimDX.Direct3D9.ExtendedMaterial>(ModelAsset.LoadedMaterials);
             }
         }
     }

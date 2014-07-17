@@ -12,6 +12,7 @@ namespace LevelCreator.Asset
         public Mesh Mesh { get; set; }
         public List<SlimDX.Direct3D9.Texture> Textures { get; set; }
         public List<SlimDX.Direct3D9.ExtendedMaterial> Materials { get; set; }
+        public List<SlimDX.Direct3D9.ExtendedMaterial> LoadedMaterials { get; set; }
 
         public void Dispose()
         {

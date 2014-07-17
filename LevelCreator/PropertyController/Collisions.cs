@@ -42,6 +42,19 @@ namespace LevelCreator.PropertyController
             TypeId.SelectedIndexChanged += TypeId_SelectedIndexChanged;
         }
 
+        public override void Clean()
+        {
+            StartPointXAxis.LostFocus -= StartPointXAxis_LostFocus;
+            StartPointXAxis.LostFocus -= GrobalLostFocusEvent;
+            StartPointYAxis.LostFocus -= StartPointYAxis_LostFocus;
+            StartPointYAxis.LostFocus -= GrobalLostFocusEvent;
+            TerminatePointXAxis.LostFocus -= TerminatePointXAxis_LostFocus;
+            TerminatePointXAxis.LostFocus -= GrobalLostFocusEvent;
+            TerminatePointYAxis.LostFocus -= TerminatePointYAxis_LostFocus;
+            TerminatePointYAxis.LostFocus -= GrobalLostFocusEvent;
+            TypeId.SelectedIndexChanged -= TypeId_SelectedIndexChanged;
+        }
+
         void TypeId_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CollisionList.Count != 0)
@@ -56,7 +69,6 @@ namespace LevelCreator.PropertyController
         {
             if (CollisionList.Count != 0)
             {
-                
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
                 pos.Y = MaskedTextParser.ToSingle(TerminatePointYAxis.Text);
@@ -141,32 +153,24 @@ namespace LevelCreator.PropertyController
 
         protected override void Decliment()
         {
-            if (CurrentSize != 0)
-            {
-                CollisionList[CurrentIndex].Line.Selected = false;
-                base.Decliment();
-                SetTextBoxValue();
-                CollisionList[CurrentIndex].Line.Selected = true;
-            }
+            CollisionList[CurrentIndex].Line.Selected = false;
+            base.Decliment();
+            SetTextBoxValue();
+            CollisionList[CurrentIndex].Line.Selected = true;
         }
 
         protected override void Delete()
         {
-            if (CollisionList.Count != 0)
-            {
-                CollisionList.RemoveAt(CurrentIndex);
-            }
+            CollisionList.RemoveAt(CurrentIndex);
+            CurrentIndex = 0;
         }
 
         protected override void Incliment()
         {
-            if (CurrentSize != 0)
-            {
-                CollisionList[CurrentIndex].Line.Selected = false;
-                base.Incliment();
-                SetTextBoxValue();
-                CollisionList[CurrentIndex].Line.Selected = true;
-            }
+            CollisionList[CurrentIndex].Line.Selected = false;
+            base.Incliment();
+            SetTextBoxValue();
+            CollisionList[CurrentIndex].Line.Selected = true;
         }
     }
 }

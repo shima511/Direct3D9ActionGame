@@ -19,5 +19,17 @@ namespace LevelCreator
             ret = float.Parse(text);
             return ret;
         }
+
+        public static int ToInt32(string text)
+        {
+            int ret = 0;
+            text = text.Replace(" ", "");
+            if (text == "" || text == "-")
+            {
+                text = "0";
+            }
+            ret = int.Parse(text);
+            return ret;
+        }
     }
 }

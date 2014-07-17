@@ -15,7 +15,6 @@ namespace LevelCreator
         PropertyForm propertyForm = new PropertyForm();
         List<Object.IBase> objects = new List<Object.IBase>();
         Object.Camera camera;
-        Object.Player player = new Object.Player();
         string current_filename;
         GraphicDevice graphic_device;
         public List<Object.IBase> Objects { get { return objects; } set { } }
@@ -33,12 +32,14 @@ namespace LevelCreator
 
         void OnSetAssets()
         {
-            player.ModelAsset = ModelFactory.FindModel("Sphere");
+            StageObjects.PlayerInfo.ModelAsset = ModelFactory.FindModel("Sphere");
 
             foreach (var item in StageObjects.Collisions)
             {
                 item.Line.ModelAsset = ModelFactory.FindModel("Box");
             }
+
+            StageObjects.StageInfo.ModelAsset = ModelFactory.FindModel("Box");
         }
 
         protected override void OnShown(EventArgs e)
@@ -50,11 +51,23 @@ namespace LevelCreator
             propertyForm.Owner = this;
             propertyForm.Show();
 
-            player.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
+            StageObjects.PlayerInfo.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
+            StageObjects.StageInfo = new Object.ExProperty.Stage()
+            {
+                StageInfo = new BinaryParser.Property.Stage()
+                {
+                    LimitLine = new Rectangle()
+                    {
+                        X = -6, Y = 5, Width = 12, Height = 10
+                    },
+                    LimitTime = 100
+                }
+            };
 
             camera = new Object.Camera(this);
             objects.Add(camera);
-            objects.Add(player);
+            objects.Add(StageObjects.PlayerInfo);
+            objects.Add(StageObjects.StageInfo);
 
             OnSetAssets();
             base.OnShown(e);
@@ -129,6 +142,21 @@ namespace LevelCreator
                     item.Draw(graphic_device.D3DDevice);
                 }
                 foreach (var item in StageObjects.Collisions)
+                {
+                    item.Update();
+                    item.Draw(graphic_device.D3DDevice);
+                }
+                foreach (var item in StageObjects.Decolations)
+                {
+                    item.Update();
+                    item.Draw(graphic_device.D3DDevice);
+                }
+                foreach (var item in StageObjects.Enemies)
+                {
+                    item.Update();
+                    item.Draw(graphic_device.D3DDevice);
+                }
+                foreach (var item in StageObjects.Items)
                 {
                     item.Update();
                     item.Draw(graphic_device.D3DDevice);

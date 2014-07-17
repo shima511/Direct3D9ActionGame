@@ -601,7 +601,7 @@
             // LimitLineBottom
             // 
             this.LimitLineBottom.Location = new System.Drawing.Point(122, 73);
-            this.LimitLineBottom.Mask = "#000.000";
+            this.LimitLineBottom.Mask = "#0000";
             this.LimitLineBottom.Name = "LimitLineBottom";
             this.LimitLineBottom.Size = new System.Drawing.Size(100, 19);
             this.LimitLineBottom.TabIndex = 12;
@@ -609,7 +609,7 @@
             // LimitLineTop
             // 
             this.LimitLineTop.Location = new System.Drawing.Point(122, 36);
-            this.LimitLineTop.Mask = "#000.000";
+            this.LimitLineTop.Mask = "#0000";
             this.LimitLineTop.Name = "LimitLineTop";
             this.LimitLineTop.Size = new System.Drawing.Size(100, 19);
             this.LimitLineTop.TabIndex = 6;
@@ -617,7 +617,7 @@
             // LimitLineRight
             // 
             this.LimitLineRight.Location = new System.Drawing.Point(9, 73);
-            this.LimitLineRight.Mask = "#000.000";
+            this.LimitLineRight.Mask = "#0000";
             this.LimitLineRight.Name = "LimitLineRight";
             this.LimitLineRight.Size = new System.Drawing.Size(100, 19);
             this.LimitLineRight.TabIndex = 9;
@@ -634,7 +634,7 @@
             // LimitLineLeft
             // 
             this.LimitLineLeft.Location = new System.Drawing.Point(9, 36);
-            this.LimitLineLeft.Mask = "#000.000";
+            this.LimitLineLeft.Mask = "#0000";
             this.LimitLineLeft.Name = "LimitLineLeft";
             this.LimitLineLeft.Size = new System.Drawing.Size(100, 19);
             this.LimitLineLeft.TabIndex = 4;

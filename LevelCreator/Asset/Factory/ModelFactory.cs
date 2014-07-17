@@ -35,8 +35,17 @@ namespace LevelCreator.Asset.Factory
             new_model.Materials.Add(new ExtendedMaterial(){
                 MaterialD3D = new Material()
                 {
-                    Diffuse = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
-                    Emissive = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
+                    Diffuse = new SlimDX.Color4(System.Drawing.Color.White),
+                    Emissive = new SlimDX.Color4(System.Drawing.Color.White),
+                }
+            });
+            new_model.LoadedMaterials = new List<ExtendedMaterial>();
+            new_model.LoadedMaterials.Add(new ExtendedMaterial()
+            {
+                MaterialD3D = new Material()
+                {
+                    Diffuse = new SlimDX.Color4(System.Drawing.Color.White),
+                    Emissive = new SlimDX.Color4(System.Drawing.Color.White)
                 }
             });
             new_model.Textures = new List<Texture>();
@@ -59,6 +68,7 @@ namespace LevelCreator.Asset.Factory
         {
             var new_model = new Asset.Model();
             new_model.Materials = new List<ExtendedMaterial>();
+            new_model.LoadedMaterials = new List<ExtendedMaterial>();
             new_model.Textures = new List<Texture>();
             try
             {
@@ -67,6 +77,7 @@ namespace LevelCreator.Asset.Factory
                 foreach (var material in new_model.Mesh.GetMaterials())
                 {
                     new_model.Materials.Add(material);
+                    new_model.LoadedMaterials.Add(material);
                 }
 
                 for (int i = 0; i < new_model.Materials.Count; i++)

@@ -63,7 +63,6 @@
     <Compile Include="Object\ExProperty\Player.cs" />
     <Compile Include="Object\ExProperty\Property.cs" />
     <Compile Include="Object\ExProperty\Stage.cs" />
-    <Compile Include="Object\Player.cs" />
     <Compile Include="PropertyController\Collisions.cs" />
     <Compile Include="PropertyController\Decolations.cs" />
     <Compile Include="PropertyController\Enemies.cs" />
