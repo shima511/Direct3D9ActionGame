@@ -28,6 +28,7 @@ namespace SlimDxGame.Core
             this.Width = 900;
             this.Height = 600;
             this.MaximizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             AppInfo = this;
         }
