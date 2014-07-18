@@ -51,6 +51,29 @@ namespace SlimDxGame.Object.Ground
         {
             CollisionLine.Draw3D(dev);
         }
+
+        public static Base CreateGround(BinaryParser.Property.Collision col)
+        {
+            Base new_collision = null;
+            switch (col.TypeId)
+            {
+                case 0:
+                    new_collision = new Floor();
+                    break;
+                case 1:
+                    new_collision = new RightWall();
+                    break;
+                case 2:
+                    new_collision = new LeftWall();
+                    break;
+                case 3:
+                    new_collision = new Ceiling();
+                    break;
+            }
+            new_collision.CollisionLine.StartingPoint = col.StartingPoint;
+            new_collision.CollisionLine.TerminalPoint = col.TerminatePoint;
+            return new_collision;
+        }
     }
 
     class Floor : Base
