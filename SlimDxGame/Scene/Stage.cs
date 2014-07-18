@@ -16,7 +16,7 @@ namespace SlimDxGame.Scene
         /// </summary>
         int level_id = 0;
         Status.Stage StageState;
-        StageLoader stg_loader;
+        BinaryParser.Reader stage_loader;
         ReturnFrag ret_frag;
         Collision.Manager collision_manager;
         List<Object.Base.Model> model_decoration;
@@ -27,6 +27,7 @@ namespace SlimDxGame.Scene
         Object.Fader fader;
         Object.StateDrawer state_drawer;
         GameState<Stage> now_state = new LoadingState();
+        BinaryParser.Objects StageObjects = new BinaryParser.Objects();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -83,7 +84,7 @@ namespace SlimDxGame.Scene
             void LoadStage(GameRootObjects root, Stage parent)
             {
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                parent.stg_loader.Load(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".csv")));
+                parent.stage_loader.Read(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".dat")), out parent.StageObjects);
                 parent.StageState = new Status.Stage()
                 {
                     Score = 0,
@@ -99,7 +100,7 @@ namespace SlimDxGame.Scene
 
             private void CreateInstance(Stage parent)
             {
-                parent.stg_loader = new StageLoader();
+                parent.stage_loader = new BinaryParser.Reader();
                 parent.collision_manager = new Collision.Manager();
                 parent.model_decoration = new List<Object.Base.Model>();
                 parent.camera_manager = new Object.CameraManager();
@@ -130,7 +131,7 @@ namespace SlimDxGame.Scene
                 if (load_completed)
                 {
                     List<string> invalid_calls = new List<string>();
-                    if (root_objects.IncludeInvalidAsset(ref invalid_calls) || parent.stg_loader.LoadFailed)
+                    if (root_objects.IncludeInvalidAsset(ref invalid_calls) || !parent.stage_loader.Valid)
                     {
                         MessageBox.Show("ファイルの読み込みに失敗", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         parent.ret_frag = ReturnFrag.ExitGame;
@@ -188,9 +189,10 @@ namespace SlimDxGame.Scene
                 parent.collision_manager.Player = parent.player;
 
                 // 地形の衝突判定を追加していく
-                foreach (var item in parent.stg_loader.GroundCollisions)
+                foreach (var item in parent.StageObjects.Collisions)
                 {
-                    parent.collision_manager.Add(item);
+                    Object.Ground.Base new_collision = Object.Ground.Base.CreateGround(item);
+                    parent.collision_manager.Add(new_collision);
                 }
 
                 root_objects.update_list.Add(parent.collision_manager);

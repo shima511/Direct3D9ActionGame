@@ -126,7 +126,6 @@
     <Compile Include="Object\StateDrawer.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Scene\Base.cs" />
-    <Compile Include="StageLoader.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Object\Player.cs" />
@@ -187,7 +186,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BinaryParser\BinaryParser.csproj">
+      <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
+      <Name>BinaryParser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
