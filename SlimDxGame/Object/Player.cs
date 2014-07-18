@@ -6,6 +6,12 @@ namespace SlimDxGame.Object
 {
     class Player : Object.Base.Model, ICollisionObject, Component.IUpdateObject, Component.IOperableObject
     {
+        public delegate void OnJumpEventHandler(SlimDX.Vector3 pos);
+
+        /// <summary>
+        /// ジャンプした瞬間に実行されるメソッドです。
+        /// </summary>
+        public event OnJumpEventHandler OnJump;
         /// <summary>
         /// 足の当たり判定
         /// </summary>
@@ -242,6 +248,10 @@ namespace SlimDxGame.Object
                     // 初速度
                     parent._speed.Y = parent.JumpSpeed;
                     parent.IsInTheAir = true;
+                    if (parent.OnJump != null)
+                    {
+                        parent.OnJump(parent.Position);
+                    }
                     new_state = new Jump();
                 }
             }
