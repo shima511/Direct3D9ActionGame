@@ -24,12 +24,18 @@ namespace SlimDxGame.Collision
 
         }
 
-        public void Draw3D(SlimDX.Direct3D9.Device dev)
+        [System.Diagnostics.Conditional("DEBUG")]
+        void DebugDraw(SlimDX.Direct3D9.Device dev)
         {
             foreach (var item in this)
             {
                 item.Draw3D(dev);
             }
+        }
+
+        public void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            DebugDraw(dev);
         }
     }
 }
