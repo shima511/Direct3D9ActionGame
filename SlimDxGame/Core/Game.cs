@@ -17,9 +17,7 @@ namespace SlimDxGame.Core
         private Device.Input input_dev;
         private Device.Audio audio_dev;
         // FPS表示用のフォント
-#if DEBUG
         SlimDxGame.Asset.Font default_font;
-#endif
 
         public Game(Scene.Base first_scene)
         {
@@ -50,9 +48,7 @@ namespace SlimDxGame.Core
 
         private void TerminateDevices()
         {
-#if DEBUG
             default_font.Release();
-#endif
             SlimMMDXCore.Instance.Dispose();
             graphic_dev.Terminate();
             input_dev.Terminate();
@@ -66,26 +62,41 @@ namespace SlimDxGame.Core
             audio_dev = new Device.Audio();
         }
 
+        [System.Diagnostics.Conditional("DEBUG")]
+        void DrawFPS(SlimDX.Direct3D9.Sprite sprite_dev)
+        {
+            sprite_dev.Begin(SlimDX.Direct3D9.SpriteFlags.AlphaBlend);
+            sprite_dev.Transform = SlimDX.Matrix.Identity;
+            fps_mgr.Draw(graphic_dev.D3DSprite, default_font.Resource);
+            sprite_dev.End();
+        }
+
+        void Update()
+        {
+            if (now_scene.Update(root_objects, ref now_scene) != 0) this.Close();
+            foreach (var item in root_objects.update_list)
+            {
+                item.Update();
+            }
+            root_objects.input_manager.Update();
+        }
+
+        void Draw(SlimDX.Direct3D9.Device d3d_dev, SlimDX.Direct3D9.Sprite sprite_dev)
+        {
+            draw_manager.DrawBegin(d3d_dev);
+            draw_manager.DrawObjects(d3d_dev, sprite_dev, root_objects.layers);
+        }
+
         private void MainLoop()
         {
             fps_mgr.Begin();
-            
-            //Update
-            if (now_scene.Update(root_objects, ref now_scene) != 0) this.Close();
-            root_objects.update_list.ForEach(delegate(Component.IUpdateObject obj) { obj.Update(); });
-            root_objects.input_manager.Update();
+            Update();
 
             //Draw
             var d3d_dev = graphic_dev.D3DDevice;
             var sprite_dev = graphic_dev.D3DSprite;
-            draw_manager.DrawBegin(d3d_dev);
-            draw_manager.DrawObjects(d3d_dev, sprite_dev, root_objects.layers);
-#if DEBUG
-            sprite_dev.Transform = SlimDX.Matrix.Identity;
-            sprite_dev.Begin(SlimDX.Direct3D9.SpriteFlags.AlphaBlend);
-            fps_mgr.Draw(sprite_dev, default_font.Resource);
-            sprite_dev.End();
-#endif
+            Draw(d3d_dev, sprite_dev);
+            DrawFPS(sprite_dev);
             draw_manager.DrawEnd(d3d_dev);
 
             fps_mgr.End();
@@ -116,9 +127,7 @@ namespace SlimDxGame.Core
             AssetFactory.FontFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.ModelFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.AudioMediaFactory.Device = audio_dev.XAudioDevice;
-#if DEBUG
             default_font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
-#endif
         }
 
         private void FreeAllResources()
