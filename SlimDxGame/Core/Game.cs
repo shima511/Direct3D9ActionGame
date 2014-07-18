@@ -71,7 +71,7 @@ namespace SlimDxGame.Core
             sprite_dev.End();
         }
 
-        void Update()
+        new void Update()
         {
             if (now_scene.Update(root_objects, ref now_scene) != 0) this.Close();
             foreach (var item in root_objects.update_list)
@@ -137,7 +137,6 @@ namespace SlimDxGame.Core
             root_objects.sound_container.DeleteAllObject();
             root_objects.model_container.DeleteAllObject();
         }
-
 
         public void Run()
         {
