@@ -25,8 +25,10 @@ namespace SlimDxGame.Core
         {
             now_scene = first_scene;
             this.Text = "サンプルプログラム";
-            this.Width = 600;
+            this.Width = 900;
             this.Height = 600;
+            this.MaximizeBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             AppInfo = this;
         }
 
@@ -129,6 +131,12 @@ namespace SlimDxGame.Core
 
         public void Run()
         {
+            if(System.Diagnostics.Process.GetProcessesByName(
+                System.Diagnostics.Process.GetCurrentProcess().ProcessName).Length > 1)
+            {
+                MessageBox.Show("既にアプリを起動しています。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
             MakeInstances();
             if(!InitializeDevices()) return;
             SetDevice();
