@@ -27,7 +27,7 @@ namespace SlimDxGame.Scene
         Object.Fader fader;
         Object.StateDrawer state_drawer;
         GameState<Stage> now_state = new LoadingState();
-        BinaryParser.Objects StageObjects = new BinaryParser.Objects();
+        BinaryParser.Objects stage_objects = new BinaryParser.Objects();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -84,7 +84,7 @@ namespace SlimDxGame.Scene
             void LoadStage(GameRootObjects root, Stage parent)
             {
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                parent.stage_loader.Read(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".dat")), out parent.StageObjects);
+                parent.stage_loader.Read(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".dat")), out parent.stage_objects);
                 parent.StageState = new Status.Stage()
                 {
                     Score = 0,
@@ -161,27 +161,28 @@ namespace SlimDxGame.Scene
                 root_objects.input_manager.Add(parent.controller);
             }
 
-            private void InitPlayer( GameRootObjects root_objects,  Object.Player player){
+            private void InitPlayer(GameRootObjects root_objects, Stage parent)
+            {
                 Asset.Model model;
                 root_objects.model_container.TryGetValue("TestModel", out model);
-                player.ModelAsset = model;
-                player.Position = new SlimDX.Vector3(0.0f, 0.0f, 0.0f);
-                root_objects.update_list.Add(player);
-                root_objects.layers[0].Add(player);
+                parent.player.ModelAsset = model;
+                var p_pos = parent.stage_objects.Player.Position;
+                parent.player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
+                root_objects.update_list.Add(parent.player);
+                root_objects.layers[0].Add(parent.player);
             }
 
             private void InitDecoration(GameRootObjects root_objects, Stage parent)
             {
-                Asset.Model decoration_model;
-                root_objects.model_container.TryGetValue("StageObject", out decoration_model);
-                Random rand = new Random();
-                for(int i = 0; i < 10; i++){
-                    var new_obj = new Object.Base.Model();
-                    new_obj.Position = new SlimDX.Vector3(rand.Next(12) - 6, rand.Next(12) - 6, rand.Next(12) - 6);
-                    new_obj.ModelAsset = decoration_model;
-                    parent.model_decoration.Add(new_obj);
-                    root_objects.layers[0].Add(new_obj);
+                foreach (var item in parent.stage_objects.Decolations)
+                {
                 }
+            }
+
+            [System.Diagnostics.Conditional("DEBUG")]
+            void AddCollisionsToDrawList(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.layers[0].Add(parent.collision_manager);
             }
 
             private void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
@@ -189,16 +190,14 @@ namespace SlimDxGame.Scene
                 parent.collision_manager.Player = parent.player;
 
                 // 地形の衝突判定を追加していく
-                foreach (var item in parent.StageObjects.Collisions)
+                foreach (var item in parent.stage_objects.Collisions)
                 {
                     Object.Ground.Base new_collision = Object.Ground.Base.CreateGround(item);
                     parent.collision_manager.Add(new_collision);
                 }
 
                 root_objects.update_list.Add(parent.collision_manager);
-#if DEBUG
-                root_objects.layers[0].Add(parent.collision_manager);
-#endif
+                AddCollisionsToDrawList(root_objects, parent);
             }
 
             void InitStateDrawer(GameRootObjects root_objects, Stage parent)
@@ -217,7 +216,7 @@ namespace SlimDxGame.Scene
 
                 InitInputManager( root_objects,  parent);
 
-                InitPlayer( root_objects,  parent.player);
+                InitPlayer( root_objects,  parent);
 
                 InitDecoration(root_objects, parent);
 
