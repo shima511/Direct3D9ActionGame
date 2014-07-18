@@ -4,19 +4,17 @@ using System.Windows.Forms;
 
 namespace SlimDxGame.AssetFactory
 {
-#if DEBUG
-    public enum ModelType
+   public enum ModelType
     {
         Box,
         Sphere,
         Cylinder
     }
-#endif
 
     class ModelFactory
     {
         static public SlimDX.Direct3D9.Device Device { private get; set; }
-#if DEBUG
+
         public static Asset.Model CreateBasicModel(ModelType type, System.Drawing.Color color)
         {
             var new_model = new Asset.Model();
@@ -46,7 +44,6 @@ namespace SlimDxGame.AssetFactory
             new_model.Materials.Add(new_mat);
             return new_model;
         }
-#endif
 
         public static Asset.Model CreateModelFromFile(string filename)
         {

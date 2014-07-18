@@ -59,12 +59,10 @@ namespace SlimDxGame.Collision.Shape
 
         private const float Allowable = 0.02f;
 
-#if DEBUG
         public Line()
         {
             this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
         }
-#endif
 
         public bool Hit(Line line)
         {
