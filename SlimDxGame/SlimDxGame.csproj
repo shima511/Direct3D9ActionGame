@@ -117,8 +117,9 @@
     <Compile Include="Object\Cursor.cs" />
     <Compile Include="Object\Ground\Ground.cs" />
     <Compile Include="Object\ICollisionObject.cs" />
-    <Compile Include="Object\Item\Coin.cs" />
     <Compile Include="Object\Item\IBase.cs" />
+    <Compile Include="Object\Item\Coin.cs" />
+    <Compile Include="Object\Item\Factory.cs" />
     <Compile Include="Object\Item\Portion.cs" />
     <Compile Include="Object\LoadingScreen.cs" />
     <Compile Include="Object\Base\PlaneObject.cs" />
@@ -191,6 +192,9 @@
       <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
       <Name>BinaryParser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Object\Enemy\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
