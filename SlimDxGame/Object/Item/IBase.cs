@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SlimDxGame.Object.Item
 {
-    interface IBase
+    delegate void OnHitAction(IBase obj);
+
+    interface IBase : Component.IDrawableObject, Component.IUpdateObject, ICollisionObject
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        bool IsCatched { get; set; }
+        SlimDX.Vector2 Position2D { get; set; }
+        event OnHitAction OnHit;
     }
 }
