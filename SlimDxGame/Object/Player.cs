@@ -92,13 +92,17 @@ namespace SlimDxGame.Object
                 {
                     new_state = new JumpStart();
                 }
+                if(controller.DownButton.IsBeingPressed())
+                {
+                    new_state = new CrouchStart();
+                }
             }
         }
 
         private class Turn : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 10;
+            readonly int RequiredFrame = 10;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -122,7 +126,7 @@ namespace SlimDxGame.Object
         private class QuickTurn : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 15;
+            readonly int RequiredFrame = 15;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -137,7 +141,7 @@ namespace SlimDxGame.Object
         private class WalkStart : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 10;
+            readonly int RequiredFrame = 10;
 
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
@@ -224,7 +228,7 @@ namespace SlimDxGame.Object
         private class Break : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 5;
+            readonly int RequiredFrame = 5;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -238,7 +242,7 @@ namespace SlimDxGame.Object
         private class JumpStart : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 15;
+            readonly int RequiredFrame = 15;
 
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
@@ -260,7 +264,7 @@ namespace SlimDxGame.Object
         private class Jump : ObjectState<Player>
         {
             private int time = 0;
-            private const int RequiredFrame = 15;
+            readonly int RequiredFrame = 15;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -290,7 +294,7 @@ namespace SlimDxGame.Object
         private class TwiceJump : ObjectState<Player>
         {
             int time = 0;
-            const int RequiredFrame = 5;
+            readonly int RequiredFrame = 5;
             public TwiceJump(Player parent)
             {
                 parent._speed.Y = parent.JumpSpeed;
@@ -349,7 +353,7 @@ namespace SlimDxGame.Object
         private class Land : ObjectState<Player>
         {
             int time = 0;
-            const int RequiredFrame = 5;
+            readonly int RequiredFrame = 5;
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
@@ -357,6 +361,68 @@ namespace SlimDxGame.Object
                 if (time >= RequiredFrame)
                 {
                     parent.jumped_two_times = false;
+                    new_state = new Wait();
+                }
+            }
+        }
+
+        private class CrouchStart : ObjectState<Player>
+        {
+            int time = 0;
+            readonly int RequiredFrame = 5;
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+                time++;
+                var rot = parent.Rotation;
+                rot.Z += (float)(Math.PI) / (RequiredFrame * 2);
+                parent.Rotation = rot;
+                if (time >= RequiredFrame)
+                {
+                    new_state = new Crouching();
+                }
+            }
+
+            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
+            {
+                if (controller.DownButton.IsReleased())
+                {
+                    new_state = new CrouchEnd();
+                }
+            }
+        }
+
+        private class Crouching : ObjectState<Player>
+        {
+            int time = 0;
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+                time++;
+                var rot = parent.Rotation;
+                rot.Y = (float)(Math.PI * Math.Sin(time * 0.01) / 3);
+                parent.Rotation = rot;
+            }
+
+            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
+            {
+                if (controller.DownButton.IsReleased())
+                {
+                    new_state = new CrouchEnd();
+                }
+            }
+        }
+
+        private class CrouchEnd : ObjectState<Player>
+        {
+            int time = 0;
+            readonly int RequiredFrame = 5;
+            public override void Update(Player parent, ref ObjectState<Player> new_state)
+            {
+                time++;
+                var rot = parent.Rotation;
+                rot.Z -= (float)(Math.PI) / (RequiredFrame * 2);
+                parent.Rotation = rot;
+                if (time >= RequiredFrame)
+                {
                     new_state = new Wait();
                 }
             }
