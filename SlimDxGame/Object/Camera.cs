@@ -44,16 +44,22 @@ namespace SlimDxGame.Object
             }
         }
 
-        public void ControllerAction(SlimDxGame.Controller controller)
+        [System.Diagnostics.Conditional("DEBUG")]
+        void OperateCamera(SlimDxGame.Controller controller)
         {
-            if (controller.UpButton.IsBeingPressed())
+            if (controller.UpButton.IsBeingPressed() && controller.SelectButton.IsBeingPressed())
             {
                 ZoomIn();
             }
-            if (controller.DownButton.IsBeingPressed())
+            if (controller.DownButton.IsBeingPressed() && controller.SelectButton.IsBeingPressed())
             {
                 ZoomOut();
             }
+        }
+
+        public void ControllerAction(SlimDxGame.Controller controller)
+        {
+            OperateCamera(controller);
         }
     }
 }
