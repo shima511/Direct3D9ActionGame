@@ -6,15 +6,36 @@ using System.Threading.Tasks;
 
 namespace SlimDxGame.Object.Item
 {
-    class Coin : Object.Base.Model, Object.ICollisionObject, IBase
+    class Coin : Object.Base.Model, IBase
     {
+        public SlimDX.Vector2 Position2D
+        {
+            get
+            {
+                return new SlimDX.Vector2(Position.X, Position.Y);
+            }
+            set
+            {
+                var pos = Position;
+                pos.X = Position2D.X;
+                pos.Y = Position2D.Y;
+                Position = pos;
+            }
+        }
+        public event OnHitAction OnHit;
         Collision.Shape.Point HitCollision;
         readonly int score = 10;
 
         public Coin()
         {
             HitCollision = new Collision.Shape.Point();
-            IsCatched = false;
+        }
+
+        public void Update()
+        {
+            var rot = Rotation;
+            rot.Y += (float)(Math.PI * 0.01);
+            Rotation = rot;
         }
 
         public bool IsCatched { get; set; }
@@ -26,6 +47,7 @@ namespace SlimDxGame.Object.Item
         {
             if (player.RightSideCollision.Hit(HitCollision))
             {
+                OnHit(this);
             }
         }
         public void Hit(Ground.Floor floor)
