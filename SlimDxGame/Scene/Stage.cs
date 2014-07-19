@@ -19,7 +19,6 @@ namespace SlimDxGame.Scene
         BinaryParser.Reader stage_loader;
         ReturnFrag ret_frag;
         Collision.Manager collision_manager;
-        List<Object.Base.Model> model_decoration;
         Object.CameraManager camera_manager;
         Object.Camera camera;
         Object.Player player;
@@ -102,7 +101,6 @@ namespace SlimDxGame.Scene
             {
                 parent.stage_loader = new BinaryParser.Reader();
                 parent.collision_manager = new Collision.Manager();
-                parent.model_decoration = new List<Object.Base.Model>();
                 parent.camera_manager = new Object.CameraManager();
                 parent.camera = new Object.Camera();
                 parent.player = new Object.Player();
