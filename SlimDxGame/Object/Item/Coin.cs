@@ -22,9 +22,10 @@ namespace SlimDxGame.Object.Item
                 Position = pos;
             }
         }
+        public Status.Stage StageState { private get; set; }
         public event OnHitAction OnHit;
         Collision.Shape.Point HitCollision;
-        readonly int score = 10;
+        readonly uint score = 10;
 
         public Coin()
         {
@@ -47,6 +48,9 @@ namespace SlimDxGame.Object.Item
         {
             if (player.RightSideCollision.Hit(HitCollision))
             {
+                var score = StageState.Score;
+                score += this.score;
+                StageState.Score = score;
                 OnHit(this);
             }
         }
