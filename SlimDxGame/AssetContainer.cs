@@ -19,6 +19,13 @@ namespace SlimDxGame
             this.Clear();
         }
 
+        public TYPE GetValue(string name)
+        {
+            TYPE new_obj = default(TYPE);
+            this.TryGetValue(name, out new_obj);
+            return new_obj;
+        }
+
         public bool IncludeInvalidObject(ref List<string> object_names)
         {
             bool include_invalid_object = false;
