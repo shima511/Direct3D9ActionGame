@@ -87,7 +87,6 @@
     <Compile Include="AssetFactory\ModelFactory.cs" />
     <Compile Include="AssetFactory\AudioMediaFactory.cs" />
     <Compile Include="AssetFactory\TextureFactory.cs" />
-    <Compile Include="Asset\Base.cs" />
     <Compile Include="Asset\Font.cs" />
     <Compile Include="Asset\Model.cs" />
     <Compile Include="Asset\Music.cs" />

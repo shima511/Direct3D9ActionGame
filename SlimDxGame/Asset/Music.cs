@@ -5,7 +5,7 @@ using System.IO;
 
 namespace SlimDxGame.Asset
 {
-    class Music : Base
+    class Music : IDisposable
     {
         public bool Playing { get; private set; }
         public AudioBuffer Buffer { private get; set; }
@@ -51,7 +51,7 @@ namespace SlimDxGame.Asset
         /// <summary>
         /// リソースの解放
         /// </summary>
-        public void Release()
+        public void Dispose()
         {
             Buffer.Dispose();
             Resource.Dispose();

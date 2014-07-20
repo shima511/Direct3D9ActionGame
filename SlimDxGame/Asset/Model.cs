@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SlimDxGame.Asset
 {
-    public class Model : Base
+    public class Model : IDisposable
     {
         public SlimDX.Direct3D9.Mesh Mesh { get; set; }
         public List<SlimDX.Direct3D9.Texture> Textures { get; set; }
@@ -17,7 +18,7 @@ namespace SlimDxGame.Asset
         /// <summary>
         /// リソースの解放
         /// </summary>
-        public void Release()
+        public void Dispose()
         {
             foreach (var tex in Textures)
             {

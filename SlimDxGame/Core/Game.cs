@@ -48,7 +48,7 @@ namespace SlimDxGame.Core
 
         private void TerminateDevices()
         {
-            default_font.Release();
+            default_font.Dispose();
             SlimMMDXCore.Instance.Dispose();
             graphic_dev.Terminate();
             input_dev.Terminate();

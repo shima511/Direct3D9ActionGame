@@ -6,7 +6,7 @@ using SlimDX.Multimedia;
 
 namespace SlimDxGame.Asset
 {
-    class Sound : Base
+    class Sound : IDisposable
     {
         public class VoiceInfo
         {
@@ -75,7 +75,7 @@ namespace SlimDxGame.Asset
         /// <summary>
         /// リソースの解放
         /// </summary>
-        public void Release()
+        public void Dispose()
         {
             Buffer.Dispose();
             Voices.ForEach(delegate(VoiceInfo voice){

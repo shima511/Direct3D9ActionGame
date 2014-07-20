@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SlimDxGame
 {
     class AssetContainer<TYPE> : Dictionary<string, TYPE>
-        where TYPE : Asset.Base
+        where TYPE : IDisposable
     {
         public void DeleteAllObject()
         {
@@ -13,7 +13,7 @@ namespace SlimDxGame
             {
                 if (obj != null)
                 {
-                    obj.Release();
+                    obj.Dispose();
                 }
             }
             this.Clear();
