@@ -74,17 +74,17 @@ namespace SlimDxGame.Core
         new void Update()
         {
             if (now_scene.Update(root_objects, ref now_scene) != 0) this.Close();
-            foreach (var item in root_objects.update_list)
+            foreach (var item in root_objects.UpdateList)
             {
                 item.Update();
             }
-            root_objects.input_manager.Update();
+            root_objects.InputManager.Update();
         }
 
         void Draw(SlimDX.Direct3D9.Device d3d_dev, SlimDX.Direct3D9.Sprite sprite_dev)
         {
             draw_manager.DrawBegin(d3d_dev);
-            draw_manager.DrawObjects(d3d_dev, sprite_dev, root_objects.layers);
+            draw_manager.DrawObjects(d3d_dev, sprite_dev, root_objects.Layers);
         }
 
         private void MainLoop()
@@ -132,10 +132,10 @@ namespace SlimDxGame.Core
 
         private void FreeAllResources()
         {
-            root_objects.font_container.DeleteAllObject();
-            root_objects.tex_container.DeleteAllObject();
-            root_objects.sound_container.DeleteAllObject();
-            root_objects.model_container.DeleteAllObject();
+            root_objects.FontContainer.DeleteAllObject();
+            root_objects.TextureContainer.DeleteAllObject();
+            root_objects.SoundContainer.DeleteAllObject();
+            root_objects.ModelContainer.DeleteAllObject();
         }
 
         public void Run()

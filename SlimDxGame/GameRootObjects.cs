@@ -8,13 +8,24 @@ namespace SlimDxGame
 {
     class GameRootObjects
     {
-        public List<Component.IUpdateObject> update_list = new List<Component.IUpdateObject>();
-        public List<List<Component.IDrawableObject>> layers = new List<List<Component.IDrawableObject>>();
-        public InputManager input_manager = new InputManager();
-        public AssetContainer<Asset.Font> font_container = new AssetContainer<Asset.Font>();
-        public AssetContainer<Asset.Texture> tex_container = new AssetContainer<Asset.Texture>();
-        public AssetContainer<Asset.Sound> sound_container = new AssetContainer<Asset.Sound>();
-        public AssetContainer<Asset.Model> model_container = new AssetContainer<Asset.Model>();
+        public List<Component.IUpdateObject> UpdateList { get; set; }
+        public List<List<Component.IDrawableObject>> Layers { get; set; }
+        public InputManager InputManager { get; set; }
+        public AssetContainer<Asset.Font> FontContainer { get; set; }
+        public AssetContainer<Asset.Texture> TextureContainer { get; set; }
+        public AssetContainer<Asset.Sound> SoundContainer { get; set; }
+        public AssetContainer<Asset.Model> ModelContainer { get; set; }
+
+        public GameRootObjects()
+        {
+            UpdateList = new List<Component.IUpdateObject>();
+            Layers = new List<List<Component.IDrawableObject>>();
+            InputManager = new InputManager();
+            FontContainer = new AssetContainer<Asset.Font>();
+            TextureContainer = new AssetContainer<Asset.Texture>();
+            SoundContainer = new AssetContainer<Asset.Sound>();
+            ModelContainer = new AssetContainer<Asset.Model>();
+        }
 
         /// <summary>
         ///  アセットに不正なデータが存在していた場合trueを返します
@@ -23,7 +34,7 @@ namespace SlimDxGame
         /// <returns></returns>
         public bool IncludeInvalidAsset(ref List<string> object_names)
         {
-            return font_container.IncludeInvalidObject(ref object_names) | tex_container.IncludeInvalidObject(ref object_names) | sound_container.IncludeInvalidObject(ref object_names) | model_container.IncludeInvalidObject(ref object_names);
+            return FontContainer.IncludeInvalidObject(ref object_names) | TextureContainer.IncludeInvalidObject(ref object_names) | SoundContainer.IncludeInvalidObject(ref object_names) | ModelContainer.IncludeInvalidObject(ref object_names);
         }
     }
 }

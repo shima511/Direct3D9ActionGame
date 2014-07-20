@@ -40,7 +40,7 @@ namespace SlimDxGame.Scene
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    root_objects.layers.Add(new List<Component.IDrawableObject>());
+                    root_objects.Layers.Add(new List<Component.IDrawableObject>());
                 }
             }
 
@@ -95,7 +95,7 @@ namespace SlimDxGame.Scene
             void LoadFont(GameRootObjects root)
             {
                 var font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
-                root.font_container.Add("Arial", font);
+                root.FontContainer.Add("Arial", font);
             }
 
             private void CreateInstance(Stage parent)
@@ -121,8 +121,8 @@ namespace SlimDxGame.Scene
                     thread_created = true;
                 }
 
-                LoadTextures(root_objects.tex_container);
-                LoadModels(root_objects.model_container);
+                LoadTextures(root_objects.TextureContainer);
+                LoadModels(root_objects.ModelContainer);
                 LoadStage(root_objects, parent);
                 LoadFont(root_objects);
 
@@ -149,27 +149,27 @@ namespace SlimDxGame.Scene
         {
             private void InitCamera(GameRootObjects root_objects,  Stage parent)
             {
-                root_objects.layers[2].Add(parent.camera);
+                root_objects.Layers[2].Add(parent.camera);
                 parent.controller.Add(parent.camera);
                 parent.camera_manager.Camera = parent.camera;
                 parent.camera_manager.Player = parent.player;
-                root_objects.update_list.Add(parent.camera_manager);
+                root_objects.UpdateList.Add(parent.camera_manager);
             }
 
             private void InitInputManager( GameRootObjects root_objects,  Stage parent)
             {
-                root_objects.input_manager.Add(parent.controller);
+                root_objects.InputManager.Add(parent.controller);
             }
 
             private void InitPlayer(GameRootObjects root_objects, Stage parent)
             {
                 Asset.Model model;
-                root_objects.model_container.TryGetValue("TestModel", out model);
+                root_objects.ModelContainer.TryGetValue("TestModel", out model);
                 parent.player.ModelAsset = model;
                 var p_pos = parent.stage_objects.Player.Position;
                 parent.player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
-                root_objects.update_list.Add(parent.player);
-                root_objects.layers[0].Add(parent.player);
+                root_objects.UpdateList.Add(parent.player);
+                root_objects.Layers[0].Add(parent.player);
             }
 
             private void InitDecoration(GameRootObjects root_objects, Stage parent)
@@ -182,7 +182,7 @@ namespace SlimDxGame.Scene
             [System.Diagnostics.Conditional("DEBUG")]
             void AddCollisionsToDrawList(GameRootObjects root_objects, Stage parent)
             {
-                root_objects.layers[0].Add(parent.collision_manager);
+                root_objects.Layers[0].Add(parent.collision_manager);
             }
 
             private void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
@@ -196,7 +196,7 @@ namespace SlimDxGame.Scene
                     parent.collision_manager.Add(new_collision);
                 }
 
-                root_objects.update_list.Add(parent.collision_manager);
+                root_objects.UpdateList.Add(parent.collision_manager);
                 AddCollisionsToDrawList(root_objects, parent);
             }
 
@@ -204,17 +204,17 @@ namespace SlimDxGame.Scene
             {
                 parent.state_drawer = new Object.StateDrawer(parent.StageState, parent.player.State);
                 Asset.Font font;
-                root_objects.font_container.TryGetValue("Arial", out font);
+                root_objects.FontContainer.TryGetValue("Arial", out font);
                 parent.state_drawer.Font = font;
-                root_objects.update_list.Add(parent.state_drawer);
-                root_objects.layers[0].Add(parent.state_drawer);
+                root_objects.UpdateList.Add(parent.state_drawer);
+                root_objects.Layers[0].Add(parent.state_drawer);
             }
 
             void InitItem(GameRootObjects root_objects, Stage parent)
             {
-                parent.item_factory.ModelContainer = root_objects.model_container;
-                parent.item_factory.UpdateList = root_objects.update_list;
-                parent.item_factory.Layers = root_objects.layers;
+                parent.item_factory.ModelContainer = root_objects.ModelContainer;
+                parent.item_factory.UpdateList = root_objects.UpdateList;
+                parent.item_factory.Layers = root_objects.Layers;
                 parent.item_factory.CollisionManager = parent.collision_manager;
                 parent.item_factory.StageStatus = parent.StageState;
 
@@ -223,8 +223,8 @@ namespace SlimDxGame.Scene
                     Object.Item.IBase new_item;
                     parent.item_factory.Create(item, out new_item);
                     parent.collision_manager.Add(new_item);
-                    root_objects.update_list.Add(new_item);
-                    root_objects.layers[0].Add(new_item);
+                    root_objects.UpdateList.Add(new_item);
+                    root_objects.Layers[0].Add(new_item);
                 }
             }
 
@@ -255,20 +255,20 @@ namespace SlimDxGame.Scene
             public FadeInState( GameRootObjects root_objects,  Stage parent)
             {
                 Asset.Texture tex;
-                root_objects.tex_container.TryGetValue("BlackTexture", out tex);
+                root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
                 parent.fader.Texture = tex;
                 parent.fader.Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2);
                 parent.fader.FadingTime = 120;
                 parent.fader.Color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f);
                 parent.fader.Effect = Object.Fader.Flag.FADE_IN;
-                root_objects.layers[2].Add(parent.fader);
-                root_objects.update_list.Add(parent.fader);
+                root_objects.Layers[2].Add(parent.fader);
+                root_objects.UpdateList.Add(parent.fader);
             }
 
             private void RemoveFadeInEffect( GameRootObjects root_objects,  Stage parentects)
             {
-                root_objects.layers[2].Remove(parentects.fader);
-                root_objects.update_list.Remove(parentects.fader);
+                root_objects.Layers[2].Remove(parentects.fader);
+                root_objects.UpdateList.Remove(parentects.fader);
             }
 
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
