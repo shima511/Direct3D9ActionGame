@@ -9,54 +9,25 @@ namespace FileArchiver
 {
     class Program
     {
-        static void ReadFilesInfo(string dir, List<AssetInfo> files_info)
-        {
-            string[] files = Directory.GetFiles(dir);
-            foreach (var item in files)
-            {
-                FileInfo f = new FileInfo(item);
-                files_info.Add(new AssetInfo()
-                {
-                    Name = f.Name,
-                    Size = f.Length
-                });
-            }
-
-            string[] dirs = Directory.GetDirectories(dir);
-            foreach (var item in dirs)
-            {
-                ReadFilesInfo(item, files_info);
-            }
-        }
-
-
-
         static void Main(string[] args)
         {
-            List<AssetInfo> assets_info = new List<AssetInfo>();
+            DataWriter writer = new DataWriter();
             if (args.Length == 0)
             {
-                args = new string[] { "Assets" };
+                args = new string[] { "Assets", "Out.dat"};
             }
-            
-            // ファイルの情報を読み込む
             try
             {
-                ReadFilesInfo(args[0], assets_info);
-            }catch(DirectoryNotFoundException)
-            {
-                Console.WriteLine("存在しないディレクトリです。");
-                return;
+                writer.Write(args[0], args[1]);
+                Console.WriteLine(writer.HeaderSize);
+                Console.WriteLine("ファイル作成に成功しました。");
             }
-
-            // オフセット値・実データを追加していく
-
-
-            // 結果を表示
-            foreach (var item in assets_info)
+            catch(SystemException ex)
             {
-                Console.WriteLine(item.Name + ":" + item.Size);
+                Console.WriteLine("ファイル作成に失敗しました。");
+                Console.WriteLine(ex.Message);
             }
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }

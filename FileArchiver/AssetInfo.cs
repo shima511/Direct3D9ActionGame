@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileArchiver
 {
-    struct AssetInfo
+    public struct AssetInfo
     {
         public string Name { get; set; }
         public long Size { get; set; }
