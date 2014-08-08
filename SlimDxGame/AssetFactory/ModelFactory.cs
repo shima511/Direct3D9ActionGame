@@ -45,6 +45,39 @@ namespace SlimDxGame.AssetFactory
             return new_model;
         }
 
+        public static Asset.Model CreateModelFromMemory(byte[] bytes)
+        {
+            var new_model = new Asset.Model();
+            try
+            {
+                new_model.Mesh = SlimDX.Direct3D9.Mesh.FromMemory(Device, bytes, SlimDX.Direct3D9.MeshFlags.Managed);
+                // 属性を取得
+                foreach (var material in new_model.Mesh.GetMaterials())
+                {
+                    new_model.Materials.Add(material);
+                }
+
+                if (new_model.Materials.Count >= 1)
+                {
+                    for (int i = 0; i < new_model.Materials.Count; i++)
+                    {
+                        string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+                        var tex_filename = new_model.Materials[i].TextureFileName;
+                        if (!string.IsNullOrEmpty(tex_filename))
+                        {
+                            var tex_path = Path.Combine(baseDir, Path.Combine("models", tex_filename));
+                            new_model.Textures.Add(SlimDX.Direct3D9.Texture.FromFile(Device, tex_path));
+                        }
+                    }
+                }
+            }
+            catch (SlimDX.Direct3D9.Direct3D9Exception)
+            {
+                new_model = null;
+            }
+            return new_model;
+        }
+
         public static Asset.Model CreateModelFromFile(string filename)
         {
             var new_model = new Asset.Model();
