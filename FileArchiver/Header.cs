@@ -8,6 +8,6 @@ namespace FileArchiver
 {
     struct Header
     {
-        public List<FileInfo> Files { get; set; }
+        public List<AssetInfo> Files { get; set; }
     }
 }

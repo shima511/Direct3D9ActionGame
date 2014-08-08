@@ -9,17 +9,53 @@ namespace FileArchiver
 {
     class Program
     {
+        static void ReadFilesInfo(string dir, List<AssetInfo> files_info)
+        {
+            string[] files = Directory.GetFiles(dir);
+            foreach (var item in files)
+            {
+                FileInfo f = new FileInfo(item);
+                files_info.Add(new AssetInfo()
+                {
+                    Name = f.Name,
+                    Size = f.Length
+                });
+            }
+
+            string[] dirs = Directory.GetDirectories(dir);
+            foreach (var item in dirs)
+            {
+                ReadFilesInfo(item, files_info);
+            }
+        }
+
+
 
         static void Main(string[] args)
         {
-            string[] dirs = Directory.GetDirectories(args[0]);
-            foreach (var item in dirs)
+            List<AssetInfo> assets_info = new List<AssetInfo>();
+            if (args.Length == 0)
             {
-                if(item == "Models")
-                {
+                args = new string[] { "Assets" };
+            }
+            
+            // ファイルの情報を読み込む
+            try
+            {
+                ReadFilesInfo(args[0], assets_info);
+            }catch(DirectoryNotFoundException)
+            {
+                Console.WriteLine("存在しないディレクトリです。");
+                return;
+            }
 
-                }
+            // オフセット値・実データを追加していく
 
+
+            // 結果を表示
+            foreach (var item in assets_info)
+            {
+                Console.WriteLine(item.Name + ":" + item.Size);
             }
         }
     }

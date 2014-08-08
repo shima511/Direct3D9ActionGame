@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FileArchiver
 {
-    struct FileInfo
+    struct AssetInfo
     {
         public string Name { get; set; }
-        public uint Size { get; set; }
+        public long Size { get; set; }
         public uint OffSet { get; set; }
     }
 }
