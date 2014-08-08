@@ -25,7 +25,7 @@ namespace SlimDxGame.AssetFactory
             return tex;
         }
 
-        static public Asset.Texture CreateFromMemory(int width, int height, byte[] buffer)
+        static public Asset.Texture CreateFromRawData(int width, int height, byte[] buffer)
         {
             var tex = new Asset.Texture();
             tex.Height = height;
@@ -37,5 +37,23 @@ namespace SlimDxGame.AssetFactory
             return tex;
         }
 
+        static public Asset.Texture CreateFromMemory(int width, int height, byte[] buffer)
+        {
+            var tex = new Asset.Texture();
+            try
+            {
+                tex.Resource = Texture.FromMemory(device, buffer);
+                var description = tex.Resource.GetSurfaceLevel(0).Description;
+                tex.Width = description.Width;
+                tex.Height = description.Height;
+            }
+            catch (Direct3D9Exception ex)
+            {
+                System.Diagnostics.Debug.Assert(false, ex.Message + "：テクスチャ生成時");
+                tex = null;
+            }
+            return tex;
+
+        }
     }
 }
