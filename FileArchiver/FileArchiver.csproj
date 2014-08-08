@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AssetInfo.cs" />
     <Compile Include="DataWriter.cs" />
+    <Compile Include="DataReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

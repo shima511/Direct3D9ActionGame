@@ -8,8 +8,9 @@ namespace FileArchiver
 {
     public struct AssetInfo
     {
+        public string FullName { get; set; }
         public string Name { get; set; }
-        public long Size { get; set; }
-        public uint OffSet { get; set; }
+        public int Size { get; set; }
+        public int OffSet { get; set; }
     }
 }

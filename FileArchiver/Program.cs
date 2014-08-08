@@ -12,6 +12,7 @@ namespace FileArchiver
         static void Main(string[] args)
         {
             DataWriter writer = new DataWriter();
+            DataReader reader = new DataReader();
             if (args.Length == 0)
             {
                 args = new string[] { "Assets", "Out.dat"};
@@ -26,6 +27,16 @@ namespace FileArchiver
             {
                 Console.WriteLine("ファイル作成に失敗しました。");
                 Console.WriteLine(ex.Message);
+            }
+            try
+            {
+                reader.Open(args[1]);
+                var info = reader.ReadFileInfo("S1.jpeg");
+                Console.WriteLine(info.Name + ":" + info.Size + ":" + info.OffSet);
+            }
+            catch
+            {
+                Console.WriteLine("ロード失敗");
             }
             System.Threading.Thread.Sleep(1000);
         }

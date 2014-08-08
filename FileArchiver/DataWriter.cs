@@ -12,7 +12,7 @@ namespace FileArchiver
         /// <summary>
         /// ヘッダサイズ
         /// </summary>
-        public uint HeaderSize { get; private set; }
+        public int HeaderSize { get; private set; }
         List<AssetInfo> assets_info = new List<AssetInfo>();
         List<byte> byte_array = new List<byte>();
 
@@ -29,8 +29,9 @@ namespace FileArchiver
                 FileInfo f = new FileInfo(item);
                 assets_info.Add(new AssetInfo()
                 {
-                    Name = Path.Combine(dir, f.Name),
-                    Size = f.Length,
+                    FullName = Path.Combine(dir, f.Name),
+                    Name = f.Name,
+                    Size = (int)f.Length,
                     OffSet = 0
                 });
             }
@@ -48,12 +49,12 @@ namespace FileArchiver
         void CountHeaderSize()
         {
             HeaderSize = 0;
-            HeaderSize += sizeof(uint);
+            HeaderSize += sizeof(int);
             foreach (var item in assets_info)
             {
-                HeaderSize += sizeof(long);
-                HeaderSize += sizeof(uint);
-                HeaderSize += (uint)System.Text.Encoding.Unicode.GetByteCount(item.Name);
+                HeaderSize += sizeof(int);
+                HeaderSize += sizeof(int);
+                HeaderSize += System.Text.Encoding.Unicode.GetByteCount(item.Name);
             }
         }
 
@@ -67,7 +68,7 @@ namespace FileArchiver
             {
                 var tmp = assets_info[i];
                 tmp.OffSet = tail;
-                tail += (uint)tmp.Size;
+                tail += tmp.Size;
                 assets_info[i] = tmp;
             }
         }
@@ -95,7 +96,7 @@ namespace FileArchiver
         {
             foreach (var item in assets_info)
             {
-                byte_array.AddRange(File.ReadAllBytes(item.Name));
+                byte_array.AddRange(File.ReadAllBytes(item.FullName));
             }
         }
 
