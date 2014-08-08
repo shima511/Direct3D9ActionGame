@@ -24,7 +24,8 @@ namespace FileArchiver
                 byte[] header_size = new byte[sizeof(int)];
                 fstream.Read(header_size, 0, sizeof(int));
                 header = new byte[BitConverter.ToUInt32(header_size, 0)];
-                fstream.Read(header, 0, BitConverter.ToInt32(header_size, 0) - 1);
+                fstream.Seek(0, SeekOrigin.Begin);
+                fstream.Read(header, 0, BitConverter.ToInt32(header_size, 0));
             }
         }
 
@@ -71,8 +72,10 @@ namespace FileArchiver
             }
 
             byte[] info_datas = new byte[System.Text.Encoding.Unicode.GetByteCount(filename) + sizeof(int) + sizeof(int)];
-
-            fstream.Read(info_datas, byte_index, info_datas.Length);
+            for (int i = 0; i < info_datas.Length; i++)
+            {
+                info_datas[i] = header[i + byte_index];
+            }
             info.Name = System.Text.Encoding.Unicode.GetString(info_datas, 0, System.Text.Encoding.Unicode.GetByteCount(filename));
             info.OffSet = BitConverter.ToInt32(info_datas, System.Text.Encoding.Unicode.GetByteCount(filename));
             info.Size = BitConverter.ToInt32(info_datas, System.Text.Encoding.Unicode.GetByteCount(filename) + sizeof(int));
@@ -89,6 +92,7 @@ namespace FileArchiver
         {
             var info = ReadFileInfo(name);
             byte[] ret_val = new byte[info.Size];
+            fstream.Seek(0, SeekOrigin.Begin);
             fstream.Read(ret_val, (int)info.OffSet, (int)info.Size);
             return ret_val;
         }

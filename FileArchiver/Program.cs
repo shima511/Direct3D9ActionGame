@@ -28,16 +28,6 @@ namespace FileArchiver
                 Console.WriteLine("ファイル作成に失敗しました。");
                 Console.WriteLine(ex.Message);
             }
-            try
-            {
-                reader.Open(args[1]);
-                var info = reader.ReadFileInfo("S1.jpeg");
-                Console.WriteLine(info.Name + ":" + info.Size + ":" + info.OffSet);
-            }
-            catch
-            {
-                Console.WriteLine("ロード失敗");
-            }
             System.Threading.Thread.Sleep(1000);
         }
     }
