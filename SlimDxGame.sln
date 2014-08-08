@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGame", "SlimDxGame\SlimDxGame.csproj", "{3DB42C09-2EE7-4159-BF24-694589A0541B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F6F20E7-4011-4F72-BF38-4B4458734DB0} = {1F6F20E7-4011-4F72-BF38-4B4458734DB0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGameTest", "SlimDxGameTest\SlimDxGameTest.csproj", "{B208A9CD-103D-484A-BEE5-1529895E65BB}"
 EndProject
