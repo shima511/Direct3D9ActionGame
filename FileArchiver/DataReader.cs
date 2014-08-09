@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FileArchiver
 {
-    class DataReader : IDisposable
+    public class DataReader : IDisposable
     {
         FileStream fstream;
         byte[] header;
@@ -92,8 +92,8 @@ namespace FileArchiver
         {
             var info = ReadFileInfo(name);
             byte[] ret_val = new byte[info.Size];
-            fstream.Seek(0, SeekOrigin.Begin);
-            fstream.Read(ret_val, (int)info.OffSet, (int)info.Size);
+            fstream.Seek(info.OffSet, SeekOrigin.Begin);
+            fstream.Read(ret_val, 0, (int)info.Size);
             return ret_val;
         }
 
