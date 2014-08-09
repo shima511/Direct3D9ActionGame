@@ -55,7 +55,7 @@ namespace SlimDxGame.Scene
 
                 // フェーダー用のテクスチャを生成
                 byte[] tex_info = { 255, 255, 255, 255 };
-                new_tex = AssetFactory.TextureFactory.CreateFromMemory(1, 1, tex_info);
+                new_tex = AssetFactory.TextureFactory.CreateFromRawData(1, 1, tex_info);
                 tex_container.Add("BlackTexture", new_tex);
             }
 

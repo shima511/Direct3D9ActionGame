@@ -37,7 +37,7 @@ namespace SlimDxGame.AssetFactory
             return tex;
         }
 
-        static public Asset.Texture CreateFromMemory(int width, int height, byte[] buffer)
+        static public Asset.Texture CreateFromMemory(byte[] buffer)
         {
             var tex = new Asset.Texture();
             try
