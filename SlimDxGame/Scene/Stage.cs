@@ -16,7 +16,7 @@ namespace SlimDxGame.Scene
         /// </summary>
         int level_id = 0;
         Status.Stage StageState;
-        BinaryParser.Reader stage_loader;
+        StageRW.Reader stage_loader;
         ReturnFrag ret_frag;
         Collision.Manager collision_manager;
         Object.CameraManager camera_manager;
@@ -27,7 +27,7 @@ namespace SlimDxGame.Scene
         Object.StateDrawer state_drawer;
         Object.Item.Factory item_factory;
         GameState<Stage> now_state = new LoadingState();
-        BinaryParser.Objects stage_objects = new BinaryParser.Objects();
+        StageRW.Objects stage_objects = new StageRW.Objects();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -100,7 +100,7 @@ namespace SlimDxGame.Scene
 
             private void CreateInstance(Stage parent)
             {
-                parent.stage_loader = new BinaryParser.Reader();
+                parent.stage_loader = new StageRW.Reader();
                 parent.collision_manager = new Collision.Manager();
                 parent.camera_manager = new Object.CameraManager();
                 parent.camera = new Object.Camera();

@@ -9,7 +9,7 @@ namespace LevelCreator.Object.ExProperty
 {
     public class Item : Object.Model
     {
-        public BinaryParser.Property.Item ItemInfo { get; set; }
+        public StageRW.Property.Item ItemInfo { get; set; }
 
         public override void Update()
         {

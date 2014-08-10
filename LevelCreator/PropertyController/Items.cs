@@ -85,7 +85,7 @@ namespace LevelCreator.PropertyController
             }
             Object.ExProperty.Item new_Item = new Object.ExProperty.Item()
             {
-                ItemInfo = new BinaryParser.Property.Item()
+                ItemInfo = new StageRW.Property.Item()
                 {
                     Position = new SlimDX.Vector2(),
                     TypeId = 0

@@ -84,7 +84,7 @@ namespace LevelCreator.PropertyController
             }
             Object.ExProperty.Enemy new_Enemy = new Object.ExProperty.Enemy()
             {
-                EnemyInfo = new BinaryParser.Property.Enemy()
+                EnemyInfo = new StageRW.Property.Enemy()
                 {
                     Position = new SlimDX.Vector2(),
                     TypeId = 0

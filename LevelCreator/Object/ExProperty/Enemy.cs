@@ -9,7 +9,7 @@ namespace LevelCreator.Object.ExProperty
 {
     public class Enemy : Object.Model
     {
-        public BinaryParser.Property.Enemy EnemyInfo { get; set; }
+        public StageRW.Property.Enemy EnemyInfo { get; set; }
 
         public override void Update()
         {

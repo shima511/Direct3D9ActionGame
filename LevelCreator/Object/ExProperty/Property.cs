@@ -25,7 +25,7 @@ namespace LevelCreator.Object.ExProperty
             StageInfo = new Object.ExProperty.Stage();
         }
 
-        public Property(BinaryParser.Objects objects)
+        public Property(StageRW.Objects objects)
         {
             Collisions = new List<Object.ExProperty.Collision>();
             Decolations = new List<Object.ExProperty.Decolation>();
@@ -69,16 +69,16 @@ namespace LevelCreator.Object.ExProperty
             }
         }
 
-        public BinaryParser.Objects ToStructObjects()
+        public StageRW.Objects ToStructObjects()
         {
-            BinaryParser.Objects new_obj = new BinaryParser.Objects()
+            StageRW.Objects new_obj = new StageRW.Objects()
             {
-                Collisions = new List<BinaryParser.Property.Collision>(),
-                Decolations = new List<BinaryParser.Property.Decolation>(),
-                Enemies = new List<BinaryParser.Property.Enemy>(),
-                Items = new List<BinaryParser.Property.Item>(),
-                Player = new BinaryParser.Property.Player(),
-                Stage = new BinaryParser.Property.Stage()
+                Collisions = new List<StageRW.Property.Collision>(),
+                Decolations = new List<StageRW.Property.Decolation>(),
+                Enemies = new List<StageRW.Property.Enemy>(),
+                Items = new List<StageRW.Property.Item>(),
+                Player = new StageRW.Property.Player(),
+                Stage = new StageRW.Property.Stage()
             };
 
             foreach (var item in Collisions)

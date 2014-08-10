@@ -101,7 +101,7 @@ namespace LevelCreator.PropertyController
             }
             Object.ExProperty.Decolation new_decolation = new Object.ExProperty.Decolation()
             {
-                DecolationInfo = new BinaryParser.Property.Decolation(){
+                DecolationInfo = new StageRW.Property.Decolation(){
                     Position = new SlimDX.Vector3(),
                     TypeId = 0
                 },

@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BinaryParserTest
+namespace StageRWTest
 {
     class Program
     {
-        static void AddData(ref BinaryParser.Objects objects)
+        static void AddData(ref StageRW.Objects objects)
         {
-            objects.Items = new List<BinaryParser.Property.Item>();
-            objects.Player = new BinaryParser.Property.Player();
-            objects.Stage = new BinaryParser.Property.Stage();
-            objects.Collisions = new List<BinaryParser.Property.Collision>();
-            objects.Decolations = new List<BinaryParser.Property.Decolation>();
-            objects.Enemies = new List<BinaryParser.Property.Enemy>();
+            objects.Items = new List<StageRW.Property.Item>();
+            objects.Player = new StageRW.Property.Player();
+            objects.Stage = new StageRW.Property.Stage();
+            objects.Collisions = new List<StageRW.Property.Collision>();
+            objects.Decolations = new List<StageRW.Property.Decolation>();
+            objects.Enemies = new List<StageRW.Property.Enemy>();
 
-            objects.Collisions.Add(new BinaryParser.Property.Collision()
+            objects.Collisions.Add(new StageRW.Property.Collision()
             {
                 StartingPoint = new SlimDX.Vector2(2.0f, 1.0f),
                 TerminatePoint = new SlimDX.Vector2(),
@@ -25,7 +25,7 @@ namespace BinaryParserTest
             });
         }
 
-        static void PrintData(ref BinaryParser.Objects objects)
+        static void PrintData(ref StageRW.Objects objects)
         {
             Console.WriteLine("プレイヤー位置：" + objects.Player.Position);
             Console.WriteLine("境界線:" + objects.Stage.LimitLine);
@@ -59,14 +59,14 @@ namespace BinaryParserTest
 
         static void Main(string[] args)
         {
-            BinaryParser.Writer writer = new BinaryParser.Writer();
-            BinaryParser.Objects objects = new BinaryParser.Objects();
+            StageRW.Writer writer = new StageRW.Writer();
+            StageRW.Objects objects = new StageRW.Objects();
 
             AddData(ref objects);
 
             writer.Write("out.dat", objects);
 
-            BinaryParser.Reader reader = new BinaryParser.Reader();
+            StageRW.Reader reader = new StageRW.Reader();
 
             reader.Read("out.dat", out objects);
 

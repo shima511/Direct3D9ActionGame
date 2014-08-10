@@ -187,9 +187,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BinaryParser\BinaryParser.csproj">
+    <ProjectReference Include="..\BinaryParser\StageRW.csproj">
       <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
-      <Name>BinaryParser</Name>
+      <Name>StageRW</Name>
     </ProjectReference>
     <ProjectReference Include="..\FileArchiver\FileArchiver.csproj">
       <Project>{1f6f20e7-4011-4f72-bf38-4b4458734db0}</Project>

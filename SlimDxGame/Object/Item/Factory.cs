@@ -14,7 +14,7 @@ namespace SlimDxGame.Object.Item
         public List<List<Component.IDrawableObject>> Layers { private get; set; }
         public Status.Stage StageStatus { private get; set; }
 
-        public void Create(BinaryParser.Property.Item obj, out IBase new_item)
+        public void Create(StageRW.Property.Item obj, out IBase new_item)
         {
             new_item = null;
             switch (obj.TypeId)

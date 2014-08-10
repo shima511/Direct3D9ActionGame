@@ -9,7 +9,7 @@ namespace LevelCreator.Object.ExProperty
 {
     public class Decolation : Object.Model
     {
-        public BinaryParser.Property.Decolation DecolationInfo { get; set; }
+        public StageRW.Property.Decolation DecolationInfo { get; set; }
 
         public override void Update()
         {

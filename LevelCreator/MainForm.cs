@@ -54,7 +54,7 @@ namespace LevelCreator
             StageObjects.PlayerInfo.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
             StageObjects.StageInfo = new Object.ExProperty.Stage()
             {
-                StageInfo = new BinaryParser.Property.Stage()
+                StageInfo = new StageRW.Property.Stage()
                 {
                     LimitLine = new Rectangle()
                     {
@@ -89,8 +89,8 @@ namespace LevelCreator
             {
                 if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    BinaryParser.Reader reader = new BinaryParser.Reader();
-                    BinaryParser.Objects stage_objects;
+                    StageRW.Reader reader = new StageRW.Reader();
+                    StageRW.Objects stage_objects;
                     reader.Read(diag.FileName, out stage_objects);
                     StageObjects = new Object.ExProperty.Property(stage_objects);
                     OnSetAssets();
@@ -201,7 +201,7 @@ namespace LevelCreator
 
         void SaveData()
         {
-            BinaryParser.Writer writer = new BinaryParser.Writer();
+            StageRW.Writer writer = new StageRW.Writer();
             writer.Write(current_filename, StageObjects.ToStructObjects());
         }
 

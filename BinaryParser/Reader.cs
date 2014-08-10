@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace BinaryParser
+namespace StageRW
 {
     public class Reader
     {

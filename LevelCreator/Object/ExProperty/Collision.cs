@@ -9,7 +9,7 @@ namespace LevelCreator.Object.ExProperty
 {
     public class Collision : Object.IBase
     {
-        public BinaryParser.Property.Collision CollisionInfo { get; set; }
+        public StageRW.Property.Collision CollisionInfo { get; set; }
         public Line Line { get; set; }
 
         public void Update()

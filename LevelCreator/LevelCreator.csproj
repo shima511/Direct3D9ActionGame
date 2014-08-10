@@ -111,9 +111,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BinaryParser\BinaryParser.csproj">
+    <ProjectReference Include="..\BinaryParser\StageRW.csproj">
       <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
-      <Name>BinaryParser</Name>
+      <Name>StageRW</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,7 @@ namespace SlimDxGame.Object
     {
         public Camera Camera { private get; set; }
         public Player Player { private get; set; }
-        public BinaryParser.Property.Stage StageInfo { private get; set; }
+        public StageRW.Property.Stage StageInfo { private get; set; }
         private const float MoveStrength = 0.1f;
         private const float Distance = 2.0f;
 

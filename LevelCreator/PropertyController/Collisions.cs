@@ -121,7 +121,7 @@ namespace LevelCreator.PropertyController
             }
             Object.ExProperty.Collision new_collision = new Object.ExProperty.Collision() 
             {
-                CollisionInfo = new BinaryParser.Property.Collision() 
+                CollisionInfo = new StageRW.Property.Collision() 
                 {
                     StartingPoint = new SlimDX.Vector2(-1.0f, 0.0f),
                     TerminatePoint = new SlimDX.Vector2(1.0f, 0.0f),

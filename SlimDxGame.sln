@@ -10,9 +10,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGame", "SlimDxGame\Sl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimDxGameTest", "SlimDxGameTest\SlimDxGameTest.csproj", "{B208A9CD-103D-484A-BEE5-1529895E65BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryParser", "BinaryParser\BinaryParser.csproj", "{A1B815EC-113D-4AEE-BC40-525C8DF73BAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StageRW", "BinaryParser\StageRW.csproj", "{A1B815EC-113D-4AEE-BC40-525C8DF73BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryParserTest", "BinaryParserTest\BinaryParserTest.csproj", "{557175DB-CDFF-49F6-8F08-E0C3FF57A95A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StageRWTest", "BinaryParserTest\StageRWTest.csproj", "{557175DB-CDFF-49F6-8F08-E0C3FF57A95A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelCreator", "LevelCreator\LevelCreator.csproj", "{BF212A3F-04E7-4F9D-9A43-5C3633299AB0}"
 EndProject

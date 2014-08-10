@@ -52,7 +52,7 @@ namespace SlimDxGame.Object.Ground
             CollisionLine.Draw3D(dev);
         }
 
-        public static Base CreateGround(BinaryParser.Property.Collision col)
+        public static Base CreateGround(StageRW.Property.Collision col)
         {
             Base new_collision = null;
             switch (col.TypeId)

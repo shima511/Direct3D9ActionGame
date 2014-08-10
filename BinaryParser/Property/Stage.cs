@@ -1,4 +1,4 @@
-﻿namespace BinaryParser.Property
+﻿namespace StageRW.Property
 {
     public struct Stage
     {

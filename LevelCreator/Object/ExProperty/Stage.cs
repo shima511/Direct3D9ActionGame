@@ -11,7 +11,7 @@ namespace LevelCreator.Object.ExProperty
     {
         public Asset.Model ModelAsset { private get; set; }
         List<Line> lines = new List<Line>();
-        public BinaryParser.Property.Stage StageInfo { get; set; }
+        public StageRW.Property.Stage StageInfo { get; set; }
 
         public Stage()
         {
