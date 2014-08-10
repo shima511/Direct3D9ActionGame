@@ -10,8 +10,8 @@ namespace BinaryParser
 {
     public class Reader
     {
-        BinaryReader reader;
-        int sum;
+        int sum = 0;
+        int tail = 0;
         
         /// <summary>
         /// 読み込んだデータが正しいデータである場合、trueを返します。
@@ -23,23 +23,22 @@ namespace BinaryParser
         /// </summary>
         public string ErrorMessage { get; private set; }
 
-        void ReadSum()
+        void ReadSum(byte[] data_array)
         {
-            byte[] bytes = reader.ReadBytes(sizeof(int));
-            sum = BitConverter.ToInt32(bytes, 0);
+            sum = GetValueFromByteInt32(data_array, ref tail);
         }
 
-        void SetCapacity(ref Objects objects)
+        void SetCapacity(byte[] data_array, ref Objects objects)
         {
             objects.Collisions = new List<Property.Collision>();
             objects.Items = new List<Property.Item>();
             objects.Decolations = new List<Property.Decolation>();
             objects.Enemies = new List<Property.Enemy>();
-            byte[] bytes = reader.ReadBytes(sizeof(int) * 4);
-            objects.Collisions.Capacity = BitConverter.ToInt32(bytes, 0);
-            objects.Items.Capacity = BitConverter.ToInt32(bytes, sizeof(int));
-            objects.Decolations.Capacity = BitConverter.ToInt32(bytes, sizeof(int) * 2);
-            objects.Enemies.Capacity = BitConverter.ToInt32(bytes, sizeof(int) * 3);
+
+            objects.Collisions.Capacity = GetValueFromByteInt32(data_array, ref tail);
+            objects.Items.Capacity = GetValueFromByteInt32(data_array, ref tail);
+            objects.Decolations.Capacity = GetValueFromByteInt32(data_array, ref tail);
+            objects.Enemies.Capacity = GetValueFromByteInt32(data_array, ref tail);
         }
 
         void CheckSumData(ref Objects objects)
@@ -50,23 +49,21 @@ namespace BinaryParser
             }
         }
 
-        void ReadPlayerData(ref Objects objects)
+        void ReadPlayerData(byte[] data_array, ref Objects objects)
         {
             var player = new Property.Player();
-            byte[] bytes = reader.ReadBytes(Marshal.SizeOf(player));
-            player.Position = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
+            player.Position = new SlimDX.Vector2(GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail));
             objects.Player = player;
         }
 
-        void ReadStageData(ref Objects objects)
+        void ReadStageData(byte[] data_array, ref Objects objects)
         {
             var stage = new Property.Stage();
-            byte[] bytes = reader.ReadBytes(Marshal.SizeOf(stage));
-            int top = BitConverter.ToInt32(bytes, 0);
-            int right = BitConverter.ToInt32(bytes, sizeof(int));
-            int bottom = BitConverter.ToInt32(bytes, sizeof(int) * 2);
-            int left = BitConverter.ToInt32(bytes, sizeof(int) * 3);
-            int limit_time = BitConverter.ToInt32(bytes, sizeof(int) * 4);
+            int top = GetValueFromByteInt32(data_array, ref tail);
+            int right = GetValueFromByteInt32(data_array, ref tail);
+            int bottom = GetValueFromByteInt32(data_array, ref tail);
+            int left = GetValueFromByteInt32(data_array, ref tail);
+            int limit_time = GetValueFromByteInt32(data_array, ref tail);
             stage.LimitLine = new System.Drawing.Rectangle() { 
                 X = left,
                 Y = top,
@@ -77,78 +74,119 @@ namespace BinaryParser
             objects.Stage = stage;
         }
 
-        void ReadCollisionsData(ref Objects objects)
+        void ReadCollisionsData(byte[] data_array, ref Objects objects)
         {
             for (int i = 0; i < objects.Collisions.Capacity; i++)
             {
                 var new_collision = new Property.Collision();
-                byte[] bytes = reader.ReadBytes(Marshal.SizeOf(new_collision));
-                new_collision.StartingPoint = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
-                new_collision.TerminatePoint = new SlimDX.Vector2(BitConverter.ToSingle(bytes, sizeof(float) * 2), BitConverter.ToSingle(bytes, sizeof(float) * 3));
-                new_collision.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 4);
+                new_collision.StartingPoint = new SlimDX.Vector2(GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail));
+                new_collision.TerminatePoint = new SlimDX.Vector2(GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail));
+                new_collision.TypeId = GetValueFromByteInt32(data_array, ref tail);
                 objects.Collisions.Add(new_collision);
             }
         }
 
-        void ReadItemsData(ref Objects objects)
+        void ReadItemsData(byte[] data_array, ref Objects objects)
         {
             for (int i = 0; i < objects.Items.Capacity; i++)
             {
                 var new_item = new Property.Item();
-                byte[] bytes = reader.ReadBytes(Marshal.SizeOf(new_item));
-                new_item.Position = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
-                new_item.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 2);
+                new_item.Position = new SlimDX.Vector2(GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail));
+                new_item.TypeId = GetValueFromByteInt32(data_array, ref tail);
                 objects.Items.Add(new_item);
             }
         }
 
-        void ReadDecolationsData(ref Objects objects)
+        void ReadDecolationsData(byte[] data_array, ref Objects objects)
         {
             for (int i = 0; i < objects.Decolations.Capacity; i++)
             {
                 var new_item = new Property.Decolation();
-                byte[] bytes = reader.ReadBytes(Marshal.SizeOf(new_item));
-
-                new_item.Position = new SlimDX.Vector3(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)), BitConverter.ToSingle(bytes, sizeof(float) * 2));
-                new_item.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 3);
+                new_item.Position = new SlimDX.Vector3(GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail));
+                new_item.TypeId = GetValueFromByteInt32(data_array, ref tail);
                 objects.Decolations.Add(new_item);
             }
         }
 
-        void ReadEnemiesData(ref Objects objects)
+        void ReadEnemiesData(byte[] data_array, ref Objects objects)
         {
             for (int i = 0; i < objects.Enemies.Capacity; i++)
             {
                 var new_item = new Property.Enemy();
-                byte[] bytes = reader.ReadBytes(Marshal.SizeOf(new_item));
-                new_item.Position = new SlimDX.Vector2(BitConverter.ToSingle(bytes, 0), BitConverter.ToSingle(bytes, sizeof(float)));
-                new_item.TypeId = BitConverter.ToInt32(bytes, sizeof(float) * 2);
+                new_item.Position = new SlimDX.Vector2(GetValueFromByteFloat(data_array, ref tail), GetValueFromByteFloat(data_array, ref tail));
+                new_item.TypeId = GetValueFromByteInt32(data_array, ref tail);
                 objects.Enemies.Add(new_item);
             }
         }
 
+        /// <summary>
+        /// ファイルからステージデータを読み込みます
+        /// </summary>
+        /// <param name="filename">ファイル名</param>
+        /// <param name="objects">ステージオブジェクトの情報</param>
         public void Read(string filename, out Objects objects)
         {
             objects = new Objects();
-            using (reader = new BinaryReader(File.OpenRead(filename)))
+            byte[] data_array = File.ReadAllBytes(filename);
+            try
             {
-                try
-                {
-                    ReadSum();
-                    SetCapacity(ref objects);
-                    CheckSumData(ref objects);
-                    ReadPlayerData(ref objects);
-                    ReadStageData(ref objects);
-                    ReadCollisionsData(ref objects);
-                    ReadItemsData(ref objects);
-                    ReadDecolationsData(ref objects);
-                    ReadEnemiesData(ref objects);
-                    Valid = true;
-                }catch(SystemException ex)
-                {
-                    Valid = false;
-                    ErrorMessage = ex.Message;
-                }
+                ReadSum(data_array);
+                SetCapacity(data_array, ref objects);
+                CheckSumData(ref objects);
+                ReadPlayerData(data_array, ref objects);
+                ReadStageData(data_array, ref objects);
+                ReadCollisionsData(data_array, ref objects);
+                ReadItemsData(data_array, ref objects);
+                ReadDecolationsData(data_array, ref objects);
+                ReadEnemiesData(data_array, ref objects);
+                Valid = true;
+            }catch(SystemException ex)
+            {
+                Valid = false;
+                ErrorMessage = ex.Message;
+            }
+
+        }
+
+        int GetValueFromByteInt32(byte[] byte_array, ref int tail_index)
+        {
+            int ret_val = BitConverter.ToInt32(byte_array, tail_index);
+            tail_index += sizeof(int);
+            return ret_val;
+        }
+
+        float GetValueFromByteFloat(byte[] byte_array, ref int tail_index)
+        {
+            float ret_val = BitConverter.ToSingle(byte_array, tail_index);
+            tail_index += sizeof(float);
+            return ret_val;
+        }
+
+        /// <summary>
+        /// バイナリデータからステージデータを読み込みます
+        /// </summary>
+        /// <param name="byte_data">バイナリのデータ配列</param>
+        /// <param name="objects">ステージオブジェクトの情報</param>
+        public void Read(byte[] data_array, out Objects objects)
+        {
+            objects = new Objects();
+            try
+            {
+                ReadSum(data_array);
+                SetCapacity(data_array, ref objects);
+                CheckSumData(ref objects);
+                ReadPlayerData(data_array, ref objects);
+                ReadStageData(data_array, ref objects);
+                ReadCollisionsData(data_array, ref objects);
+                ReadItemsData(data_array, ref objects);
+                ReadDecolationsData(data_array, ref objects);
+                ReadEnemiesData(data_array, ref objects);
+                Valid = true;
+            }
+            catch (SystemException ex)
+            {
+                Valid = false;
+                ErrorMessage = ex.Message;
             }
         }
     }
