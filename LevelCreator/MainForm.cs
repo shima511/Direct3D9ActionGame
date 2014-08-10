@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace LevelCreator
 {
-    public partial class LevelCreator : Form
+    public partial class MainForm : Form
     {
         PropertyForm propertyForm = new PropertyForm();
         List<Object.IBase> objects = new List<Object.IBase>();
@@ -23,7 +23,7 @@ namespace LevelCreator
         Object.ExProperty.Property _stage_objects = new Object.ExProperty.Property(); 
         public Object.ExProperty.Property StageObjects { get { return _stage_objects; } set { _stage_objects = value; } }
 
-        public LevelCreator()
+        public MainForm()
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

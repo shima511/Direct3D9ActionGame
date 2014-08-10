@@ -16,7 +16,7 @@ namespace LevelCreator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LevelCreator());
+            Application.Run(new MainForm());
         }
     }
 }

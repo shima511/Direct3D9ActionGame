@@ -1,6 +1,6 @@
 ﻿namespace LevelCreator
 {
-    partial class LevelCreator
+    partial class MainForm
     {
         /// <summary>
         /// 必要なデザイナー変数です。

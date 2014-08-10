@@ -22,7 +22,7 @@ namespace LevelCreator
 
         protected override void OnShown(EventArgs e)
         {
-            LevelCreator form = this.Owner as LevelCreator;
+            MainForm form = this.Owner as MainForm;
             form.CurrentController = new PropertyController.Collisions()
             {
                 CollisionList = form.StageObjects.Collisions,
@@ -48,7 +48,7 @@ namespace LevelCreator
 
         void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LevelCreator form = this.Owner as LevelCreator;
+            MainForm form = this.Owner as MainForm;
             form.CurrentController.Clean();
             switch (this.tabControl.SelectedIndex)
             {
