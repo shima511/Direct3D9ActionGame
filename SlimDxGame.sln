@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelCreator", "LevelCreato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileArchiver", "FileArchiver\FileArchiver.csproj", "{1F6F20E7-4011-4F72-BF38-4B4458734DB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRW", "ScriptRW\ScriptRW.csproj", "{EA66BE21-237D-4916-A7EF-CC30C215A351}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{1F6F20E7-4011-4F72-BF38-4B4458734DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F6F20E7-4011-4F72-BF38-4B4458734DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F6F20E7-4011-4F72-BF38-4B4458734DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA66BE21-237D-4916-A7EF-CC30C215A351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA66BE21-237D-4916-A7EF-CC30C215A351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA66BE21-237D-4916-A7EF-CC30C215A351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA66BE21-237D-4916-A7EF-CC30C215A351}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
