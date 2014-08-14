@@ -195,6 +195,10 @@
       <Project>{1f6f20e7-4011-4f72-bf38-4b4458734db0}</Project>
       <Name>FileArchiver</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScriptRW\ScriptRW.csproj">
+      <Project>{ea66be21-237d-4916-a7ef-cc30c215a351}</Project>
+      <Name>ScriptRW</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Object\Enemy\" />

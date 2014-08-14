@@ -115,6 +115,10 @@
       <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
       <Name>StageRW</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScriptRW\ScriptRW.csproj">
+      <Project>{ea66be21-237d-4916-a7ef-cc30c215a351}</Project>
+      <Name>ScriptRW</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
