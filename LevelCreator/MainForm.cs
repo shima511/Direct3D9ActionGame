@@ -22,12 +22,33 @@ namespace LevelCreator
         public StageObjectController CurrentController { get; set; }
         Object.ExProperty.Property _stage_objects = new Object.ExProperty.Property(); 
         public Object.ExProperty.Property StageObjects { get { return _stage_objects; } set { _stage_objects = value; } }
+        public ScriptRW.Properties ObjectMaps { get; private set; }
 
         public MainForm()
         {
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Text = "無題";
+        }
+
+        void LoadModelsFromPropertyList(List<ScriptRW.ObjectProperty> list)
+        {
+            foreach (var item in list)
+            {
+                ModelFactory.CreateFromFile(item.AssetPath, item.Name);
+            }
+        }
+
+        void LoadObjectMaps()
+        {
+            ScriptRW.Reader reader = new ScriptRW.Reader();
+            ScriptRW.Properties properties;
+            reader.Read(out properties, "obj_list.txt");
+            ObjectMaps = properties;
+
+            LoadModelsFromPropertyList(properties.Decolations);
+            LoadModelsFromPropertyList(properties.Items);
+            LoadModelsFromPropertyList(properties.Enemies);
         }
 
         void OnSetAssets()
@@ -44,33 +65,46 @@ namespace LevelCreator
 
         protected override void OnShown(EventArgs e)
         {
-            graphic_device = new GraphicDevice(this);
-            graphic_device.Initialize();
-
-            ModelFactory = new Asset.Factory.ModelFactory(graphic_device.D3DDevice);
-            propertyForm.Owner = this;
-            propertyForm.Show();
-
-            StageObjects.PlayerInfo.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
-            StageObjects.StageInfo = new Object.ExProperty.Stage()
+            try
             {
-                StageInfo = new StageRW.Property.Stage()
+                graphic_device = new GraphicDevice(this);
+                graphic_device.Initialize();
+
+                ModelFactory = new Asset.Factory.ModelFactory(graphic_device.D3DDevice);
+                propertyForm.Owner = this;
+                propertyForm.Show();
+
+                StageObjects.PlayerInfo.PlayerInfo = StageObjects.PlayerInfo.PlayerInfo;
+                StageObjects.StageInfo = new Object.ExProperty.Stage()
                 {
-                    LimitLine = new Rectangle()
+                    StageInfo = new StageRW.Property.Stage()
                     {
-                        X = -6, Y = 5, Width = 12, Height = -10
-                    },
-                    LimitTime = 100
-                }
-            };
+                        LimitLine = new Rectangle()
+                        {
+                            X = -6,
+                            Y = 5,
+                            Width = 12,
+                            Height = -10
+                        },
+                        LimitTime = 100
+                    }
+                };
 
-            camera = new Object.Camera(this);
-            objects.Add(camera);
-            objects.Add(StageObjects.PlayerInfo);
-            objects.Add(StageObjects.StageInfo);
+                camera = new Object.Camera(this);
+                objects.Add(camera);
+                objects.Add(StageObjects.PlayerInfo);
+                objects.Add(StageObjects.StageInfo);
 
-            OnSetAssets();
-            base.OnShown(e);
+                OnSetAssets();
+                LoadObjectMaps();
+            }catch(SlimDX.Direct3D9.Direct3D9Exception ex){
+                MessageBox.Show("DirectXの初期化に失敗しました。\n" + ex.Message);
+            }catch(System.IO.IOException ex){
+                MessageBox.Show("読み込みエラーです。\n" + ex.Message);
+            }
+            finally{
+                base.OnShown(e);
+            }
         }
 
         private void EditToolStripMenuItem_Click(object sender, EventArgs e)
