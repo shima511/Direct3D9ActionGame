@@ -259,11 +259,9 @@
             // 
             // ItemType
             // 
+            this.ItemType.AllowDrop = true;
             this.ItemType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ItemType.FormattingEnabled = true;
-            this.ItemType.Items.AddRange(new object[] {
-            "Coin",
-            "Portion"});
             this.ItemType.Location = new System.Drawing.Point(11, 78);
             this.ItemType.Name = "ItemType";
             this.ItemType.Size = new System.Drawing.Size(121, 20);
@@ -344,8 +342,6 @@
             // 
             this.DecolationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DecolationType.FormattingEnabled = true;
-            this.DecolationType.Items.AddRange(new object[] {
-            "Pole"});
             this.DecolationType.Location = new System.Drawing.Point(11, 78);
             this.DecolationType.Name = "DecolationType";
             this.DecolationType.Size = new System.Drawing.Size(121, 20);
@@ -441,9 +437,6 @@
             // 
             this.EnemyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.EnemyType.FormattingEnabled = true;
-            this.EnemyType.Items.AddRange(new object[] {
-            "Coin",
-            "Portion"});
             this.EnemyType.Location = new System.Drawing.Point(11, 78);
             this.EnemyType.Name = "EnemyType";
             this.EnemyType.Size = new System.Drawing.Size(121, 20);

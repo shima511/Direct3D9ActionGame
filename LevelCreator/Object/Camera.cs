@@ -20,6 +20,7 @@ namespace LevelCreator.Object
         public Vector3 EyePosition { get { return _eye_position; } set { _eye_position = value; } }
         public Vector3 AtPosition { get { return _at_position; } set { _at_position = value; } }
         public Vector3 UpDirection { get { return _up_direction; } set { _up_direction = value; } }
+        double rad = - Math.PI / 2;
 
         public Camera(Form f)
         {
@@ -62,8 +63,19 @@ namespace LevelCreator.Object
             }
             else
             {
+                var r = Math.Sqrt(Math.Pow(_at_position.Z - _eye_position.Z, 2) + Math.Pow(_at_position.X - _eye_position.X, 2));
                 switch (e.KeyCode)
                 {
+                    case Keys.Left:
+                        rad -= 0.02;
+                        _eye_position.Z = _at_position.Z + (float)(r * Math.Sin(rad));
+                        _eye_position.X = _at_position.X + (float)(r * Math.Cos(rad));
+                        break;
+                    case Keys.Right:
+                        rad += 0.02;
+                        _eye_position.Z = _at_position.Z + (float)(r * Math.Sin(rad));
+                        _eye_position.X = _at_position.X + (float)(r * Math.Cos(rad));
+                        break;
                     case Keys.Up:
                         _eye_position.Z += MoveDistance * strength;
                         _at_position.Z += MoveDistance * strength;
