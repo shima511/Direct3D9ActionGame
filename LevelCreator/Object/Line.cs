@@ -24,16 +24,17 @@ namespace LevelCreator.Object
             _rotation.Z = (float)Math.Atan2(diff_y, diff_x);
             if (Selected)
             {
-                var mat_list = ModelAsset.Materials;
-                mat_list[0] = new SlimDX.Direct3D9.ExtendedMaterial()
+                for (int i = 0; i < this.ModelAsset.Materials.Count; i++)
                 {
-                    MaterialD3D = new SlimDX.Direct3D9.Material()
+                    ModelAsset.Materials[i] = new SlimDX.Direct3D9.ExtendedMaterial()
                     {
-                        Diffuse = new Color4(System.Drawing.Color.Red),
-                        Emissive = new Color4(System.Drawing.Color.Red)
-                    }                    
-                };
-                ModelAsset.Materials = mat_list;
+                        MaterialD3D = new SlimDX.Direct3D9.Material()
+                        {
+                            Diffuse = new SlimDX.Color4(System.Drawing.Color.Red),
+                            Emissive = new SlimDX.Color4(System.Drawing.Color.Red)
+                        }
+                    };
+                }
             }
             else
             {

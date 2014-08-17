@@ -17,14 +17,17 @@ namespace LevelCreator.Object.ExProperty
             _position.Y = ItemInfo.Position.Y;
             if (Selected)
             {
-                this.ModelAsset.Materials[0] = new SlimDX.Direct3D9.ExtendedMaterial()
+                for (int i = 0; i < ModelAsset.Materials.Count; i++)
                 {
-                    MaterialD3D = new SlimDX.Direct3D9.Material()
+                    ModelAsset.Materials[i] = new SlimDX.Direct3D9.ExtendedMaterial() 
                     {
-                        Diffuse = new SlimDX.Color4(System.Drawing.Color.HotPink),
-                        Emissive = new SlimDX.Color4(System.Drawing.Color.HotPink)
-                    }
-                };
+                        MaterialD3D = new SlimDX.Direct3D9.Material()
+                        {
+                            Diffuse = System.Drawing.Color.HotPink,
+                            Emissive = System.Drawing.Color.HotPink
+                        }
+                    };
+                }
             }
             else
             {

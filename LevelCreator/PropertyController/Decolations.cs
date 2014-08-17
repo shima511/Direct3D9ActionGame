@@ -34,6 +34,7 @@ namespace LevelCreator.PropertyController
             PositionZAxis.LostFocus -= PositionZAxis_LostFocus;
             PositionZAxis.LostFocus -= GrobalLostFocusEvent;
             TypeId.SelectedIndexChanged -= TypeId_SelectedIndexChanged;
+            TypeId.SelectedIndexChanged -= GrobalLostFocusEvent;
         }
 
         public override void Initialize()
@@ -45,6 +46,7 @@ namespace LevelCreator.PropertyController
             PositionZAxis.LostFocus += PositionZAxis_LostFocus;
             PositionZAxis.LostFocus += GrobalLostFocusEvent;
             TypeId.SelectedIndexChanged += TypeId_SelectedIndexChanged;
+            TypeId.SelectedIndexChanged += GrobalLostFocusEvent;
         }
 
         void TypeId_SelectedIndexChanged(object sender, EventArgs e)
@@ -54,6 +56,7 @@ namespace LevelCreator.PropertyController
                 var dec = DecolationList[CurrentIndex].DecolationInfo;
                 dec.TypeId = TypeId.SelectedIndex;
                 DecolationList[CurrentIndex].DecolationInfo = dec;
+                DecolationList[CurrentIndex].ModelAsset = ModelFactory.FindModel(TypeId.Text);
             }
         }
 

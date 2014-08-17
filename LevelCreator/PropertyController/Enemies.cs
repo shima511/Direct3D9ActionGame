@@ -31,6 +31,7 @@ namespace LevelCreator.PropertyController
             PositionYAxis.LostFocus -= PositionYAxis_LostFocus;
             PositionYAxis.LostFocus -= GrobalLostFocusEvent;
             TypeId.SelectedIndexChanged -= TypeId_SelectedIndexChanged;
+            TypeId.SelectedIndexChanged -= GrobalLostFocusEvent;
         }
 
         public override void Initialize()
@@ -40,15 +41,17 @@ namespace LevelCreator.PropertyController
             PositionYAxis.LostFocus += PositionYAxis_LostFocus;
             PositionYAxis.LostFocus += GrobalLostFocusEvent;
             TypeId.SelectedIndexChanged += TypeId_SelectedIndexChanged;
+            TypeId.SelectedIndexChanged += GrobalLostFocusEvent;
         }
 
         void TypeId_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (EnemyList.Count != 0)
             {
-                var dec = EnemyList[CurrentIndex].EnemyInfo;
-                dec.TypeId = TypeId.SelectedIndex;
-                EnemyList[CurrentIndex].EnemyInfo = dec;
+                var enemy = EnemyList[CurrentIndex].EnemyInfo;
+                enemy.TypeId = TypeId.SelectedIndex;
+                EnemyList[CurrentIndex].EnemyInfo = enemy;
+                EnemyList[CurrentIndex].ModelAsset = ModelFactory.FindModel(TypeId.Text);
             }
         }
 

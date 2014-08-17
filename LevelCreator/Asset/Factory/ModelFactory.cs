@@ -86,14 +86,15 @@ namespace LevelCreator.Asset.Factory
                     var tex_filename = new_model.Materials[i].TextureFileName;
                     if (!string.IsNullOrEmpty(tex_filename))
                     {
-                        var tex_path = Path.Combine(baseDir, Path.Combine("models", tex_filename));
+                        var tex_path = Path.Combine(baseDir, tex_filename);
                         new_model.Textures.Add(SlimDX.Direct3D9.Texture.FromFile(D3DDevice, tex_path));
                     }
                 }
                 models.Add(name, new_model);
             }
-            catch (SlimDX.Direct3D9.Direct3D9Exception)
+            catch (SlimDX.Direct3D9.Direct3D9Exception ex)
             {
+                MessageBox.Show(ex.Message, "モデル読み込みエラー", MessageBoxButtons.OK);
                 new_model = null;
             }
         }
