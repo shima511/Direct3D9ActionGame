@@ -560,13 +560,19 @@ namespace SlimDxGame.Object
 
         }
 
-        public void ControllerAction(SlimDxGame.Controller controller)
+        [System.Diagnostics.Conditional("DEBUG")]
+        void ActionForDebug(SlimDxGame.Controller controller)
         {
-            now_state.ControllerAction(this, controller, ref now_state);
-            if (controller.SelectButton.IsPressed())
+            if (controller.DButton.IsPressed() && controller.UpButton.IsBeingPressed())
             {
                 _position = new Vector3();
             }
+        }
+
+        public void ControllerAction(SlimDxGame.Controller controller)
+        {
+            now_state.ControllerAction(this, controller, ref now_state);
+            ActionForDebug(controller);
         }
     }
 }
