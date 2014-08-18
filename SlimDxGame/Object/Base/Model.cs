@@ -32,6 +32,10 @@ namespace SlimDxGame.Object.Base
             for (int i = 0; i < ModelAsset.Materials.Count; i++)
             {
                 dev.Material = ModelAsset.Materials[i].MaterialD3D;
+                if (ModelAsset.Textures.Count == 0)
+                {
+                    dev.SetTexture(0, null);
+                }
                 if (i < ModelAsset.Textures.Count)
                 {
                     dev.SetTexture(0, ModelAsset.Textures[i]);
