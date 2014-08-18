@@ -28,6 +28,7 @@ namespace SlimDxGame.Scene
         Object.Item.Factory item_factory;
         GameState<Stage> now_state = new LoadingState();
         StageRW.Objects stage_objects = new StageRW.Objects();
+        Effect.AmbientLight light = new Effect.AmbientLight();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -79,6 +80,9 @@ namespace SlimDxGame.Scene
 
                 new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "Floor.x")));
                 model_container.Add("NormalFloor", new_model);
+
+                new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "coins.x")));
+                model_container.Add("Coins", new_model);
             }
 
             void LoadStage(GameRootObjects root, Stage parent)
@@ -110,7 +114,7 @@ namespace SlimDxGame.Scene
                 parent.item_factory = new Object.Item.Factory();
             }
 
-            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 if (!thread_created)
                 {
@@ -156,6 +160,11 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.camera_manager);
             }
 
+            void InitLightEffect(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.Layers[0].Add(parent.light);
+            }
+
             private void InitInputManager( GameRootObjects root_objects,  Stage parent)
             {
                 root_objects.InputManager.Add(parent.controller);
@@ -169,7 +178,7 @@ namespace SlimDxGame.Scene
                 var p_pos = parent.stage_objects.Player.Position;
                 parent.player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
                 root_objects.UpdateList.Add(parent.player);
-                root_objects.Layers[0].Add(parent.player);
+                root_objects.Layers[1].Add(parent.player);
             }
 
             private void InitDecoration(GameRootObjects root_objects, Stage parent)
@@ -182,7 +191,7 @@ namespace SlimDxGame.Scene
             [System.Diagnostics.Conditional("DEBUG")]
             void AddCollisionsToDrawList(GameRootObjects root_objects, Stage parent)
             {
-                root_objects.Layers[0].Add(parent.collision_manager);
+                root_objects.Layers[1].Add(parent.collision_manager);
             }
 
             private void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
@@ -207,7 +216,7 @@ namespace SlimDxGame.Scene
                 root_objects.FontContainer.TryGetValue("Arial", out font);
                 parent.state_drawer.Font = font;
                 root_objects.UpdateList.Add(parent.state_drawer);
-                root_objects.Layers[0].Add(parent.state_drawer);
+                root_objects.Layers[1].Add(parent.state_drawer);
             }
 
             void InitItem(GameRootObjects root_objects, Stage parent)
@@ -218,23 +227,39 @@ namespace SlimDxGame.Scene
                 parent.item_factory.CollisionManager = parent.collision_manager;
                 parent.item_factory.StageStatus = parent.StageState;
 
+                Asset.Model new_model;
+                root_objects.ModelContainer.TryGetValue("Coins", out new_model);
+
+                Object.Item.IBase new_item = new Object.Item.Coin()
+                {
+                    StageState = parent.StageState,
+                    ModelAsset = new_model
+                };
+                parent.collision_manager.Add(new_item);
+                root_objects.UpdateList.Add(new_item);
+                root_objects.Layers[1].Add(new_item);
+
+                /*
                 foreach (var item in parent.stage_objects.Items)
                 {
                     Object.Item.IBase new_item;
                     parent.item_factory.Create(item, out new_item);
                     parent.collision_manager.Add(new_item);
                     root_objects.UpdateList.Add(new_item);
-                    root_objects.Layers[0].Add(new_item);
+                    root_objects.Layers[1].Add(new_item);
                 }
+                 * */
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
-                InitCamera( root_objects,  parent);
+                InitCamera(root_objects,  parent);
 
-                InitInputManager( root_objects,  parent);
+                InitLightEffect(root_objects, parent);
 
-                InitPlayer( root_objects,  parent);
+                InitInputManager(root_objects,  parent);
+
+                InitPlayer(root_objects,  parent);
 
                 InitDecoration(root_objects, parent);
 
