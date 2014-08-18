@@ -94,6 +94,7 @@
     <Compile Include="Asset\Texture.cs" />
     <Compile Include="Collision\Shape.cs" />
     <Compile Include="CommonMatrix.cs" />
+    <Compile Include="Effect\AmbientLight.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Object\Base\Model.cs" />
     <Compile Include="Object\CameraManager.cs" />
