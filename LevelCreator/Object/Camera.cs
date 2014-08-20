@@ -99,7 +99,7 @@ namespace LevelCreator.Object
         public void Draw(SlimDX.Direct3D9.Device dev)
         {
             var view_mat = Matrix.LookAtLH(EyePosition, AtPosition, UpDirection);
-            var proj_mat = Matrix.PerspectiveFovLH(_range, (float)form.Width / form.Height, 5.0f, 30.0f);
+            var proj_mat = Matrix.PerspectiveFovLH(_range, (float)form.Width / form.Height, 5.0f, 100.0f);
             dev.SetTransform(TransformState.View, view_mat);
             dev.SetTransform(TransformState.Projection, proj_mat);
         }

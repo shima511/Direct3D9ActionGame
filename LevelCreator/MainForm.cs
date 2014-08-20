@@ -169,6 +169,10 @@ namespace LevelCreator
             {
                 graphic_device.D3DDevice.Clear(SlimDX.Direct3D9.ClearFlags.Target | SlimDX.Direct3D9.ClearFlags.ZBuffer, System.Drawing.Color.DarkBlue, 1.0f, 0);
                 graphic_device.D3DDevice.BeginScene();
+                graphic_device.D3DDevice.EnableLight(0, true);
+
+                graphic_device.D3DDevice.SetRenderState(SlimDX.Direct3D9.RenderState.Lighting, true);
+                graphic_device.D3DDevice.SetRenderState(SlimDX.Direct3D9.RenderState.Ambient, System.Drawing.Color.White.ToArgb());
 
                 foreach (var item in objects)
                 {
