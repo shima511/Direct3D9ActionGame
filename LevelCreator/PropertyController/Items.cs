@@ -10,8 +10,8 @@ namespace LevelCreator.PropertyController
     class Items : StageObjectController
     {
         public List<Object.ExProperty.Item> ItemList { get; set; }
-        public MaskedTextBox PositionXAxis { private get; set; }
-        public MaskedTextBox PositionYAxis { private get; set; }
+        public TextBox PositionXAxis { private get; set; }
+        public TextBox PositionYAxis { private get; set; }
         public ComboBox TypeId { private get; set; }
         public override int CurrentSize
         {
@@ -62,7 +62,8 @@ namespace LevelCreator.PropertyController
             {
                 var dec = ItemList[CurrentIndex].ItemInfo;
                 var pos = dec.Position;
-                pos.Y = MaskedTextParser.ToSingle(PositionYAxis.Text);
+                pos.Y = TextBoxParser.ToSingle(PositionYAxis.Text);
+                PositionYAxis.Text = pos.Y.ToString();
                 dec.Position = pos;
                 ItemList[CurrentIndex].ItemInfo = dec;
             }
@@ -74,7 +75,8 @@ namespace LevelCreator.PropertyController
             {
                 var dec = ItemList[CurrentIndex].ItemInfo;
                 var pos = dec.Position;
-                pos.X = MaskedTextParser.ToSingle(PositionXAxis.Text);
+                pos.X = TextBoxParser.ToSingle(PositionXAxis.Text);
+                PositionYAxis.Text = pos.X.ToString();
                 dec.Position = pos;
                 ItemList[CurrentIndex].ItemInfo = dec;
             }

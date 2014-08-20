@@ -46,7 +46,7 @@ namespace LevelCreator.PropertyController
         void LimitTime_LostFocus(object sender, EventArgs e)
         {
             var info = StageInfo.StageInfo;
-            info.LimitTime = MaskedTextParser.ToInt32(LimitTime.Text);
+            info.LimitTime = TextBoxParser.ToInt32(LimitTime.Text);
             StageInfo.StageInfo = info;
         }
 
@@ -54,7 +54,7 @@ namespace LevelCreator.PropertyController
         {
             var info = StageInfo.StageInfo;
             var line = info.LimitLine;
-            line.Height = -MaskedTextParser.ToInt32(LimitLineTop.Text) + MaskedTextParser.ToInt32(LimitLineBottom.Text);
+            line.Height = -TextBoxParser.ToInt32(LimitLineTop.Text) + TextBoxParser.ToInt32(LimitLineBottom.Text);
             info.LimitLine = line;
             StageInfo.StageInfo = info;
         }
@@ -63,7 +63,7 @@ namespace LevelCreator.PropertyController
         {
             var info = StageInfo.StageInfo;
             var line = info.LimitLine;
-            line.Width = MaskedTextParser.ToInt32(LimitLineRight.Text) - MaskedTextParser.ToInt32(LimitLineLeft.Text);
+            line.Width = TextBoxParser.ToInt32(LimitLineRight.Text) - TextBoxParser.ToInt32(LimitLineLeft.Text);
             info.LimitLine = line;
             StageInfo.StageInfo = info;
         }
@@ -72,7 +72,7 @@ namespace LevelCreator.PropertyController
         {
             var info = StageInfo.StageInfo;
             var line = info.LimitLine;
-            line.Y = MaskedTextParser.ToInt32(LimitLineTop.Text);
+            line.Y = TextBoxParser.ToInt32(LimitLineTop.Text);
             info.LimitLine = line;
             StageInfo.StageInfo = info;
             LimitLineBottom_LostFocus(sender, e);
@@ -82,7 +82,7 @@ namespace LevelCreator.PropertyController
         {
             var info = StageInfo.StageInfo;
             var line = info.LimitLine;
-            line.X = MaskedTextParser.ToInt32(LimitLineLeft.Text);
+            line.X = TextBoxParser.ToInt32(LimitLineLeft.Text);
             info.LimitLine = line;
             StageInfo.StageInfo = info;
             LimitLineRight_LostFocus(sender, e);

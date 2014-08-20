@@ -54,7 +54,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MaskedTextParser.cs" />
+    <Compile Include="TextBoxParser.cs" />
     <Compile Include="ModelType.cs" />
     <Compile Include="Object\ExProperty\Collision.cs" />
     <Compile Include="Object\ExProperty\Decolation.cs" />

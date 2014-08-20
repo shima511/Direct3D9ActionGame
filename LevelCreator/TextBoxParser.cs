@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace LevelCreator
 {
-    class MaskedTextParser
+    class TextBoxParser
     {
         public static float ToSingle(string text)
         {
+            if (text.Length == 0) return 0;
+            bool minus = false;
+            if (text[0] == '-') minus = true;
             float ret = 0;
-            text = text.Replace(" ", "");
-            if (text[0] == '-' && text[1] == '.' || text[0] == '.')
-            {
-                text = "0.0";
-            }
-            ret = float.Parse(text);
+            Regex re = new Regex(@"[^0-9 | .]");
+            string formated_text = re.Replace(text, "");
+            if (formated_text.Length == 0) return 0;
+            ret = float.Parse(formated_text);
+            if (minus) ret *= -1;
             return ret;
         }
 
@@ -30,6 +33,13 @@ namespace LevelCreator
             }
             ret = int.Parse(text);
             return ret;
+        }
+
+        public static string ToString(float num)
+        {
+            string str = num.ToString();
+            
+            return str;
         }
     }
 }

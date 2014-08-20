@@ -32,11 +32,7 @@
             this.GroundTab = new System.Windows.Forms.TabPage();
             this.CollisionType = new System.Windows.Forms.ComboBox();
             this.TypeId = new System.Windows.Forms.Label();
-            this.TerminatePointYAxisTextBox = new System.Windows.Forms.MaskedTextBox();
-            this.StartPointYAxisTextBox = new System.Windows.Forms.MaskedTextBox();
-            this.TerminatePointXAxisTextBox = new System.Windows.Forms.MaskedTextBox();
             this.TerminatePointYAxis = new System.Windows.Forms.Label();
-            this.StartPointXAxisTextBox = new System.Windows.Forms.MaskedTextBox();
             this.TerminatePointXAxis = new System.Windows.Forms.Label();
             this.StartYAxis = new System.Windows.Forms.Label();
             this.StartXAxis = new System.Windows.Forms.Label();
@@ -45,17 +41,12 @@
             this.ItemTab = new System.Windows.Forms.TabPage();
             this.ItemType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.ItemPositionYAxis = new System.Windows.Forms.MaskedTextBox();
-            this.ItemPositionXAxis = new System.Windows.Forms.MaskedTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.DecolationTab = new System.Windows.Forms.TabPage();
             this.DecolationType = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.DecolationZAxis = new System.Windows.Forms.MaskedTextBox();
-            this.DecolationYAxis = new System.Windows.Forms.MaskedTextBox();
-            this.DecolationXAxis = new System.Windows.Forms.MaskedTextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -63,8 +54,6 @@
             this.EnemyTab = new System.Windows.Forms.TabPage();
             this.EnemyType = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.EnemyPositionYAxis = new System.Windows.Forms.MaskedTextBox();
-            this.EnemyPositionXAxis = new System.Windows.Forms.MaskedTextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -86,6 +75,17 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.GroundStartPointX = new System.Windows.Forms.TextBox();
+            this.GroundStartPointY = new System.Windows.Forms.TextBox();
+            this.GroundTerminalPointX = new System.Windows.Forms.TextBox();
+            this.GroundTerminalPointY = new System.Windows.Forms.TextBox();
+            this.ItemPositionX = new System.Windows.Forms.TextBox();
+            this.ItemPositionY = new System.Windows.Forms.TextBox();
+            this.DecolationPositionX = new System.Windows.Forms.TextBox();
+            this.DecolationPositionY = new System.Windows.Forms.TextBox();
+            this.DecolationPositionZ = new System.Windows.Forms.TextBox();
+            this.EnemyPositionX = new System.Windows.Forms.TextBox();
+            this.EnemyPositionY = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.GroundTab.SuspendLayout();
             this.ItemTab.SuspendLayout();
@@ -111,13 +111,13 @@
             // 
             // GroundTab
             // 
+            this.GroundTab.Controls.Add(this.GroundTerminalPointY);
+            this.GroundTab.Controls.Add(this.GroundStartPointY);
+            this.GroundTab.Controls.Add(this.GroundTerminalPointX);
+            this.GroundTab.Controls.Add(this.GroundStartPointX);
             this.GroundTab.Controls.Add(this.CollisionType);
             this.GroundTab.Controls.Add(this.TypeId);
-            this.GroundTab.Controls.Add(this.TerminatePointYAxisTextBox);
-            this.GroundTab.Controls.Add(this.StartPointYAxisTextBox);
-            this.GroundTab.Controls.Add(this.TerminatePointXAxisTextBox);
             this.GroundTab.Controls.Add(this.TerminatePointYAxis);
-            this.GroundTab.Controls.Add(this.StartPointXAxisTextBox);
             this.GroundTab.Controls.Add(this.TerminatePointXAxis);
             this.GroundTab.Controls.Add(this.StartYAxis);
             this.GroundTab.Controls.Add(this.StartXAxis);
@@ -154,30 +154,6 @@
             this.TypeId.TabIndex = 5;
             this.TypeId.Text = "種類";
             // 
-            // TerminatePointYAxisTextBox
-            // 
-            this.TerminatePointYAxisTextBox.Location = new System.Drawing.Point(122, 103);
-            this.TerminatePointYAxisTextBox.Mask = "#000.000";
-            this.TerminatePointYAxisTextBox.Name = "TerminatePointYAxisTextBox";
-            this.TerminatePointYAxisTextBox.Size = new System.Drawing.Size(100, 19);
-            this.TerminatePointYAxisTextBox.TabIndex = 3;
-            // 
-            // StartPointYAxisTextBox
-            // 
-            this.StartPointYAxisTextBox.Location = new System.Drawing.Point(122, 36);
-            this.StartPointYAxisTextBox.Mask = "#000.000";
-            this.StartPointYAxisTextBox.Name = "StartPointYAxisTextBox";
-            this.StartPointYAxisTextBox.Size = new System.Drawing.Size(100, 19);
-            this.StartPointYAxisTextBox.TabIndex = 1;
-            // 
-            // TerminatePointXAxisTextBox
-            // 
-            this.TerminatePointXAxisTextBox.Location = new System.Drawing.Point(9, 103);
-            this.TerminatePointXAxisTextBox.Mask = "#000.000";
-            this.TerminatePointXAxisTextBox.Name = "TerminatePointXAxisTextBox";
-            this.TerminatePointXAxisTextBox.Size = new System.Drawing.Size(100, 19);
-            this.TerminatePointXAxisTextBox.TabIndex = 2;
-            // 
             // TerminatePointYAxis
             // 
             this.TerminatePointYAxis.AutoSize = true;
@@ -186,14 +162,6 @@
             this.TerminatePointYAxis.Size = new System.Drawing.Size(36, 12);
             this.TerminatePointYAxis.TabIndex = 2;
             this.TerminatePointYAxis.Text = "Y座標";
-            // 
-            // StartPointXAxisTextBox
-            // 
-            this.StartPointXAxisTextBox.Location = new System.Drawing.Point(9, 36);
-            this.StartPointXAxisTextBox.Mask = "#000.000";
-            this.StartPointXAxisTextBox.Name = "StartPointXAxisTextBox";
-            this.StartPointXAxisTextBox.Size = new System.Drawing.Size(100, 19);
-            this.StartPointXAxisTextBox.TabIndex = 0;
             // 
             // TerminatePointXAxis
             // 
@@ -242,10 +210,10 @@
             // 
             // ItemTab
             // 
+            this.ItemTab.Controls.Add(this.ItemPositionY);
+            this.ItemTab.Controls.Add(this.ItemPositionX);
             this.ItemTab.Controls.Add(this.ItemType);
             this.ItemTab.Controls.Add(this.label4);
-            this.ItemTab.Controls.Add(this.ItemPositionYAxis);
-            this.ItemTab.Controls.Add(this.ItemPositionXAxis);
             this.ItemTab.Controls.Add(this.label3);
             this.ItemTab.Controls.Add(this.label2);
             this.ItemTab.Controls.Add(this.label1);
@@ -276,22 +244,6 @@
             this.label4.TabIndex = 5;
             this.label4.Text = "種類";
             // 
-            // ItemPositionYAxis
-            // 
-            this.ItemPositionYAxis.Location = new System.Drawing.Point(122, 36);
-            this.ItemPositionYAxis.Mask = "#000.000";
-            this.ItemPositionYAxis.Name = "ItemPositionYAxis";
-            this.ItemPositionYAxis.Size = new System.Drawing.Size(100, 19);
-            this.ItemPositionYAxis.TabIndex = 1;
-            // 
-            // ItemPositionXAxis
-            // 
-            this.ItemPositionXAxis.Location = new System.Drawing.Point(9, 36);
-            this.ItemPositionXAxis.Mask = "#000.000";
-            this.ItemPositionXAxis.Name = "ItemPositionXAxis";
-            this.ItemPositionXAxis.Size = new System.Drawing.Size(100, 19);
-            this.ItemPositionXAxis.TabIndex = 0;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -321,11 +273,11 @@
             // 
             // DecolationTab
             // 
+            this.DecolationTab.Controls.Add(this.DecolationPositionZ);
+            this.DecolationTab.Controls.Add(this.DecolationPositionY);
+            this.DecolationTab.Controls.Add(this.DecolationPositionX);
             this.DecolationTab.Controls.Add(this.DecolationType);
             this.DecolationTab.Controls.Add(this.label9);
-            this.DecolationTab.Controls.Add(this.DecolationZAxis);
-            this.DecolationTab.Controls.Add(this.DecolationYAxis);
-            this.DecolationTab.Controls.Add(this.DecolationXAxis);
             this.DecolationTab.Controls.Add(this.label8);
             this.DecolationTab.Controls.Add(this.label5);
             this.DecolationTab.Controls.Add(this.label6);
@@ -355,30 +307,6 @@
             this.label9.Size = new System.Drawing.Size(29, 12);
             this.label9.TabIndex = 9;
             this.label9.Text = "種類";
-            // 
-            // DecolationZAxis
-            // 
-            this.DecolationZAxis.Location = new System.Drawing.Point(233, 35);
-            this.DecolationZAxis.Mask = "#000.000";
-            this.DecolationZAxis.Name = "DecolationZAxis";
-            this.DecolationZAxis.Size = new System.Drawing.Size(100, 19);
-            this.DecolationZAxis.TabIndex = 2;
-            // 
-            // DecolationYAxis
-            // 
-            this.DecolationYAxis.Location = new System.Drawing.Point(122, 36);
-            this.DecolationYAxis.Mask = "#000.000";
-            this.DecolationYAxis.Name = "DecolationYAxis";
-            this.DecolationYAxis.Size = new System.Drawing.Size(100, 19);
-            this.DecolationYAxis.TabIndex = 1;
-            // 
-            // DecolationXAxis
-            // 
-            this.DecolationXAxis.Location = new System.Drawing.Point(9, 36);
-            this.DecolationXAxis.Mask = "#000.000";
-            this.DecolationXAxis.Name = "DecolationXAxis";
-            this.DecolationXAxis.Size = new System.Drawing.Size(100, 19);
-            this.DecolationXAxis.TabIndex = 0;
             // 
             // label8
             // 
@@ -418,10 +346,10 @@
             // 
             // EnemyTab
             // 
+            this.EnemyTab.Controls.Add(this.EnemyPositionY);
+            this.EnemyTab.Controls.Add(this.EnemyPositionX);
             this.EnemyTab.Controls.Add(this.EnemyType);
             this.EnemyTab.Controls.Add(this.label10);
-            this.EnemyTab.Controls.Add(this.EnemyPositionYAxis);
-            this.EnemyTab.Controls.Add(this.EnemyPositionXAxis);
             this.EnemyTab.Controls.Add(this.label11);
             this.EnemyTab.Controls.Add(this.label12);
             this.EnemyTab.Controls.Add(this.label13);
@@ -450,22 +378,6 @@
             this.label10.Size = new System.Drawing.Size(29, 12);
             this.label10.TabIndex = 12;
             this.label10.Text = "種類";
-            // 
-            // EnemyPositionYAxis
-            // 
-            this.EnemyPositionYAxis.Location = new System.Drawing.Point(122, 36);
-            this.EnemyPositionYAxis.Mask = "#000.000";
-            this.EnemyPositionYAxis.Name = "EnemyPositionYAxis";
-            this.EnemyPositionYAxis.Size = new System.Drawing.Size(100, 19);
-            this.EnemyPositionYAxis.TabIndex = 1;
-            // 
-            // EnemyPositionXAxis
-            // 
-            this.EnemyPositionXAxis.Location = new System.Drawing.Point(9, 36);
-            this.EnemyPositionXAxis.Mask = "#000.000";
-            this.EnemyPositionXAxis.Name = "EnemyPositionXAxis";
-            this.EnemyPositionXAxis.Size = new System.Drawing.Size(100, 19);
-            this.EnemyPositionXAxis.TabIndex = 0;
             // 
             // label11
             // 
@@ -669,6 +581,83 @@
             this.label21.TabIndex = 5;
             this.label21.Text = "境界線";
             // 
+            // GroundStartPointX
+            // 
+            this.GroundStartPointX.Location = new System.Drawing.Point(11, 35);
+            this.GroundStartPointX.Name = "GroundStartPointX";
+            this.GroundStartPointX.Size = new System.Drawing.Size(100, 19);
+            this.GroundStartPointX.TabIndex = 0;
+            // 
+            // GroundStartPointY
+            // 
+            this.GroundStartPointY.Location = new System.Drawing.Point(122, 34);
+            this.GroundStartPointY.Name = "GroundStartPointY";
+            this.GroundStartPointY.Size = new System.Drawing.Size(100, 19);
+            this.GroundStartPointY.TabIndex = 1;
+            // 
+            // GroundTerminalPointX
+            // 
+            this.GroundTerminalPointX.Location = new System.Drawing.Point(11, 102);
+            this.GroundTerminalPointX.Name = "GroundTerminalPointX";
+            this.GroundTerminalPointX.Size = new System.Drawing.Size(100, 19);
+            this.GroundTerminalPointX.TabIndex = 2;
+            // 
+            // GroundTerminalPointY
+            // 
+            this.GroundTerminalPointY.Location = new System.Drawing.Point(122, 101);
+            this.GroundTerminalPointY.Name = "GroundTerminalPointY";
+            this.GroundTerminalPointY.Size = new System.Drawing.Size(100, 19);
+            this.GroundTerminalPointY.TabIndex = 3;
+            // 
+            // ItemPositionX
+            // 
+            this.ItemPositionX.Location = new System.Drawing.Point(11, 36);
+            this.ItemPositionX.Name = "ItemPositionX";
+            this.ItemPositionX.Size = new System.Drawing.Size(100, 19);
+            this.ItemPositionX.TabIndex = 0;
+            // 
+            // ItemPositionY
+            // 
+            this.ItemPositionY.Location = new System.Drawing.Point(122, 36);
+            this.ItemPositionY.Name = "ItemPositionY";
+            this.ItemPositionY.Size = new System.Drawing.Size(100, 19);
+            this.ItemPositionY.TabIndex = 1;
+            // 
+            // DecolationPositionX
+            // 
+            this.DecolationPositionX.Location = new System.Drawing.Point(11, 35);
+            this.DecolationPositionX.Name = "DecolationPositionX";
+            this.DecolationPositionX.Size = new System.Drawing.Size(100, 19);
+            this.DecolationPositionX.TabIndex = 0;
+            // 
+            // DecolationPositionY
+            // 
+            this.DecolationPositionY.Location = new System.Drawing.Point(122, 35);
+            this.DecolationPositionY.Name = "DecolationPositionY";
+            this.DecolationPositionY.Size = new System.Drawing.Size(100, 19);
+            this.DecolationPositionY.TabIndex = 1;
+            // 
+            // DecolationPositionZ
+            // 
+            this.DecolationPositionZ.Location = new System.Drawing.Point(233, 35);
+            this.DecolationPositionZ.Name = "DecolationPositionZ";
+            this.DecolationPositionZ.Size = new System.Drawing.Size(100, 19);
+            this.DecolationPositionZ.TabIndex = 2;
+            // 
+            // EnemyPositionX
+            // 
+            this.EnemyPositionX.Location = new System.Drawing.Point(11, 36);
+            this.EnemyPositionX.Name = "EnemyPositionX";
+            this.EnemyPositionX.Size = new System.Drawing.Size(100, 19);
+            this.EnemyPositionX.TabIndex = 0;
+            // 
+            // EnemyPositionY
+            // 
+            this.EnemyPositionY.Location = new System.Drawing.Point(122, 36);
+            this.EnemyPositionY.Name = "EnemyPositionY";
+            this.EnemyPositionY.Size = new System.Drawing.Size(100, 19);
+            this.EnemyPositionY.TabIndex = 1;
+            // 
             // PropertyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -704,13 +693,9 @@
         private System.Windows.Forms.TabPage EnemyTab;
         private System.Windows.Forms.TabPage PlayerTab;
         private System.Windows.Forms.TabPage StageTab;
-        private System.Windows.Forms.MaskedTextBox StartPointXAxisTextBox;
         private System.Windows.Forms.Label StartYAxis;
         private System.Windows.Forms.Label StartXAxis;
         private System.Windows.Forms.Label StartPoint;
-        private System.Windows.Forms.MaskedTextBox StartPointYAxisTextBox;
-        private System.Windows.Forms.MaskedTextBox TerminatePointYAxisTextBox;
-        private System.Windows.Forms.MaskedTextBox TerminatePointXAxisTextBox;
         private System.Windows.Forms.Label TerminatePointYAxis;
         private System.Windows.Forms.Label TerminatePointXAxis;
         private System.Windows.Forms.Label TerminatePoint;
@@ -719,23 +704,16 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.MaskedTextBox ItemPositionXAxis;
-        private System.Windows.Forms.MaskedTextBox ItemPositionYAxis;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox ItemType;
-        private System.Windows.Forms.MaskedTextBox DecolationYAxis;
-        private System.Windows.Forms.MaskedTextBox DecolationXAxis;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.MaskedTextBox DecolationZAxis;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox DecolationType;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox EnemyType;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.MaskedTextBox EnemyPositionYAxis;
-        private System.Windows.Forms.MaskedTextBox EnemyPositionXAxis;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
@@ -755,5 +733,16 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.MaskedTextBox LimitTime;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TextBox GroundTerminalPointY;
+        private System.Windows.Forms.TextBox GroundStartPointY;
+        private System.Windows.Forms.TextBox GroundTerminalPointX;
+        private System.Windows.Forms.TextBox GroundStartPointX;
+        private System.Windows.Forms.TextBox ItemPositionY;
+        private System.Windows.Forms.TextBox ItemPositionX;
+        private System.Windows.Forms.TextBox DecolationPositionZ;
+        private System.Windows.Forms.TextBox DecolationPositionY;
+        private System.Windows.Forms.TextBox DecolationPositionX;
+        private System.Windows.Forms.TextBox EnemyPositionY;
+        private System.Windows.Forms.TextBox EnemyPositionX;
     }
 }

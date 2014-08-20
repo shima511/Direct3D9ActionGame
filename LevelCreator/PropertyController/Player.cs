@@ -34,7 +34,7 @@ namespace LevelCreator.PropertyController
         {
             var info = PlayerInfo.PlayerInfo;
             var pos = info.Position;
-            pos.Y = MaskedTextParser.ToSingle(PositionYAxis.Text);
+            pos.Y = TextBoxParser.ToSingle(PositionYAxis.Text);
             info.Position = pos;
             PlayerInfo.PlayerInfo = info;
         }
@@ -43,7 +43,7 @@ namespace LevelCreator.PropertyController
         {
             var info = PlayerInfo.PlayerInfo;
             var pos = info.Position;
-            pos.X = MaskedTextParser.ToSingle(PositionXAxis.Text);
+            pos.X = TextBoxParser.ToSingle(PositionXAxis.Text);
             info.Position = pos;
             PlayerInfo.PlayerInfo = info;
         }

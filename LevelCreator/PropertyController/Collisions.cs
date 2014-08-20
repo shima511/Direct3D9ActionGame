@@ -20,10 +20,10 @@ namespace LevelCreator.PropertyController
             {
             }
         }
-        public MaskedTextBox StartPointXAxis { private get; set; }
-        public MaskedTextBox StartPointYAxis { private get; set; }
-        public MaskedTextBox TerminatePointXAxis { private get; set; }
-        public MaskedTextBox TerminatePointYAxis { private get; set; }
+        public TextBox StartPointXAxis { private get; set; }
+        public TextBox StartPointYAxis { private get; set; }
+        public TextBox TerminatePointXAxis { private get; set; }
+        public TextBox TerminatePointYAxis { private get; set; }
         public ComboBox TypeId { private get; set; }
 
 
@@ -71,7 +71,8 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
-                pos.Y = MaskedTextParser.ToSingle(TerminatePointYAxis.Text);
+                pos.Y = TextBoxParser.ToSingle(TerminatePointYAxis.Text);
+                TerminatePointYAxis.Text = pos.Y.ToString();
                 col.TerminatePoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -83,7 +84,8 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.TerminatePoint;
-                pos.X = MaskedTextParser.ToSingle(TerminatePointXAxis.Text);
+                pos.X = TextBoxParser.ToSingle(TerminatePointXAxis.Text);
+                TerminatePointXAxis.Text = pos.X.ToString();
                 col.TerminatePoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -95,7 +97,8 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.StartingPoint;
-                pos.Y = MaskedTextParser.ToSingle(StartPointYAxis.Text);
+                pos.Y = TextBoxParser.ToSingle(StartPointYAxis.Text);
+                StartPointYAxis.Text = pos.Y.ToString();
                 col.StartingPoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -107,7 +110,8 @@ namespace LevelCreator.PropertyController
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
                 var pos = col.StartingPoint;
-                pos.X = MaskedTextParser.ToSingle(StartPointXAxis.Text);
+                pos.X = TextBoxParser.ToSingle(StartPointXAxis.Text);
+                StartPointXAxis.Text = pos.X.ToString();
                 col.StartingPoint = pos;
                 CollisionList[CurrentIndex].CollisionInfo = col;
             }
@@ -143,7 +147,7 @@ namespace LevelCreator.PropertyController
             if (CurrentSize != 0)
             {
                 var col = CollisionList[CurrentIndex].CollisionInfo;
-                StartPointXAxis.Text = col.StartingPoint.X.ToString();
+                StartPointXAxis.Text = TextBoxParser.ToString(col.StartingPoint.X);
                 StartPointYAxis.Text = col.StartingPoint.Y.ToString();
                 TerminatePointXAxis.Text = col.TerminatePoint.X.ToString();
                 TerminatePointYAxis.Text = col.TerminatePoint.Y.ToString();

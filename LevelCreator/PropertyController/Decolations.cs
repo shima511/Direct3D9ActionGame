@@ -10,9 +10,9 @@ namespace LevelCreator.PropertyController
     class Decolations : StageObjectController
     {
         public List<Object.ExProperty.Decolation> DecolationList { get; set; }
-        public MaskedTextBox PositionXAxis { private get; set; }
-        public MaskedTextBox PositionYAxis { private get; set; }
-        public MaskedTextBox PositionZAxis { private get; set; }
+        public TextBox PositionXAxis { private get; set; }
+        public TextBox PositionYAxis { private get; set; }
+        public TextBox PositionZAxis { private get; set; }
         public ComboBox TypeId { private get; set; }
         public override int CurrentSize
         {
@@ -66,7 +66,8 @@ namespace LevelCreator.PropertyController
             {
                 var dec = DecolationList[CurrentIndex].DecolationInfo;
                 var pos = dec.Position;
-                pos.Z = MaskedTextParser.ToSingle(PositionZAxis.Text);
+                pos.Z = TextBoxParser.ToSingle(PositionZAxis.Text);
+                PositionZAxis.Text = pos.Z.ToString();
                 dec.Position = pos;
                 DecolationList[CurrentIndex].DecolationInfo = dec;              
             }
@@ -78,7 +79,8 @@ namespace LevelCreator.PropertyController
             {
                 var dec = DecolationList[CurrentIndex].DecolationInfo;
                 var pos = dec.Position;
-                pos.Y = MaskedTextParser.ToSingle(PositionYAxis.Text);
+                pos.Y = TextBoxParser.ToSingle(PositionYAxis.Text);
+                PositionYAxis.Text = pos.Y.ToString();
                 dec.Position = pos;
                 DecolationList[CurrentIndex].DecolationInfo = dec;
             }
@@ -90,7 +92,8 @@ namespace LevelCreator.PropertyController
             {
                 var dec = DecolationList[CurrentIndex].DecolationInfo;
                 var pos = dec.Position;
-                pos.X = MaskedTextParser.ToSingle(PositionXAxis.Text);
+                pos.X = TextBoxParser.ToSingle(PositionXAxis.Text);
+                PositionXAxis.Text = pos.X.ToString();
                 dec.Position = pos;
                 DecolationList[CurrentIndex].DecolationInfo = dec;
             }

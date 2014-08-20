@@ -26,10 +26,10 @@ namespace LevelCreator
             form.CurrentController = new PropertyController.Collisions()
             {
                 CollisionList = form.StageObjects.Collisions,
-                StartPointXAxis = this.StartPointXAxisTextBox,
-                StartPointYAxis = this.StartPointYAxisTextBox,
-                TerminatePointXAxis = this.TerminatePointXAxisTextBox,
-                TerminatePointYAxis = this.TerminatePointYAxisTextBox,
+                StartPointXAxis = this.GroundStartPointX,
+                StartPointYAxis = this.GroundStartPointY,
+                TerminatePointXAxis = this.GroundTerminalPointX,
+                TerminatePointYAxis = this.GroundTerminalPointY,
                 TypeId = this.CollisionType
             };
             form.CurrentController.Initialize();
@@ -70,10 +70,10 @@ namespace LevelCreator
                     form.CurrentController = new PropertyController.Collisions()
                     {
                         CollisionList = form.StageObjects.Collisions,
-                        StartPointXAxis = this.StartPointXAxisTextBox,
-                        StartPointYAxis = this.StartPointYAxisTextBox,
-                        TerminatePointXAxis = this.TerminatePointXAxisTextBox,
-                        TerminatePointYAxis = this.TerminatePointYAxisTextBox,
+                        StartPointXAxis = this.GroundStartPointX,
+                        StartPointYAxis = this.GroundStartPointY,
+                        TerminatePointXAxis = this.GroundTerminalPointX,
+                        TerminatePointYAxis = this.GroundTerminalPointY,
                         TypeId = this.CollisionType,
                     };
                     break;
@@ -81,8 +81,8 @@ namespace LevelCreator
                     form.CurrentController = new PropertyController.Items()
                     {
                         ItemList = form.StageObjects.Items,
-                        PositionXAxis = this.ItemPositionXAxis,
-                        PositionYAxis = this.ItemPositionYAxis,
+                        PositionXAxis = this.ItemPositionX,
+                        PositionYAxis = this.ItemPositionY,
                         TypeId = this.ItemType
                     };
                     break;
@@ -90,9 +90,9 @@ namespace LevelCreator
                     form.CurrentController = new PropertyController.Decolations()
                     {
                         DecolationList = form.StageObjects.Decolations,
-                        PositionXAxis = this.DecolationXAxis,
-                        PositionYAxis = this.DecolationYAxis,
-                        PositionZAxis = this.DecolationZAxis,
+                        PositionXAxis = this.DecolationPositionX,
+                        PositionYAxis = this.DecolationPositionY,
+                        PositionZAxis = this.DecolationPositionZ,
                         TypeId = this.DecolationType
                     };
                     break;
@@ -100,8 +100,8 @@ namespace LevelCreator
                     form.CurrentController = new PropertyController.Enemies()
                     {
                         EnemyList = form.StageObjects.Enemies,
-                        PositionXAxis = this.EnemyPositionXAxis,
-                        PositionYAxis = this.EnemyPositionYAxis,
+                        PositionXAxis = this.EnemyPositionX,
+                        PositionYAxis = this.EnemyPositionY,
                         TypeId = this.EnemyType
                     };
                     break;
