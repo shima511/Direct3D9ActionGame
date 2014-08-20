@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScriptRW;
 
-namespace ScriptRW
+namespace ScriptConverter
 {
     class Program
     {
@@ -66,7 +67,9 @@ namespace ScriptRW
                         ConvertData(args[0], args[1]);
                         break;
                 }
-            }catch(SystemException ex){
+            }
+            catch (SystemException ex)
+            {
                 Console.WriteLine("コンバートに失敗しました。");
                 Console.WriteLine(ex.Message);
                 Console.ReadKey();

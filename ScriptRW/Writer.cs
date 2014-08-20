@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ScriptRW
 {
-    internal class Writer
+    public class Writer
     {
         void AddSizeInfo(List<byte> data_array, Properties properties)
         {
