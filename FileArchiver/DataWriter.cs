@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FileArchiver
 {
-    class DataWriter
+    public class DataWriter
     {
         /// <summary>
         /// ヘッダサイズ
