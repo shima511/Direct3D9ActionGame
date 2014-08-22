@@ -30,6 +30,10 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.GroundTab = new System.Windows.Forms.TabPage();
+            this.GroundTerminalPointY = new System.Windows.Forms.TextBox();
+            this.GroundStartPointY = new System.Windows.Forms.TextBox();
+            this.GroundTerminalPointX = new System.Windows.Forms.TextBox();
+            this.GroundStartPointX = new System.Windows.Forms.TextBox();
             this.CollisionType = new System.Windows.Forms.ComboBox();
             this.TypeId = new System.Windows.Forms.Label();
             this.TerminatePointYAxis = new System.Windows.Forms.Label();
@@ -39,12 +43,17 @@
             this.TerminatePoint = new System.Windows.Forms.Label();
             this.StartPoint = new System.Windows.Forms.Label();
             this.ItemTab = new System.Windows.Forms.TabPage();
+            this.ItemPositionY = new System.Windows.Forms.TextBox();
+            this.ItemPositionX = new System.Windows.Forms.TextBox();
             this.ItemType = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.DecolationTab = new System.Windows.Forms.TabPage();
+            this.DecolationPositionZ = new System.Windows.Forms.TextBox();
+            this.DecolationPositionY = new System.Windows.Forms.TextBox();
+            this.DecolationPositionX = new System.Windows.Forms.TextBox();
             this.DecolationType = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -52,14 +61,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.EnemyTab = new System.Windows.Forms.TabPage();
+            this.EnemyPositionY = new System.Windows.Forms.TextBox();
+            this.EnemyPositionX = new System.Windows.Forms.TextBox();
             this.EnemyType = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.PlayerTab = new System.Windows.Forms.TabPage();
-            this.PlayerPositionYAxis = new System.Windows.Forms.MaskedTextBox();
-            this.PlayerPositionXAxis = new System.Windows.Forms.MaskedTextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -75,17 +84,8 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.GroundStartPointX = new System.Windows.Forms.TextBox();
-            this.GroundStartPointY = new System.Windows.Forms.TextBox();
-            this.GroundTerminalPointX = new System.Windows.Forms.TextBox();
-            this.GroundTerminalPointY = new System.Windows.Forms.TextBox();
-            this.ItemPositionX = new System.Windows.Forms.TextBox();
-            this.ItemPositionY = new System.Windows.Forms.TextBox();
-            this.DecolationPositionX = new System.Windows.Forms.TextBox();
-            this.DecolationPositionY = new System.Windows.Forms.TextBox();
-            this.DecolationPositionZ = new System.Windows.Forms.TextBox();
-            this.EnemyPositionX = new System.Windows.Forms.TextBox();
-            this.EnemyPositionY = new System.Windows.Forms.TextBox();
+            this.PlayerPositionX = new System.Windows.Forms.TextBox();
+            this.PlayerPositionY = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.GroundTab.SuspendLayout();
             this.ItemTab.SuspendLayout();
@@ -130,6 +130,34 @@
             this.GroundTab.TabIndex = 0;
             this.GroundTab.Text = "地形";
             this.GroundTab.UseVisualStyleBackColor = true;
+            // 
+            // GroundTerminalPointY
+            // 
+            this.GroundTerminalPointY.Location = new System.Drawing.Point(122, 101);
+            this.GroundTerminalPointY.Name = "GroundTerminalPointY";
+            this.GroundTerminalPointY.Size = new System.Drawing.Size(100, 19);
+            this.GroundTerminalPointY.TabIndex = 3;
+            // 
+            // GroundStartPointY
+            // 
+            this.GroundStartPointY.Location = new System.Drawing.Point(122, 34);
+            this.GroundStartPointY.Name = "GroundStartPointY";
+            this.GroundStartPointY.Size = new System.Drawing.Size(100, 19);
+            this.GroundStartPointY.TabIndex = 1;
+            // 
+            // GroundTerminalPointX
+            // 
+            this.GroundTerminalPointX.Location = new System.Drawing.Point(11, 102);
+            this.GroundTerminalPointX.Name = "GroundTerminalPointX";
+            this.GroundTerminalPointX.Size = new System.Drawing.Size(100, 19);
+            this.GroundTerminalPointX.TabIndex = 2;
+            // 
+            // GroundStartPointX
+            // 
+            this.GroundStartPointX.Location = new System.Drawing.Point(11, 35);
+            this.GroundStartPointX.Name = "GroundStartPointX";
+            this.GroundStartPointX.Size = new System.Drawing.Size(100, 19);
+            this.GroundStartPointX.TabIndex = 0;
             // 
             // CollisionType
             // 
@@ -225,6 +253,20 @@
             this.ItemTab.Text = "アイテム";
             this.ItemTab.UseVisualStyleBackColor = true;
             // 
+            // ItemPositionY
+            // 
+            this.ItemPositionY.Location = new System.Drawing.Point(122, 36);
+            this.ItemPositionY.Name = "ItemPositionY";
+            this.ItemPositionY.Size = new System.Drawing.Size(100, 19);
+            this.ItemPositionY.TabIndex = 1;
+            // 
+            // ItemPositionX
+            // 
+            this.ItemPositionX.Location = new System.Drawing.Point(11, 36);
+            this.ItemPositionX.Name = "ItemPositionX";
+            this.ItemPositionX.Size = new System.Drawing.Size(100, 19);
+            this.ItemPositionX.TabIndex = 0;
+            // 
             // ItemType
             // 
             this.ItemType.AllowDrop = true;
@@ -289,6 +331,27 @@
             this.DecolationTab.TabIndex = 2;
             this.DecolationTab.Text = "装飾";
             this.DecolationTab.UseVisualStyleBackColor = true;
+            // 
+            // DecolationPositionZ
+            // 
+            this.DecolationPositionZ.Location = new System.Drawing.Point(233, 35);
+            this.DecolationPositionZ.Name = "DecolationPositionZ";
+            this.DecolationPositionZ.Size = new System.Drawing.Size(100, 19);
+            this.DecolationPositionZ.TabIndex = 2;
+            // 
+            // DecolationPositionY
+            // 
+            this.DecolationPositionY.Location = new System.Drawing.Point(122, 35);
+            this.DecolationPositionY.Name = "DecolationPositionY";
+            this.DecolationPositionY.Size = new System.Drawing.Size(100, 19);
+            this.DecolationPositionY.TabIndex = 1;
+            // 
+            // DecolationPositionX
+            // 
+            this.DecolationPositionX.Location = new System.Drawing.Point(11, 35);
+            this.DecolationPositionX.Name = "DecolationPositionX";
+            this.DecolationPositionX.Size = new System.Drawing.Size(100, 19);
+            this.DecolationPositionX.TabIndex = 0;
             // 
             // DecolationType
             // 
@@ -361,6 +424,20 @@
             this.EnemyTab.Text = "敵";
             this.EnemyTab.UseVisualStyleBackColor = true;
             // 
+            // EnemyPositionY
+            // 
+            this.EnemyPositionY.Location = new System.Drawing.Point(122, 36);
+            this.EnemyPositionY.Name = "EnemyPositionY";
+            this.EnemyPositionY.Size = new System.Drawing.Size(100, 19);
+            this.EnemyPositionY.TabIndex = 1;
+            // 
+            // EnemyPositionX
+            // 
+            this.EnemyPositionX.Location = new System.Drawing.Point(11, 36);
+            this.EnemyPositionX.Name = "EnemyPositionX";
+            this.EnemyPositionX.Size = new System.Drawing.Size(100, 19);
+            this.EnemyPositionX.TabIndex = 0;
+            // 
             // EnemyType
             // 
             this.EnemyType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -408,8 +485,8 @@
             // 
             // PlayerTab
             // 
-            this.PlayerTab.Controls.Add(this.PlayerPositionYAxis);
-            this.PlayerTab.Controls.Add(this.PlayerPositionXAxis);
+            this.PlayerTab.Controls.Add(this.PlayerPositionY);
+            this.PlayerTab.Controls.Add(this.PlayerPositionX);
             this.PlayerTab.Controls.Add(this.label14);
             this.PlayerTab.Controls.Add(this.label15);
             this.PlayerTab.Controls.Add(this.label16);
@@ -421,22 +498,6 @@
             this.PlayerTab.Text = "プレイヤー";
             this.PlayerTab.UseVisualStyleBackColor = true;
             this.PlayerTab.Click += new System.EventHandler(this.tabPage1_Click);
-            // 
-            // PlayerPositionYAxis
-            // 
-            this.PlayerPositionYAxis.Location = new System.Drawing.Point(122, 36);
-            this.PlayerPositionYAxis.Mask = "#000.000";
-            this.PlayerPositionYAxis.Name = "PlayerPositionYAxis";
-            this.PlayerPositionYAxis.Size = new System.Drawing.Size(100, 19);
-            this.PlayerPositionYAxis.TabIndex = 1;
-            // 
-            // PlayerPositionXAxis
-            // 
-            this.PlayerPositionXAxis.Location = new System.Drawing.Point(9, 36);
-            this.PlayerPositionXAxis.Mask = "#000.000";
-            this.PlayerPositionXAxis.Name = "PlayerPositionXAxis";
-            this.PlayerPositionXAxis.Size = new System.Drawing.Size(100, 19);
-            this.PlayerPositionXAxis.TabIndex = 0;
             // 
             // label14
             // 
@@ -581,82 +642,19 @@
             this.label21.TabIndex = 5;
             this.label21.Text = "境界線";
             // 
-            // GroundStartPointX
+            // PlayerPositionX
             // 
-            this.GroundStartPointX.Location = new System.Drawing.Point(11, 35);
-            this.GroundStartPointX.Name = "GroundStartPointX";
-            this.GroundStartPointX.Size = new System.Drawing.Size(100, 19);
-            this.GroundStartPointX.TabIndex = 0;
+            this.PlayerPositionX.Location = new System.Drawing.Point(11, 36);
+            this.PlayerPositionX.Name = "PlayerPositionX";
+            this.PlayerPositionX.Size = new System.Drawing.Size(100, 19);
+            this.PlayerPositionX.TabIndex = 0;
             // 
-            // GroundStartPointY
+            // PlayerPositionY
             // 
-            this.GroundStartPointY.Location = new System.Drawing.Point(122, 34);
-            this.GroundStartPointY.Name = "GroundStartPointY";
-            this.GroundStartPointY.Size = new System.Drawing.Size(100, 19);
-            this.GroundStartPointY.TabIndex = 1;
-            // 
-            // GroundTerminalPointX
-            // 
-            this.GroundTerminalPointX.Location = new System.Drawing.Point(11, 102);
-            this.GroundTerminalPointX.Name = "GroundTerminalPointX";
-            this.GroundTerminalPointX.Size = new System.Drawing.Size(100, 19);
-            this.GroundTerminalPointX.TabIndex = 2;
-            // 
-            // GroundTerminalPointY
-            // 
-            this.GroundTerminalPointY.Location = new System.Drawing.Point(122, 101);
-            this.GroundTerminalPointY.Name = "GroundTerminalPointY";
-            this.GroundTerminalPointY.Size = new System.Drawing.Size(100, 19);
-            this.GroundTerminalPointY.TabIndex = 3;
-            // 
-            // ItemPositionX
-            // 
-            this.ItemPositionX.Location = new System.Drawing.Point(11, 36);
-            this.ItemPositionX.Name = "ItemPositionX";
-            this.ItemPositionX.Size = new System.Drawing.Size(100, 19);
-            this.ItemPositionX.TabIndex = 0;
-            // 
-            // ItemPositionY
-            // 
-            this.ItemPositionY.Location = new System.Drawing.Point(122, 36);
-            this.ItemPositionY.Name = "ItemPositionY";
-            this.ItemPositionY.Size = new System.Drawing.Size(100, 19);
-            this.ItemPositionY.TabIndex = 1;
-            // 
-            // DecolationPositionX
-            // 
-            this.DecolationPositionX.Location = new System.Drawing.Point(11, 35);
-            this.DecolationPositionX.Name = "DecolationPositionX";
-            this.DecolationPositionX.Size = new System.Drawing.Size(100, 19);
-            this.DecolationPositionX.TabIndex = 0;
-            // 
-            // DecolationPositionY
-            // 
-            this.DecolationPositionY.Location = new System.Drawing.Point(122, 35);
-            this.DecolationPositionY.Name = "DecolationPositionY";
-            this.DecolationPositionY.Size = new System.Drawing.Size(100, 19);
-            this.DecolationPositionY.TabIndex = 1;
-            // 
-            // DecolationPositionZ
-            // 
-            this.DecolationPositionZ.Location = new System.Drawing.Point(233, 35);
-            this.DecolationPositionZ.Name = "DecolationPositionZ";
-            this.DecolationPositionZ.Size = new System.Drawing.Size(100, 19);
-            this.DecolationPositionZ.TabIndex = 2;
-            // 
-            // EnemyPositionX
-            // 
-            this.EnemyPositionX.Location = new System.Drawing.Point(11, 36);
-            this.EnemyPositionX.Name = "EnemyPositionX";
-            this.EnemyPositionX.Size = new System.Drawing.Size(100, 19);
-            this.EnemyPositionX.TabIndex = 0;
-            // 
-            // EnemyPositionY
-            // 
-            this.EnemyPositionY.Location = new System.Drawing.Point(122, 36);
-            this.EnemyPositionY.Name = "EnemyPositionY";
-            this.EnemyPositionY.Size = new System.Drawing.Size(100, 19);
-            this.EnemyPositionY.TabIndex = 1;
+            this.PlayerPositionY.Location = new System.Drawing.Point(122, 36);
+            this.PlayerPositionY.Name = "PlayerPositionY";
+            this.PlayerPositionY.Size = new System.Drawing.Size(100, 19);
+            this.PlayerPositionY.TabIndex = 1;
             // 
             // PropertyForm
             // 
@@ -717,8 +715,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.MaskedTextBox PlayerPositionYAxis;
-        private System.Windows.Forms.MaskedTextBox PlayerPositionXAxis;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
@@ -744,5 +740,7 @@
         private System.Windows.Forms.TextBox DecolationPositionX;
         private System.Windows.Forms.TextBox EnemyPositionY;
         private System.Windows.Forms.TextBox EnemyPositionX;
+        private System.Windows.Forms.TextBox PlayerPositionY;
+        private System.Windows.Forms.TextBox PlayerPositionX;
     }
 }

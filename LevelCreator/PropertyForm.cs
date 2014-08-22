@@ -109,8 +109,8 @@ namespace LevelCreator
                     form.CurrentController = new PropertyController.Player() 
                     { 
                         PlayerInfo = form.StageObjects.PlayerInfo,
-                        PositionXAxis = this.PlayerPositionXAxis,
-                        PositionYAxis = this.PlayerPositionYAxis
+                        PositionXAxis = this.PlayerPositionX,
+                        PositionYAxis = this.PlayerPositionY
                     };
                     break;
                 case 5:

@@ -10,8 +10,8 @@ namespace LevelCreator.PropertyController
     class Player : StageObjectController
     {
         public Object.ExProperty.Player PlayerInfo { get; set; }
-        public MaskedTextBox PositionXAxis { private get; set; }
-        public MaskedTextBox PositionYAxis { private get; set; }
+        public TextBox PositionXAxis { private get; set; }
+        public TextBox PositionYAxis { private get; set; }
 
         public override void Clean()
         {
@@ -35,6 +35,7 @@ namespace LevelCreator.PropertyController
             var info = PlayerInfo.PlayerInfo;
             var pos = info.Position;
             pos.Y = TextBoxParser.ToSingle(PositionYAxis.Text);
+            PositionYAxis.Text = pos.Y.ToString();
             info.Position = pos;
             PlayerInfo.PlayerInfo = info;
         }
@@ -44,6 +45,7 @@ namespace LevelCreator.PropertyController
             var info = PlayerInfo.PlayerInfo;
             var pos = info.Position;
             pos.X = TextBoxParser.ToSingle(PositionXAxis.Text);
+            PositionXAxis.Text = pos.X.ToString();
             info.Position = pos;
             PlayerInfo.PlayerInfo = info;
         }
