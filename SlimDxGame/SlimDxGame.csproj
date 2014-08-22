@@ -63,10 +63,6 @@
     <Reference Include="MMDXResource">
       <HintPath>..\..\..\..\..\..\..\MMDX\MMDXResource.dll</HintPath>
     </Reference>
-    <Reference Include="OggVorbis, Version=1.0.4656.10, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\OggVorbisC#\bin\x64\OggVorbis.dll</HintPath>
-    </Reference>
     <Reference Include="SlimDX, Version=4.0.11.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86" />
     <Reference Include="SlimMMDX">
       <HintPath>..\..\..\..\..\..\..\MMDX\SlimMMDX.dll</HintPath>
@@ -94,11 +90,12 @@
     <Compile Include="Asset\Texture.cs" />
     <Compile Include="Collision\Shape.cs" />
     <Compile Include="CommonMatrix.cs" />
-    <Compile Include="Effect\AmbientLight.cs" />
+    <Compile Include="Effect\Light.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Object\Base\Model.cs" />
     <Compile Include="Object\CameraManager.cs" />
     <Compile Include="Collision\Manager.cs" />
+    <Compile Include="Object\Decolation\Factory.cs" />
     <Compile Include="Object\Fader.cs" />
     <Compile Include="Object\Camera.cs" />
     <Compile Include="Controller.cs" />
