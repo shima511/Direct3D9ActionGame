@@ -23,6 +23,7 @@ namespace SlimDxGame.Core
 
         public void DrawObjects(SlimDX.Direct3D9.Device d3d_dev, SlimDX.Direct3D9.Sprite sprite_dev, List<List<Component.IDrawableObject>> layers)
         {
+            d3d_dev.SetRenderState(RenderState.Lighting, true);
             //Draw3D
             foreach (var layer in layers)
             {

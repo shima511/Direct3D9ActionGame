@@ -26,7 +26,6 @@ namespace SlimDxGame.Effect
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
         {
-            dev.SetRenderState(SlimDX.Direct3D9.RenderState.Lighting, true);
             dev.SetLight(Index, Property);
             dev.EnableLight(Index, EnableLight);
         }

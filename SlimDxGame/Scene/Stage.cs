@@ -28,7 +28,7 @@ namespace SlimDxGame.Scene
         Object.Item.Factory item_factory;
         GameState<Stage> now_state = new LoadingState();
         StageRW.Objects stage_objects = new StageRW.Objects();
-        Effect.AmbientLight light = new Effect.AmbientLight();
+        List<Effect.Light> lights = new List<Effect.Light>();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -83,12 +83,21 @@ namespace SlimDxGame.Scene
 
                 new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "coins.x")));
                 model_container.Add("Coins", new_model);
+
+                ScriptRW.Reader reader = new ScriptRW.Reader();
+                ScriptRW.Properties properties;
+                reader.Read(out properties, "obj_list.txt");
+                foreach (var item in properties.Decolations)
+                {
+                    new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
+                    model_container.Add(item.Name, new_model);
+                }
             }
 
             void LoadStage(GameRootObjects root, Stage parent)
             {
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                parent.stage_loader.Read(Path.Combine(baseDir, Path.Combine("levels", "level" + parent.level_id.ToString() + ".dat")), out parent.stage_objects);
+                parent.stage_loader.Read(Path.Combine(baseDir, Path.Combine("levels", "stage" + parent.level_id.ToString() + ".dat")), out parent.stage_objects);
                 parent.StageState = new Status.Stage()
                 {
                     Score = 0,
@@ -162,7 +171,39 @@ namespace SlimDxGame.Scene
 
             void InitLightEffect(GameRootObjects root_objects, Stage parent)
             {
-                root_objects.Layers[0].Add(parent.light);
+                var right_light = new Effect.Light(){
+                    Index = 0,
+                    EnableLight = true,
+                    Property = new SlimDX.Direct3D9.Light()
+                    {
+                        Type = SlimDX.Direct3D9.LightType.Directional,
+                        Ambient = System.Drawing.Color.White,
+                        Diffuse = System.Drawing.Color.White,
+                        Direction = new SlimDX.Vector3(-1.0f, -1.0f, 1.0f)
+                    }
+                };
+
+                parent.lights.Add(right_light);
+
+                var left_light = new Effect.Light()
+                {
+                    Index = 1,
+                    EnableLight = true,
+                    Property = new SlimDX.Direct3D9.Light()
+                    {
+                        Type = SlimDX.Direct3D9.LightType.Directional,
+                        Ambient = System.Drawing.Color.White,
+                        Diffuse = System.Drawing.Color.White,
+                        Direction = new SlimDX.Vector3(1.0f, -1.0f, 1.0f)
+                    }
+                };
+
+                parent.lights.Add(left_light);
+
+                foreach (var item in parent.lights)
+                {
+                    root_objects.Layers[0].Add(item);
+                }
             }
 
             private void InitInputManager( GameRootObjects root_objects,  Stage parent)
@@ -183,8 +224,13 @@ namespace SlimDxGame.Scene
 
             private void InitDecoration(GameRootObjects root_objects, Stage parent)
             {
+                Object.Decolation.Factory factory = new Object.Decolation.Factory();
+                factory.ModelContainer = root_objects.ModelContainer;
                 foreach (var item in parent.stage_objects.Decolations)
                 {
+                    Object.Base.Model new_item;
+                    factory.Create(item, out new_item);
+                    root_objects.Layers[1].Add(new_item);
                 }
             }
 
