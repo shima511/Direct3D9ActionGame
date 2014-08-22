@@ -19,7 +19,7 @@ namespace SlimDxGame.Object
         public void Draw3D(SlimDX.Direct3D9.Device dev)
         {
             var view_mat = Matrix.LookAtLH(EyePosition, AtPosition, UpDirection);
-            var proj_mat = Matrix.PerspectiveFovLH(_range, (float)Core.Game.AppInfo.Width / Core.Game.AppInfo.Height, 0.1f, 20.0f);
+            var proj_mat = Matrix.PerspectiveFovLH(_range, (float)Core.Game.AppInfo.Width / Core.Game.AppInfo.Height, 0.1f, 50.0f);
             dev.SetTransform(TransformState.View, view_mat);
             dev.SetTransform(TransformState.Projection, proj_mat);
         }
