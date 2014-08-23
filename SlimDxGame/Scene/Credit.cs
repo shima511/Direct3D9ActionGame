@@ -8,7 +8,7 @@ namespace SlimDxGame.Scene
 {
     class Credit : Base
     {
-        GameState<Credit> CurrentState { get; set; }
+        GameState<Credit> CurrentState;
         Effect.Light Light { get; set; }
 
         public Credit()
@@ -29,7 +29,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            public int Update(GameRootObjects root, Credit parent, GameState<Credit> new_state)
+            public int Update(GameRootObjects root, Credit parent, ref GameState<Credit> new_state)
             {
                 InitLayer(root);
                 parent.Light.Index = 0;
@@ -46,9 +46,9 @@ namespace SlimDxGame.Scene
             }
         }
 
-        public override int Update(GameRootObjects root, ref Base new_scene)
+        public override int Update(GameRootObjects root, Base new_scene)
         {
-            int val = CurrentState.Update(root, this, CurrentState);
+            int val = CurrentState.Update(root, this, ref CurrentState);
             if (val != 0)
             {
                 new_scene = new Scene.Title();

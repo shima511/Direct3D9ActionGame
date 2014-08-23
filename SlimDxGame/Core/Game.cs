@@ -73,7 +73,7 @@ namespace SlimDxGame.Core
 
         new void Update()
         {
-            if (now_scene.Update(root_objects, ref now_scene) != 0) this.Close();
+            if (now_scene.Update(root_objects, now_scene) != 0) this.Close();
             foreach (var item in root_objects.UpdateList)
             {
                 item.Update();

@@ -38,7 +38,7 @@ namespace SlimDxGame.Object
         readonly float FallSpeed = 0.01f;
         readonly float MaxFallSpeed = 0.1f;
         bool jumped_two_times = false;
-        private ObjectState<Player> now_state = new Wait();
+        private ObjectState<Player> CurrentState = new Wait();
         private Vector2 _speed = new Vector2(0.0f, 0.0f);
         public float Width { get; private set; }
         public float Height { get; private set; }
@@ -526,9 +526,9 @@ namespace SlimDxGame.Object
         {
             if (fall_time == 10)
             {
-                now_state = new Fall();
+                CurrentState = new Fall();
             }
-            now_state.Update(this, ref now_state);
+            CurrentState.Update(this, ref CurrentState);
         }
 
         public void Update()
@@ -571,7 +571,7 @@ namespace SlimDxGame.Object
 
         public void ControllerAction(SlimDxGame.Controller controller)
         {
-            now_state.ControllerAction(this, controller, ref now_state);
+            CurrentState.ControllerAction(this, controller, ref CurrentState);
             ActionForDebug(controller);
         }
     }

@@ -29,7 +29,7 @@ namespace SlimDxGame.Scene
         /// <summary>
         /// 現在のゲームの状態
         /// </summary>
-        GameState<Stage> CurrentState { get; set; }
+        GameState<Stage> CurrentState;
         /// <summary>
         /// ステージの構成要素(衝突有りの地形・アイテムなど)
         /// </summary>
@@ -51,6 +51,7 @@ namespace SlimDxGame.Scene
         public Stage()
         {
             CurrentState = new LoadingState();
+            Lights = new List<Effect.Light>();
         }
 
         // ステージの読み込みなどを行う
@@ -148,12 +149,12 @@ namespace SlimDxGame.Scene
                 parent.ItemFactory = new Object.Item.Factory();
             }
 
-            public int Update(GameRootObjects root_objects, Stage parent, GameState<Stage> new_state)
+            public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 if (!ThreadCreated)
                 {
                     CreateInstance(parent);
-                    InitLayer( root_objects);
+                    InitLayer(root_objects);
                     ThreadCreated = true;
                 }
                 LoadAssetList(parent);
@@ -349,7 +350,7 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.ShadowManage);
             }
 
-            public int Update(GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 InitCamera(root_objects,  parent);
 
@@ -369,7 +370,7 @@ namespace SlimDxGame.Scene
 
                 InitShadow(root_objects, parent);
 
-                new_state = new FadeInState( root_objects,  parent);
+                new_state = new FadeInState(root_objects,  parent);
                 return 0;
             }
         }
@@ -396,7 +397,7 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Remove(parentects.Fader);
             }
 
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 if(parent.Fader.Color.Alpha <= 0.1f){
                     RemoveFadeInEffect( root_objects,  parent);
@@ -411,7 +412,7 @@ namespace SlimDxGame.Scene
         {
             int time = 0;
 
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 //time++;
                 //if(time >= 120){
@@ -435,7 +436,7 @@ namespace SlimDxGame.Scene
                 EnableOperate(parent);
             }
 
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 return 0;
             }
@@ -444,7 +445,7 @@ namespace SlimDxGame.Scene
         // ステージクリアした状態
         class ClearedState : GameState<Stage>
         {
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 return 0;
             }
@@ -453,7 +454,7 @@ namespace SlimDxGame.Scene
         // ミスした状態
         class MissedState : GameState<Stage>
         {
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 return 0;
             }
@@ -462,7 +463,7 @@ namespace SlimDxGame.Scene
         // ポーズ状態
         class PausingState : GameState<Stage>
         {
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 return 0;
             }
@@ -471,16 +472,16 @@ namespace SlimDxGame.Scene
         // フェードアウト状態
         class FadeOutState : GameState<Stage>
         {
-            public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
+            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 return -1;
             }
         }
 
-        public override int Update( GameRootObjects root_objects, ref Scene.Base new_scene)
+        public override int Update( GameRootObjects root_objects, Scene.Base new_scene)
         {
             int ret_val = 0;
-            if (CurrentState.Update(root_objects, this, CurrentState) == -1)
+            if (CurrentState.Update(root_objects, this, ref CurrentState) == -1)
             {
                 switch (ReturnTo)
                 {

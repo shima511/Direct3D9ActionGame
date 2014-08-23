@@ -18,6 +18,6 @@ namespace SlimDxGame.Scene
             root_objects.SoundContainer.DeleteAllObject();
             root_objects.ModelContainer.DeleteAllObject();
         }
-        public abstract int Update(GameRootObjects root, ref Base new_scene);
+        public abstract int Update(GameRootObjects root, Base new_scene);
     }
 }
