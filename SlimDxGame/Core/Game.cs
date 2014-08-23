@@ -126,6 +126,7 @@ namespace SlimDxGame.Core
             AssetFactory.TextureFactory.device = graphic_dev.D3DDevice;
             AssetFactory.FontFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.ModelFactory.Device = graphic_dev.D3DDevice;
+            PolygonFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.AudioMediaFactory.Device = audio_dev.XAudioDevice;
             default_font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
         }

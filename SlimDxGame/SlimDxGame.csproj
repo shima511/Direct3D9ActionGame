@@ -89,10 +89,11 @@
     <Compile Include="Asset\Sound.cs" />
     <Compile Include="Asset\Texture.cs" />
     <Compile Include="Collision\Shape.cs" />
-    <Compile Include="CommonMatrix.cs" />
+    <Compile Include="Core\CommonMatrix.cs" />
     <Compile Include="Effect\Light.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Object\Base\Model.cs" />
+    <Compile Include="Object\Base\SquarePolygon.cs" />
     <Compile Include="Object\CameraManager.cs" />
     <Compile Include="Collision\Manager.cs" />
     <Compile Include="Object\Decolation\Factory.cs" />
@@ -123,9 +124,10 @@
     <Compile Include="Object\Base\String.cs" />
     <Compile Include="Object\StateDrawer.cs" />
     <Compile Include="Scene\Credit.cs" />
+    <Compile Include="PolygonFactory.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Scene\Base.cs" />
-    <Compile Include="State.cs" />
+    <Compile Include="Core\State.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Object\Player.cs" />
     <Compile Include="Program.cs" />
