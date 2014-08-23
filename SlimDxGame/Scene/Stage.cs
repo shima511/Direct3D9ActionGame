@@ -29,6 +29,7 @@ namespace SlimDxGame.Scene
         GameState<Stage> now_state = new LoadingState();
         StageRW.Objects stage_objects = new StageRW.Objects();
         List<Effect.Light> lights = new List<Effect.Light>();
+        Object.Shadow shadow = new Object.Shadow();
 
         // ステージの読み込みなどを行う
         private class LoadingState : GameState<Stage>
@@ -39,7 +40,8 @@ namespace SlimDxGame.Scene
 
             private void InitLayer( GameRootObjects root_objects)
             {
-                for (int i = 0; i < 3; i++)
+                root_objects.Layers.Capacity = 4;
+                for (int i = 0; i < root_objects.Layers.Capacity; i++)
                 {
                     root_objects.Layers.Add(new List<Component.IDrawableObject>());
                 }
@@ -50,9 +52,9 @@ namespace SlimDxGame.Scene
                 Asset.Texture new_tex;
 
                 //// 読み込み
-                //string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                //new_tex = AssetFactory.TextureFactory.CreateTextureFromFile(Path.Combine(baseDir, Path.Combine("toons", "pony_fluttershy.bmp")));
-                //tex_container.Add("test", new_tex);
+                string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+                new_tex = AssetFactory.TextureFactory.CreateTextureFromFile(Path.Combine(baseDir, Path.Combine("toons", "shadow.png")));
+                tex_container.Add("Shadow", new_tex);
 
                 // フェーダー用のテクスチャを生成
                 byte[] tex_info = { 255, 255, 255, 255 };
@@ -162,7 +164,7 @@ namespace SlimDxGame.Scene
         {
             private void InitCamera(GameRootObjects root_objects,  Stage parent)
             {
-                root_objects.Layers[2].Add(parent.camera);
+                root_objects.Layers[3].Add(parent.camera);
                 parent.controller.Add(parent.camera);
                 parent.camera_manager.Camera = parent.camera;
                 parent.camera_manager.Player = parent.player;
@@ -219,7 +221,29 @@ namespace SlimDxGame.Scene
                 var p_pos = parent.stage_objects.Player.Position;
                 parent.player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
                 root_objects.UpdateList.Add(parent.player);
-                root_objects.Layers[1].Add(parent.player);
+                root_objects.Layers[2].Add(parent.player);
+
+                // 影をつける
+                Asset.Texture shadow_tex;
+                root_objects.TextureContainer.TryGetValue("Shadow", out shadow_tex);
+                Vertex vertex;
+                PolygonFactory.CreateSquarePolygon(out vertex);
+                parent.shadow = new Object.Shadow()
+                {
+                    Texture = shadow_tex,
+                    Position = new SlimDX.Vector3(),
+                    Scale = new SlimDX.Vector2(3.0f, 3.0f),
+                    Rotation = new SlimDX.Vector3(),
+                    Vertex = vertex,
+                    Owner = parent.player,
+                    Line = new Collision.Shape.Line()
+                    {
+                        StartingPoint = new SlimDX.Vector2(-6.0f, 0.0f),
+                        TerminalPoint = new SlimDX.Vector2(6.0f, 6.0f)
+                    }
+                };
+                root_objects.UpdateList.Add(parent.shadow);
+                root_objects.Layers[2].Add(parent.shadow);
             }
 
             private void InitDecoration(GameRootObjects root_objects, Stage parent)

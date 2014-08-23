@@ -24,6 +24,12 @@ namespace SlimDxGame.Core
         public void DrawObjects(SlimDX.Direct3D9.Device d3d_dev, SlimDX.Direct3D9.Sprite sprite_dev, List<List<Component.IDrawableObject>> layers)
         {
             d3d_dev.SetRenderState(RenderState.Lighting, true);
+            d3d_dev.SetRenderState(RenderState.AlphaBlendEnable, true);
+            d3d_dev.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+            d3d_dev.SetRenderState(RenderState.DestinationBlend, Blend.BothInverseSourceAlpha);
+
+            d3d_dev.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
+            d3d_dev.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
             //Draw3D
             foreach (var layer in layers)
             {

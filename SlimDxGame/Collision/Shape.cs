@@ -64,6 +64,16 @@ namespace SlimDxGame.Collision.Shape
             this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
         }
 
+        /// <summary>
+        /// x成分からy座標を求めます
+        /// </summary>
+        /// <param name="x">x座標の値</param>
+        /// <returns>y座標の値</returns>
+        public float GetYAxisFromXAxis(float x)
+        {
+            return Intercept + Coefficient * (x - StartingPoint.X);
+        }
+
         public bool Hit(Line line)
         {
             var tc = (StartingPoint.X - TerminalPoint.X) * (line.StartingPoint.Y - StartingPoint.Y) + (StartingPoint.Y - TerminalPoint.Y) * (StartingPoint.X - line.StartingPoint.X);
