@@ -8,8 +8,14 @@ namespace SlimDxGame.Scene
 {
     class Credit : Base
     {
-        GameState<Credit> current_state = new InitState();
-        Effect.Light light = new Effect.Light();
+        GameState<Credit> CurrentState { get; set; }
+        Effect.Light Light { get; set; }
+
+        public Credit()
+        {
+            CurrentState = new InitState();
+            Light = new Effect.Light();
+        }
 
         class InitState : GameState<Credit>
         {
@@ -26,23 +32,23 @@ namespace SlimDxGame.Scene
             public int Update(GameRootObjects root, Credit parent, GameState<Credit> new_state)
             {
                 InitLayer(root);
-                parent.light.Index = 0;
-                parent.light.EnableLight = true;
-                parent.light.Property = new SlimDX.Direct3D9.Light()
+                parent.Light.Index = 0;
+                parent.Light.EnableLight = true;
+                parent.Light.Property = new SlimDX.Direct3D9.Light()
                 {
                     Type = SlimDX.Direct3D9.LightType.Directional,
                     Diffuse = System.Drawing.Color.White,
                     Ambient = System.Drawing.Color.GhostWhite,
                     Direction = new SlimDX.Vector3(0.0f, -1.0f, 0.0f)
                 };
-                root.Layers[0].Add(parent.light);
+                root.Layers[0].Add(parent.Light);
                 return 0;
             }
         }
 
         public override int Update(GameRootObjects root, ref Base new_scene)
         {
-            int val = current_state.Update(root, this, current_state);
+            int val = CurrentState.Update(root, this, CurrentState);
             if (val != 0)
             {
                 new_scene = new Scene.Title();

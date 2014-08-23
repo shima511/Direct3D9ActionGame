@@ -7,7 +7,7 @@ namespace SlimDxGame.Scene
 {
     class Stage : Scene.Base
     {
-        private enum ReturnFrag{
+        enum ReturnFrag{
             ExitGame,
             ToTitle
         }
@@ -50,13 +50,13 @@ namespace SlimDxGame.Scene
         }
 
         // ステージの読み込みなどを行う
-        private class LoadingState : GameState<Stage>
+        class LoadingState : GameState<Stage>
         {
-            private bool thread_created = false;
+            bool thread_created = false;
 
-            private bool load_completed = false;
+            bool load_completed = false;
 
-            private void InitLayer( GameRootObjects root_objects)
+            void InitLayer( GameRootObjects root_objects)
             {
                 root_objects.Layers.Capacity = 4;
                 for (int i = 0; i < root_objects.Layers.Capacity; i++)
@@ -65,7 +65,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            private void LoadTextures( AssetContainer<Asset.Texture> tex_container)
+            void LoadTextures( AssetContainer<Asset.Texture> tex_container)
             {
                 Asset.Texture new_tex;
 
@@ -80,7 +80,7 @@ namespace SlimDxGame.Scene
                 tex_container.Add("BlackTexture", new_tex);
             }
 
-            private void LoadSounds( AssetContainer<Asset.Sound> sound_container)
+            void LoadSounds( AssetContainer<Asset.Sound> sound_container)
             {
                 //Asset.Sound new_sound;
                 //string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -88,7 +88,7 @@ namespace SlimDxGame.Scene
                 //sound_container.Add("test_sound", new_sound);
             }
 
-            private void LoadModels(AssetContainer<Asset.Model> model_container)
+            void LoadModels(AssetContainer<Asset.Model> model_container)
             {
                 Asset.Model new_model;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -133,7 +133,7 @@ namespace SlimDxGame.Scene
                 root.FontContainer.Add("Arial", font);
             }
 
-            private void CreateInstance(Stage parent)
+            void CreateInstance(Stage parent)
             {
                 parent.StageLoader = new StageRW.Reader();
                 parent.CollisionManager = new Collision.Manager();
@@ -180,9 +180,9 @@ namespace SlimDxGame.Scene
         }
 
         // ステージの配置など初期設定を行う
-        private class InitState : GameState<Stage>
+        class InitState : GameState<Stage>
         {
-            private void InitCamera(GameRootObjects root_objects,  Stage parent)
+            void InitCamera(GameRootObjects root_objects,  Stage parent)
             {
                 root_objects.Layers[3].Add(parent.Camera);
                 parent.PlayerController.Add(parent.Camera);
@@ -228,12 +228,12 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            private void InitInputManager( GameRootObjects root_objects,  Stage parent)
+            void InitInputManager( GameRootObjects root_objects,  Stage parent)
             {
                 root_objects.InputManager.Add(parent.PlayerController);
             }
 
-            private void InitPlayer(GameRootObjects root_objects, Stage parent)
+            void InitPlayer(GameRootObjects root_objects, Stage parent)
             {
                 Asset.Model model;
                 root_objects.ModelContainer.TryGetValue("TestModel", out model);
@@ -266,7 +266,7 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[2].Add(parent.Shadow);
             }
 
-            private void InitDecoration(GameRootObjects root_objects, Stage parent)
+            void InitDecoration(GameRootObjects root_objects, Stage parent)
             {
                 Object.Decolation.Factory factory = new Object.Decolation.Factory();
                 factory.ModelContainer = root_objects.ModelContainer;
@@ -284,7 +284,7 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[1].Add(parent.CollisionManager);
             }
 
-            private void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
+            void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
             {
                 parent.CollisionManager.Player = parent.Player;
 
@@ -374,7 +374,7 @@ namespace SlimDxGame.Scene
         }
 
         // フェードイン
-        private class FadeInState : GameState<Stage>
+        class FadeInState : GameState<Stage>
         {
             public FadeInState( GameRootObjects root_objects,  Stage parent)
             {
@@ -389,7 +389,7 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.Fader);
             }
 
-            private void RemoveFadeInEffect( GameRootObjects root_objects,  Stage parentects)
+            void RemoveFadeInEffect( GameRootObjects root_objects,  Stage parentects)
             {
                 root_objects.Layers[2].Remove(parentects.Fader);
                 root_objects.UpdateList.Remove(parentects.Fader);
@@ -406,9 +406,9 @@ namespace SlimDxGame.Scene
         }
 
         // フェードイン終了後、操作可能になるまでカウントダウンを行う状態
-        private class CountDownState : GameState<Stage>
+        class CountDownState : GameState<Stage>
         {
-            private int time = 0;
+            int time = 0;
 
             public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
             {
@@ -421,9 +421,9 @@ namespace SlimDxGame.Scene
         }
 
         // プレイ中(操作可能)の状態
-        private class PlayingState : GameState<Stage>
+        class PlayingState : GameState<Stage>
         {
-            private void EnableOperate(Stage parent)
+            void EnableOperate(Stage parent)
             {
                 // プレイヤーを操作可能に
                 parent.PlayerController.Add(parent.Player);
@@ -441,7 +441,7 @@ namespace SlimDxGame.Scene
         }
 
         // ステージクリアした状態
-        private class ClearedState : GameState<Stage>
+        class ClearedState : GameState<Stage>
         {
             public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
             {
@@ -450,7 +450,7 @@ namespace SlimDxGame.Scene
         }
 
         // ミスした状態
-        private class MissedState : GameState<Stage>
+        class MissedState : GameState<Stage>
         {
             public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
             {
@@ -459,7 +459,7 @@ namespace SlimDxGame.Scene
         }
 
         // ポーズ状態
-        private class PausingState : GameState<Stage>
+        class PausingState : GameState<Stage>
         {
             public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
             {
@@ -468,7 +468,7 @@ namespace SlimDxGame.Scene
         }
 
         // フェードアウト状態
-        private class FadeOutState : GameState<Stage>
+        class FadeOutState : GameState<Stage>
         {
             public int Update( GameRootObjects root_objects,  Stage parent, GameState<Stage> new_state)
             {

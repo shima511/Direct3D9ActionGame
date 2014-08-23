@@ -9,44 +9,44 @@ namespace SlimDxGame.Scene
 {
     class Title : Scene.Base
     {
-        private enum ReturnFlag
+        enum ReturnFlag
         {
             ExitGame,
             ToNextScene
         };
         // BackGround
-        private Object.Base.Model model_obj = new Object.Base.Model();
+        Object.Base.Model model_obj = new Object.Base.Model();
         // タイトル文字
-        private Object.Base.String title_label = new Object.Base.String();
+        Object.Base.String title_label = new Object.Base.String();
         // BGM
-        private Asset.Music bgm;
+        Asset.Music bgm;
         // 
-        private ReturnFlag game_flag;
+        ReturnFlag game_flag;
         // コントローラー
-        private Controller controller = new Controller();
+        Controller controller = new Controller();
         // カメラ
-        private Object.Camera camera = new Object.Camera();
+        Object.Camera camera = new Object.Camera();
         // フェーダー
-        private Object.Fader fader = new Object.Fader();
+        Object.Fader fader = new Object.Fader();
         // メニュー
-        private Menu menu = new Menu();
+        Menu menu = new Menu();
 
-        private GameState<Title> now_state = new LoadingState();
+        GameState<Title> now_state = new LoadingState();
 
-        private class LoadingState : GameState<Title>
+        class LoadingState : GameState<Title>
         {
-            private bool thread_created = false;
-            private bool load_completed = false;
-            private Thread thread;
-            private Object.LoadingScreen loading_screen = new Object.LoadingScreen();
+            bool thread_created = false;
+            bool load_completed = false;
+            Thread thread;
+            Object.LoadingScreen loading_screen = new Object.LoadingScreen();
 
-            private void AddFont( AssetContainer<Asset.Font> font_container)
+            void AddFont( AssetContainer<Asset.Font> font_container)
             {
                 var font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
                 font_container.Add("SimpleFont", font);
             }
 
-            private void AddLoadingScreen( GameRootObjects root_objects)
+            void AddLoadingScreen( GameRootObjects root_objects)
             {
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
@@ -55,13 +55,13 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[1].Add(loading_screen);
             }
 
-            private void RemoveLoadingScreen( GameRootObjects root_objects)
+            void RemoveLoadingScreen( GameRootObjects root_objects)
             {
                 root_objects.UpdateList.Remove(loading_screen);
                 root_objects.Layers[1].Remove(loading_screen);
             }
 
-            private void LoadTextures( AssetContainer<Asset.Texture> tex_container)
+            void LoadTextures( AssetContainer<Asset.Texture> tex_container)
             {
                 Asset.Texture new_tex;
 
@@ -76,7 +76,7 @@ namespace SlimDxGame.Scene
                 tex_container.Add("BlackTexture", new_tex);
             }
 
-            private void LoadSounds( AssetContainer<Asset.Sound> sound_container)
+            void LoadSounds( AssetContainer<Asset.Sound> sound_container)
             {
                 Asset.Sound new_sound;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -84,7 +84,7 @@ namespace SlimDxGame.Scene
                 sound_container.Add("test_sound", new_sound);
             }
 
-            private void LoadModels( AssetContainer<Asset.Model> model_container)
+            void LoadModels( AssetContainer<Asset.Model> model_container)
             {
                 Asset.Model new_model;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -92,7 +92,7 @@ namespace SlimDxGame.Scene
                 model_container.Add("test_model", new_model);
             }
 
-            private void LoadAssets(object args)
+            void LoadAssets(object args)
             {
                 var root_objects = (GameRootObjects)args;
 
@@ -164,9 +164,9 @@ namespace SlimDxGame.Scene
             }
         }
 
-        private class InitObjectsState : GameState<Title>
+        class InitObjectsState : GameState<Title>
         {
-            private void SetMenuCursor( GameRootObjects root_objects,  Menu menu)
+            void SetMenuCursor( GameRootObjects root_objects,  Menu menu)
             {
                 var cursor = new Object.Cursor();
                 // テクスチャ貼り付け
@@ -191,14 +191,14 @@ namespace SlimDxGame.Scene
                 menu.Cursor = cursor;
             }
 
-            private void SetMenuFont( GameRootObjects root_objects,  Menu menu)
+            void SetMenuFont( GameRootObjects root_objects,  Menu menu)
             {
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
                 menu.Font = font;
             }
 
-            private void SetMenuColumns( Menu menu)
+            void SetMenuColumns( Menu menu)
             {
                 menu.StartPosition = new SlimDX.Vector2(Core.Game.AppInfo.Width / 3, Core.Game.AppInfo.Height * 3 / 4);
                 List<Object.Base.String> columns = new List<Object.Base.String>();
@@ -216,7 +216,7 @@ namespace SlimDxGame.Scene
                 menu.ColumnInterval = 50;
             }
 
-            private void AddMenu( GameRootObjects root_objects,  Title parent)
+            void AddMenu( GameRootObjects root_objects,  Title parent)
             {
                 // 設定
                 SetMenuFont( root_objects,  parent.menu);
@@ -228,13 +228,13 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.menu);
             }
 
-            private void InitBGM( GameRootObjects root_objects,  Title parent)
+            void InitBGM( GameRootObjects root_objects,  Title parent)
             {
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                 parent.bgm = AssetFactory.AudioMediaFactory.CreateMusicFromFile(Path.Combine(baseDir, Path.Combine("sounds", "MusicMono.wav")), 100, 6000);
             }
 
-            private void InitBackGround( GameRootObjects root_objects,  Title parent)
+            void InitBackGround( GameRootObjects root_objects,  Title parent)
             {
                 Asset.Model model;
                 root_objects.ModelContainer.TryGetValue("test_model", out model);
@@ -243,12 +243,12 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[0].Add(parent.model_obj);
             }
 
-            private void InitCamera( GameRootObjects root_objects,  Title parent)
+            void InitCamera( GameRootObjects root_objects,  Title parent)
             {
                 root_objects.Layers[0].Add(parent.camera);
             }
 
-            private void InitTitleLabel( GameRootObjects root_objects,  Title parent)
+            void InitTitleLabel( GameRootObjects root_objects,  Title parent)
             {
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
@@ -276,19 +276,19 @@ namespace SlimDxGame.Scene
             }
         }
 
-        private class FadeInState : GameState<Title>
+        class FadeInState : GameState<Title>
         {
             public FadeInState( GameRootObjects root_objects,  Title parent)
             {
                 AddFadeInEffect( root_objects,  parent);
             }
 
-            private void Exit( GameRootObjects root_objects,  Title parent)
+            void Exit( GameRootObjects root_objects,  Title parent)
             {
                 RemoveFadeInEffect( root_objects,  parent);
             }
 
-            private void AddFadeInEffect( GameRootObjects root_objects,  Title parent)
+            void AddFadeInEffect( GameRootObjects root_objects,  Title parent)
             {
                 Asset.Texture tex;
                 root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
@@ -301,7 +301,7 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.fader);
             }
 
-            private void RemoveFadeInEffect( GameRootObjects root_objects,  Title parent)
+            void RemoveFadeInEffect( GameRootObjects root_objects,  Title parent)
             {
                 root_objects.Layers[2].Remove(parent.fader);
                 root_objects.UpdateList.Remove(parent.fader);
@@ -319,9 +319,9 @@ namespace SlimDxGame.Scene
             }
         }
 
-        private class MenuState : GameState<Title>
+        class MenuState : GameState<Title>
         {
-            private void RemoveMenu( GameRootObjects root_objects,  Title parent)
+            void RemoveMenu( GameRootObjects root_objects,  Title parent)
             {
                 root_objects.Layers[0].Remove(parent.menu);
                 root_objects.UpdateList.Remove(parent.menu);
@@ -334,7 +334,7 @@ namespace SlimDxGame.Scene
                 parent.controller.Add(parent.menu);
             }
 
-            private void Exit( GameRootObjects root_objects,  Title parent)
+            void Exit( GameRootObjects root_objects,  Title parent)
             {
                 RemoveMenu( root_objects,  parent);
             }
@@ -364,9 +364,9 @@ namespace SlimDxGame.Scene
 
         }
 
-        private class FadeOutState : GameState<Title>
+        class FadeOutState : GameState<Title>
         {
-            private void AddFadeOutEffect( GameRootObjects root_objects,  Title parent)
+            void AddFadeOutEffect( GameRootObjects root_objects,  Title parent)
             {
                 Asset.Texture tex;
                 root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
@@ -379,13 +379,13 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.fader);
             }
 
-            private void RemoveFadeOutEffect( GameRootObjects root_objects,  Title parent)
+            void RemoveFadeOutEffect( GameRootObjects root_objects,  Title parent)
             {
                 root_objects.Layers[2].Remove(parent.fader);
                 root_objects.UpdateList.Remove(parent.fader);
             }
 
-            private void Exit( GameRootObjects root_objects,  Title parent)
+            void Exit( GameRootObjects root_objects,  Title parent)
             {
                 RemoveFadeOutEffect( root_objects,  parent);
             }
