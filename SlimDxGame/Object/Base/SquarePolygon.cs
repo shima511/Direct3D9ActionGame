@@ -34,12 +34,6 @@ namespace SlimDxGame.Object.Base
             dev.SetStreamSource(0, Vertex.Buffer, 0, Vertex.Size);
             dev.VertexDeclaration = Vertex.Declaration;
             dev.VertexFormat = Vertex.Format;
-            dev.Material = new Material() { 
-                Ambient = System.Drawing.Color.White, 
-                Diffuse = System.Drawing.Color.White,
-                Emissive = System.Drawing.Color.White
-                
-            };
             dev.SetTexture(0, Texture.Resource);
             dev.DrawPrimitives(PrimitiveType.TriangleList, 0, Vertex.TriangleCount);
         }

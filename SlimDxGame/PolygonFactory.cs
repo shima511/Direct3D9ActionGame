@@ -40,12 +40,12 @@ namespace SlimDxGame
 
             var stream = vertex.Buffer.Lock(0, 0, LockFlags.None);
             stream.WriteRange(new []{
-                new PolygonVertex(new Vector3(-0.5f, 0.5f, 0.0f), new Vector2(0.0f, 0.0f)),
-                new PolygonVertex(new Vector3(0.5f, 0.5f, 0.0f), new Vector2(1.0f, 0.0f)),
-                new PolygonVertex(new Vector3(-0.5f, -0.5f, 0.0f), new Vector2(0.0f, 1.0f)),
-                new PolygonVertex(new Vector3(0.5f, -0.5f, 0.0f), new Vector2(1.0f, 1.0f)),
-                new PolygonVertex(new Vector3(-0.5f, -0.5f, 0.0f), new Vector2(0.0f, 1.0f)),
-                new PolygonVertex(new Vector3(0.5f, 0.5f, 0.0f), new Vector2(1.0f, 0.0f))
+                new PolygonVertex(new Vector3(-0.5f, 0.0f, 0.5f), new Vector2(0.0f, 0.0f)),
+                new PolygonVertex(new Vector3(0.5f, 0.0f, 0.5f), new Vector2(1.0f, 0.0f)),
+                new PolygonVertex(new Vector3(-0.5f, 0.0f, -0.5f), new Vector2(0.0f, 1.0f)),
+                new PolygonVertex(new Vector3(0.5f, 0.0f, -0.5f), new Vector2(1.0f, 1.0f)),
+                new PolygonVertex(new Vector3(-0.5f, 0.0f, -0.5f), new Vector2(0.0f, 1.0f)),
+                new PolygonVertex(new Vector3(0.5f, 0.0f, 0.5f), new Vector2(1.0f, 0.0f))
             });
             vertex.Buffer.Unlock();
 

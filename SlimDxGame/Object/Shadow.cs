@@ -29,15 +29,22 @@ namespace SlimDxGame.Object
             // 床からの差分
             var diff = Owner.Position.Y - Line.GetYAxisFromXAxis(Owner.Position.X);
             var scale = Scale;
-            scale.X = diff;
-            scale.Y = diff;
+            scale.X = 5.0f - diff;
+            scale.Y = 5.0f - diff;
+            if (scale.X < 0)
+            {
+                scale.X = 0.0f;
+            }
+            if (scale.Y < 0)
+            {
+                scale.Y = 0.0f;
+            }
             Scale = scale;
         }
 
         void UpdateRotation()
         {
             var rot = Rotation;
-            rot.X = (float)Math.PI / 2;
             rot.Z = Line.Slope;
             Rotation = rot;
         }
