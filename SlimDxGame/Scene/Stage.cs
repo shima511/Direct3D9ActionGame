@@ -43,6 +43,10 @@ namespace SlimDxGame.Scene
         /// </summary>
         Object.Shadow Shadow { get; set; }
         ShadowManager ShadowManage { get; set; }
+        /// <summary>
+        /// リソース情報
+        /// </summary>
+        ScriptRW.Properties AssetsList { get; set; }
 
         public Stage()
         {
@@ -52,11 +56,10 @@ namespace SlimDxGame.Scene
         // ステージの読み込みなどを行う
         class LoadingState : GameState<Stage>
         {
-            bool thread_created = false;
+            bool ThreadCreated { get; set; }
+            bool LoadCompleted { get; set; }
 
-            bool load_completed = false;
-
-            void InitLayer( GameRootObjects root_objects)
+            void InitLayer(GameRootObjects root_objects)
             {
                 root_objects.Layers.Capacity = 4;
                 for (int i = 0; i < root_objects.Layers.Capacity; i++)
@@ -65,14 +68,23 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            void LoadTextures( AssetContainer<Asset.Texture> tex_container)
+            void LoadAssetList(Stage parent)
+            {
+                ScriptRW.Reader reader = new ScriptRW.Reader();
+                var assets_list = parent.AssetsList;
+                reader.Read(out assets_list, "obj_list.txt");
+                parent.AssetsList = assets_list;
+            }
+
+            void LoadTextures(ScriptRW.Properties assets, AssetContainer<Asset.Texture> tex_container)
             {
                 Asset.Texture new_tex;
-
-                //// 読み込み
-                string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                new_tex = AssetFactory.TextureFactory.CreateTextureFromFile(Path.Combine(baseDir, Path.Combine("toons", "shadow.png")));
-                tex_container.Add("Shadow", new_tex);
+                foreach (var item in assets.Textures)
+                {
+                    string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+                    new_tex = AssetFactory.TextureFactory.CreateTextureFromFile(Path.Combine(baseDir, item.AssetPath));
+                    tex_container.Add(item.Name, new_tex);
+                }
 
                 // フェーダー用のテクスチャを生成
                 byte[] tex_info = { 255, 255, 255, 255 };
@@ -80,33 +92,24 @@ namespace SlimDxGame.Scene
                 tex_container.Add("BlackTexture", new_tex);
             }
 
-            void LoadSounds( AssetContainer<Asset.Sound> sound_container)
+            void LoadSounds(AssetContainer<Asset.Sound> sound_container)
             {
-                //Asset.Sound new_sound;
-                //string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                //new_sound = AssetFactory.AudioMediaFactory.CreateSoundFromFile(Path.Combine(baseDir, Path.Combine("sounds", "MusicMono.wav")));
-                //sound_container.Add("test_sound", new_sound);
             }
 
-            void LoadModels(AssetContainer<Asset.Model> model_container)
+            void LoadModels(ScriptRW.Properties properties, AssetContainer<Asset.Model> model_container)
             {
                 Asset.Model new_model;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "test.x")));
-                model_container.Add("TestModel", new_model);
-
-                new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "test_obj.x")));
-                model_container.Add("StageObject", new_model);
-
-                new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "Floor.x")));
-                model_container.Add("NormalFloor", new_model);
-
-                new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, Path.Combine("models", "coins.x")));
-                model_container.Add("Coins", new_model);
-
-                ScriptRW.Reader reader = new ScriptRW.Reader();
-                ScriptRW.Properties properties;
-                reader.Read(out properties, "obj_list.txt");
+                foreach (var item in properties.Items)
+                {
+                    new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
+                    model_container.Add(item.Name, new_model);
+                }
+                foreach (var item in properties.Enemies)
+                {
+                    new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
+                    model_container.Add(item.Name, new_model);
+                }
                 foreach (var item in properties.Decolations)
                 {
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
@@ -147,23 +150,21 @@ namespace SlimDxGame.Scene
 
             public int Update(GameRootObjects root_objects, Stage parent, GameState<Stage> new_state)
             {
-                if (!thread_created)
+                if (!ThreadCreated)
                 {
                     CreateInstance(parent);
-
                     InitLayer( root_objects);
-
-                    thread_created = true;
+                    ThreadCreated = true;
                 }
-
-                LoadTextures(root_objects.TextureContainer);
-                LoadModels(root_objects.ModelContainer);
+                LoadAssetList(parent);
+                LoadTextures(parent.AssetsList, root_objects.TextureContainer);
+                LoadModels(parent.AssetsList, root_objects.ModelContainer);
                 LoadStage(root_objects, parent);
                 LoadFont(root_objects);
 
-                load_completed = true;
+                LoadCompleted = true;
 
-                if (load_completed)
+                if (LoadCompleted)
                 {
                     List<string> invalid_calls = new List<string>();
                     if (root_objects.IncludeInvalidAsset(ref invalid_calls) || !parent.StageLoader.Valid)
