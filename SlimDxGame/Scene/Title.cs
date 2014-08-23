@@ -105,7 +105,7 @@ namespace SlimDxGame.Scene
                 load_completed = true;
             }
 
-            public int Update(GameRootObjects root_objects, Title parent, ref GameState<Title> new_state)
+            public int Update(GameRootObjects root_objects, Title parent, GameState<Title> new_state)
             {
                 int ret_val = 0;
                 // スレッドが作られていない場合
@@ -258,7 +258,7 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[0].Add(parent.title_label);
             }
 
-            public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
+            public int Update( GameRootObjects root_objects,  Title parent, GameState<Title> new_state)
             {
                 // メニュー画面を追加
                 AddMenu( root_objects,  parent);
@@ -307,7 +307,7 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Remove(parent.fader);
             }
 
-            public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
+            public int Update( GameRootObjects root_objects,  Title parent, GameState<Title> new_state)
             {
                 // フェードのアルファ値が0.1以下になったら次のステートに
                 if (parent.fader.Color.Alpha <= 0.1f)
@@ -339,7 +339,7 @@ namespace SlimDxGame.Scene
                 RemoveMenu( root_objects,  parent);
             }
 
-            public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
+            public int Update( GameRootObjects root_objects,  Title parent, GameState<Title> new_state)
             {
 
                 if (parent.menu.Fixed)
@@ -395,7 +395,7 @@ namespace SlimDxGame.Scene
                 AddFadeOutEffect( root_objects,  parent);
             }
 
-            public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
+            public int Update( GameRootObjects root_objects,  Title parent, GameState<Title> new_state)
             {
                 if (parent.fader.Color.Alpha >= 0.9f)
                 {
@@ -408,7 +408,7 @@ namespace SlimDxGame.Scene
 
         public override int Update( GameRootObjects root_objects, ref Scene.Base new_scene){
             int ret_val = 0;
-            if (now_state.Update(root_objects, this, ref now_state) != 0)
+            if (now_state.Update(root_objects, this, now_state) != 0)
             {
                 base.ExitScene(root_objects);
                 switch (game_flag)

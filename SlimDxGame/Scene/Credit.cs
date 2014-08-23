@@ -23,7 +23,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            public int Update(GameRootObjects root, Credit parent, ref GameState<Credit> new_state)
+            public int Update(GameRootObjects root, Credit parent, GameState<Credit> new_state)
             {
                 InitLayer(root);
                 parent.light.Index = 0;
@@ -42,7 +42,7 @@ namespace SlimDxGame.Scene
 
         public override int Update(GameRootObjects root, ref Base new_scene)
         {
-            int val = current_state.Update(root, this, ref current_state);
+            int val = current_state.Update(root, this, current_state);
             if (val != 0)
             {
                 new_scene = new Scene.Title();

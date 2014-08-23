@@ -15,7 +15,7 @@ namespace SlimDxGame
         /// <param name="scene_objects">親(this)のオブジェクト</param>
         /// <param name="new_state">新しい状態</param>
         /// <returns></returns>
-        int Update(GameRootObjects root_objects, Parent parent, ref GameState<Parent> new_state);
+        int Update(GameRootObjects root_objects, Parent parent, GameState<Parent> new_state);
     }
 
     class ObjectState<Parent>
@@ -25,7 +25,7 @@ namespace SlimDxGame
         /// </summary>
         /// <param name="parent">更新する対象となるオブジェクト</param>
         /// <param name="new_state">新しい状態</param>
-        public virtual void Update(Parent parent, ref ObjectState<Parent> new_state)
+        public virtual void Update(Parent parent, ObjectState<Parent> new_state)
         {
 
         }
@@ -35,7 +35,7 @@ namespace SlimDxGame
         /// <param name="parent">更新する対象となるオブジェクト</param>
         /// <param name="controller">コントローラーオブジェクト</param>
         /// <param name="new_state">新しい状態</param>
-        public virtual void ControllerAction(Parent parent, Controller controller, ref ObjectState<Parent> new_state)
+        public virtual void ControllerAction(Parent parent, Controller controller, ObjectState<Parent> new_state)
         {
 
         }
