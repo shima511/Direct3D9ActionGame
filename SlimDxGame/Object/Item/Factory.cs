@@ -23,7 +23,7 @@ namespace SlimDxGame.Object.Item
                     new_item = new Item.Coin()
                     {
                         StageState = this.StageStatus,
-                        ModelAsset = ModelContainer.GetValue("TestModel")
+                        ModelAsset = ModelContainer.GetValue("Coins")
                     };
                     break;
                 case 1:

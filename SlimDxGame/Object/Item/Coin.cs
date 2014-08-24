@@ -51,7 +51,7 @@ namespace SlimDxGame.Object.Item
                 var score = StageState.Score;
                 score += this.score;
                 StageState.Score = score;
-                OnHit(this);
+           //     OnHit(this);
             }
         }
         public void Hit(Ground.Floor floor)
