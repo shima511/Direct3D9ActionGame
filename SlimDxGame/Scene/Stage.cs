@@ -47,11 +47,16 @@ namespace SlimDxGame.Scene
         /// リソース情報
         /// </summary>
         ScriptRW.Properties AssetsList { get; set; }
+        /// <summary>
+        /// ステージの地形情報
+        /// </summary>
+        List<Object.Ground.Base> Grounds { get; set; }
 
         public Stage()
         {
             CurrentState = new LoadingState();
             Lights = new List<Effect.Light>();
+            Grounds = new List<Object.Ground.Base>();
         }
 
         // ステージの読み込みなどを行う
@@ -230,7 +235,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            void InitInputManager( GameRootObjects root_objects,  Stage parent)
+            void InitInputManager(GameRootObjects root_objects,  Stage parent)
             {
                 root_objects.InputManager.Add(parent.PlayerController);
             }

@@ -126,6 +126,7 @@
     <Compile Include="Object\StateDrawer.cs" />
     <Compile Include="Scene\Credit.cs" />
     <Compile Include="PolygonFactory.cs" />
+    <Compile Include="ShadowManager.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Scene\Base.cs" />
     <Compile Include="Core\State.cs" />
