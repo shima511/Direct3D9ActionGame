@@ -4,17 +4,26 @@ using SlimDX.Direct3D9;
 
 namespace SlimDxGame.Object
 {
-    class Camera : Component.IDrawableObject, Component.IOperableObject
+    class Camera : Component.IUpdateObject, Component.IDrawableObject, Component.IOperableObject
     {
         private bool _is_visible = true;
         public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
         private float _range = (float)Math.PI / 4;
-        private Vector3 _eye_position = new Vector3(0.0f, 1.0f, -20.0f);
+        /// <summary>
+        /// カメラが注視する対象
+        /// </summary>
+        public Base.Model Subject { private get; set; }
+        private Vector3 _eye_position = new Vector3(0.0f, 4.0f, -20.0f);
         private Vector3 _at_position = new Vector3(0.0f, 0.0f, 0.0f);
         private Vector3 _up_direction = new Vector3(0.0f, 1.0f, 0.0f);
         public Vector3 EyePosition { get { return _eye_position; } set { _eye_position = value; } }
         public Vector3 AtPosition { get { return _at_position; } set { _at_position = value; } }
         public Vector3 UpDirection { get { return _up_direction; } set { _up_direction = value; } }
+
+        public void Update()
+        {
+            _eye_position.X = Subject.Position.X;
+        }
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
         {

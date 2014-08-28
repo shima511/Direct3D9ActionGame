@@ -94,7 +94,6 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Object\Base\Model.cs" />
     <Compile Include="Object\Base\SquarePolygon.cs" />
-    <Compile Include="Object\CameraManager.cs" />
     <Compile Include="Collision\Manager.cs" />
     <Compile Include="Object\Decolation\Factory.cs" />
     <Compile Include="Object\Fader.cs" />
