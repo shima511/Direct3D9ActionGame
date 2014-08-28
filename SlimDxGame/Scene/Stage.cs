@@ -19,7 +19,6 @@ namespace SlimDxGame.Scene
         StageRW.Reader StageLoader { get; set; }
         ReturnFrag ReturnTo { get; set; }
         Collision.Manager CollisionManager { get; set; }
-        Object.CameraManager CameraManager { get; set; }
         Object.Camera Camera { get; set; }
         Object.Player Player { get; set; }
         Controller PlayerController { get; set; }
@@ -41,7 +40,6 @@ namespace SlimDxGame.Scene
         /// <summary>
         /// 影
         /// </summary>
-        Object.Shadow Shadow { get; set; }
         ShadowManager ShadowManage { get; set; }
         /// <summary>
         /// リソース情報
@@ -146,42 +144,49 @@ namespace SlimDxGame.Scene
             {
                 parent.StageLoader = new StageRW.Reader();
                 parent.CollisionManager = new Collision.Manager();
-                parent.CameraManager = new Object.CameraManager();
                 parent.Camera = new Object.Camera();
                 parent.Player = new Object.Player();
                 parent.PlayerController = new Controller();
                 parent.Fader = new Object.Fader();
                 parent.ItemFactory = new Object.Item.Factory();
+                parent.Grounds = new List<Object.Ground.Base>();
             }
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
-                if (!ThreadCreated)
+                try
                 {
-                    CreateInstance(parent);
-                    InitLayer(root_objects);
-                    ThreadCreated = true;
-                }
-                LoadAssetList(parent);
-                LoadTextures(parent.AssetsList, root_objects.TextureContainer);
-                LoadModels(parent.AssetsList, root_objects.ModelContainer);
-                LoadStage(root_objects, parent);
-                LoadFont(root_objects);
-
-                LoadCompleted = true;
-
-                if (LoadCompleted)
-                {
-                    List<string> invalid_calls = new List<string>();
-                    if (root_objects.IncludeInvalidAsset(ref invalid_calls) || !parent.StageLoader.Valid)
+                    if (!ThreadCreated)
                     {
-                        MessageBox.Show("ファイルの読み込みに失敗", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        parent.ReturnTo = ReturnFrag.ExitGame;
-                        return -1;
+                        CreateInstance(parent);
+                        InitLayer(root_objects);
+                        ThreadCreated = true;
                     }
-                    new_state = new InitState();
-                }
+                    LoadAssetList(parent);
+                    LoadTextures(parent.AssetsList, root_objects.TextureContainer);
+                    LoadModels(parent.AssetsList, root_objects.ModelContainer);
+                    LoadStage(root_objects, parent);
+                    LoadFont(root_objects);
 
+                    LoadCompleted = true;
+
+                    if (LoadCompleted)
+                    {
+                        List<string> invalid_calls = new List<string>();
+                        if (root_objects.IncludeInvalidAsset(ref invalid_calls) || !parent.StageLoader.Valid)
+                        {
+                            MessageBox.Show("ファイルの読み込みに失敗", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            parent.ReturnTo = ReturnFrag.ExitGame;
+                            return -1;
+                        }
+                        new_state = new InitState();
+                    }
+                }catch(SystemException ex){
+                    MessageBox.Show(ex.Message, "ファイルエラー", MessageBoxButtons.OK);
+                    parent.ReturnTo = ReturnFrag.ExitGame;
+                    new_state = new InitState();
+                    return -1;
+                }
                 return 0;
             }
         }
@@ -193,9 +198,7 @@ namespace SlimDxGame.Scene
             {
                 root_objects.Layers[3].Add(parent.Camera);
                 parent.PlayerController.Add(parent.Camera);
-                parent.CameraManager.Camera = parent.Camera;
-                parent.CameraManager.Player = parent.Player;
-                root_objects.UpdateList.Add(parent.CameraManager);
+                parent.Camera.Subject = parent.Player;
             }
 
             void InitLightEffect(GameRootObjects root_objects, Stage parent)
@@ -249,28 +252,6 @@ namespace SlimDxGame.Scene
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
                 root_objects.UpdateList.Add(parent.Player);
                 root_objects.Layers[2].Add(parent.Player);
-
-                // 影をつける
-                Asset.Texture shadow_tex;
-                root_objects.TextureContainer.TryGetValue("Shadow", out shadow_tex);
-                Vertex vertex;
-                PolygonFactory.CreateSquarePolygon(out vertex);
-                parent.Shadow = new Object.Shadow()
-                {
-                    Texture = shadow_tex,
-                    Position = new SlimDX.Vector3(),
-                    Scale = new SlimDX.Vector2(3.0f, 3.0f),
-                    Rotation = new SlimDX.Vector3(),
-                    Vertex = vertex,
-                    Owner = parent.Player,
-                    Line = new Collision.Shape.Line()
-                    {
-                        StartingPoint = new SlimDX.Vector2(-6.0f, 0.0f),
-                        TerminalPoint = new SlimDX.Vector2(6.0f, 6.0f)
-                    }
-                };
-                root_objects.UpdateList.Add(parent.Shadow);
-                root_objects.Layers[2].Add(parent.Shadow);
             }
 
             void InitDecoration(GameRootObjects root_objects, Stage parent)
@@ -300,6 +281,7 @@ namespace SlimDxGame.Scene
                 {
                     Object.Ground.Base new_collision = Object.Ground.Base.CreateGround(item);
                     parent.CollisionManager.Add(new_collision);
+                    parent.Grounds.Add(new_collision);
                 }
 
                 root_objects.UpdateList.Add(parent.CollisionManager);
@@ -348,11 +330,36 @@ namespace SlimDxGame.Scene
                  * */
             }
 
+            void AddShadow(GameRootObjects root_objects, List<Object.Shadow> list, Stage parent)
+            {
+                Asset.Texture shadow_tex;
+                root_objects.TextureContainer.TryGetValue("Shadow", out shadow_tex);
+                Vertex vertex;
+                PolygonFactory.CreateSquarePolygon(out vertex);
+                // 影をつける
+                var shadow = new Object.Shadow()
+                {
+                    Texture = shadow_tex,
+                    Position = new SlimDX.Vector3(),
+                    Scale = new SlimDX.Vector2(3.0f, 3.0f),
+                    Rotation = new SlimDX.Vector3(),
+                    Vertex = vertex,
+                    Owner = parent.Player
+                };
+                list.Add(shadow);
+            }
+
             void InitShadow(GameRootObjects root_objects, Stage parent)
             {
                 parent.ShadowManage = new ShadowManager();
-                parent.ShadowManage.Shadow = parent.Shadow;
+
+                var list = new List<Object.Shadow>();
+                AddShadow(root_objects, list, parent);
+                parent.ShadowManage.Shadows = list;
+
+                parent.ShadowManage.Grounds = parent.Grounds;
                 root_objects.UpdateList.Add(parent.ShadowManage);
+                root_objects.Layers[2].Add(parent.ShadowManage);
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
