@@ -123,6 +123,7 @@
     <Compile Include="Object\Base\String.cs" />
     <Compile Include="Object\Shadow.cs" />
     <Compile Include="Object\StateDrawer.cs" />
+    <Compile Include="PauseMenuDispatcher.cs" />
     <Compile Include="Scene\Credit.cs" />
     <Compile Include="PolygonFactory.cs" />
     <Compile Include="ShadowManager.cs" />
