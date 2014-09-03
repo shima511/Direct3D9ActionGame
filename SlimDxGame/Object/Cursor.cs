@@ -6,9 +6,21 @@ namespace SlimDxGame.Object
 {
     class Cursor : Base.Sprite, Component.IOperableObject, Component.IUpdateObject
     {
-        public int NonActionTime { get; set; }
+        /// <summary>
+        /// カーソルの操作が行われていない時間
+        /// </summary>
+        int NonActionTime { get; set; }
+        /// <summary>
+        /// 現在のインデックス
+        /// </summary>
         public int Index { get; set; }
-        public List<Vector2> Positions { get; set; }
+        /// <summary>
+        /// カーソルが動く位置のリスト
+        /// </summary>
+        public List<Vector2> PositionList { get; set; }
+        /// <summary>
+        /// カーソルが操作された時に行うアクション
+        /// </summary>
         public Action MoveAction { get; set; }
 
         public void ControllerAction(SlimDxGame.Controller controller)
@@ -30,9 +42,9 @@ namespace SlimDxGame.Object
         public void Update()
         {
             NonActionTime++;
-            if (Index == -1) Index += Positions.Count;
-            Index %= Positions.Count;
-            _position = Positions[Index];
+            if (Index == -1) Index += PositionList.Count;
+            Index %= PositionList.Count;
+            _position = PositionList[Index];
         }
     }
 }

@@ -5,8 +5,8 @@ namespace SlimDxGame.Object.Base
 {
     class String : PlaneObject
     {
-        public Asset.Font Font { private get; set; }
-        public string Text { private get; set; }
+        public Asset.Font Font { get; set; }
+        public string Text { get; set; }
 
         private void UpdateMatrix()
         {
