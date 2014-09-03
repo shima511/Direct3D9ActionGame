@@ -121,10 +121,10 @@ namespace SlimDxGame.Scene
                     root_objects.InputManager.Add(parent.controller);
 
                     // フォント追加
-                    AddFont( root_objects.FontContainer);
+                    AddFont(root_objects.FontContainer);
 
                     // ローディング画面を作成
-                    AddLoadingScreen( root_objects);
+                    AddLoadingScreen(root_objects);
 
                     // マルチスレッド開始
                     thread = new Thread(new ParameterizedThreadStart(LoadAssets));
@@ -178,7 +178,7 @@ namespace SlimDxGame.Scene
                 var positions = new List<SlimDX.Vector2>();
                 positions.Add(new SlimDX.Vector2(30.0f, 30.0f));
                 positions.Add(new SlimDX.Vector2(30.0f, 60.0f));
-                cursor.Positions = positions;
+                cursor.PositionList = positions;
 
                 // カーソルを動かした時の効果
                 Asset.Sound sound;
@@ -195,7 +195,7 @@ namespace SlimDxGame.Scene
             {
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
-                menu.Font = font;
+                menu.DefaultFont = font;
             }
 
             void SetMenuColumns( Menu menu)
@@ -342,7 +342,7 @@ namespace SlimDxGame.Scene
             public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
             {
 
-                if (parent.menu.Fixed)
+                if (parent.menu.Selected)
                 {
                     Exit( root_objects,  parent);
                     switch (parent.menu.Cursor.Index)
@@ -406,7 +406,7 @@ namespace SlimDxGame.Scene
             }
         }
 
-        public override int Update( GameRootObjects root_objects, Scene.Base new_scene){
+        public override int Update( GameRootObjects root_objects, ref Scene.Base new_scene){
             int ret_val = 0;
             if (CurrentState.Update(root_objects, this, ref CurrentState) != 0)
             {

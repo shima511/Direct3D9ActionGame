@@ -46,7 +46,7 @@ namespace SlimDxGame.Scene
             }
         }
 
-        public override int Update(GameRootObjects root, Base new_scene)
+        public override int Update(GameRootObjects root, ref Base new_scene)
         {
             int val = CurrentState.Update(root, this, ref CurrentState);
             if (val != 0)
