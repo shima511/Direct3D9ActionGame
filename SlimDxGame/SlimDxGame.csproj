@@ -137,7 +137,7 @@
     <Compile Include="Scene\Stage.cs" />
     <Compile Include="Scene\Title.cs" />
     <Compile Include="Object\Base\Sprite.cs" />
-    <Compile Include="SoundLoader.cs" />
+    <Compile Include="AssetFactory\SoundLoader.cs" />
     <Compile Include="Vertex.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
