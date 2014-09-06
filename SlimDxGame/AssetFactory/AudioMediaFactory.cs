@@ -87,7 +87,6 @@ namespace SlimDxGame.AssetFactory
             {
                 new_sound = null;
             }
-            return new_sound;
 
             return new_sound;
         }

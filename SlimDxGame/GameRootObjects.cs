@@ -53,6 +53,7 @@ namespace SlimDxGame
             TextureContainer = new AssetContainer<Asset.Texture>();
             SoundContainer = new AssetContainer<Asset.Sound>();
             ModelContainer = new AssetContainer<Asset.Model>();
+            Settings = new Config();
         }
 
         /// <summary>

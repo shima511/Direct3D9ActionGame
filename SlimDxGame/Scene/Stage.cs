@@ -76,7 +76,6 @@ namespace SlimDxGame.Scene
                 }
             }
 
-
             void LoadAssetList(Stage parent)
             {
                 ScriptRW.Reader reader = new ScriptRW.Reader();
@@ -205,6 +204,14 @@ namespace SlimDxGame.Scene
         // ステージの配置など初期設定を行う
         class InitState : GameState<Stage>
         {
+            void InitVolume(GameRootObjects root_objects)
+            {
+                foreach (var item in root_objects.SoundContainer.Values)
+                {
+                    if (item != null) item.Volume = root_objects.Settings.SEVolume;
+                }
+            }
+
             void InitCamera(GameRootObjects root_objects,  Stage parent)
             {
                 root_objects.Layers[3].Add(parent.Camera);
@@ -417,6 +424,8 @@ namespace SlimDxGame.Scene
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                InitVolume(root_objects);
+
                 InitCamera(root_objects,  parent);
 
                 InitLightEffect(root_objects, parent);

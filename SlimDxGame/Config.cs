@@ -11,11 +11,11 @@ namespace SlimDxGame
         /// <summary>
         /// BGMの音量
         /// </summary>
-        public int BGMVolume { get; set; }
+        public float BGMVolume { get; set; }
         /// <summary>
         /// SEの音量
         /// </summary>
-        public int SEVolume { get; set; }
+        public float SEVolume { get; set; }
         /// <summary>
         /// キー対応表
         /// </summary>

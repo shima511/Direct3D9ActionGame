@@ -18,7 +18,24 @@ namespace SlimDxGame.Asset
         public List<VoiceInfo> Voices { get; set; }
         public WaveFormat Format { get; set; }
         public MemoryStream Stream { private get; set; }
-        public float Volume { get; set; }
+        float _volume = 1.0f;
+        /// <summary>
+        /// 音量
+        /// </summary>
+        public float Volume {
+            get
+            {
+                return _volume;
+            }
+            set
+            {
+                _volume = value;
+                foreach (var item in Voices)
+                {
+                    item.Resource.Volume = _volume;
+                }
+            }
+        }
 
         /// <summary>
         /// 音を作成します。
