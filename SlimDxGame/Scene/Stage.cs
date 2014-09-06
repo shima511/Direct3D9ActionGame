@@ -544,9 +544,20 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Remove(parent.PauseMenu);
             }
 
-            public PausingState(GameRootObjects root_objects, Stage parent)
+            void PausePlayer(GameRootObjects root_objects, Stage parent)
             {
                 parent.PlayerController.Remove(parent.Player);
+                root_objects.UpdateList.Remove(parent.Player);
+            }
+
+            void EnablePlayer(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.UpdateList.Add(parent.Player);
+            }
+
+            public PausingState(GameRootObjects root_objects, Stage parent)
+            {
+                PausePlayer(root_objects, parent);
                 ShowMenu(root_objects, parent);
             }
 
@@ -555,6 +566,7 @@ namespace SlimDxGame.Scene
                 if(parent.PauseMenu.Selected)
                 {
                     CloseMenu(root_objects, parent);
+                    EnablePlayer(root_objects, parent);
                     switch (parent.PauseMenu.Cursor.Index)
                     {
                         case 0:
