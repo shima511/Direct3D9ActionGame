@@ -76,6 +76,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
+
             void LoadAssetList(Stage parent)
             {
                 ScriptRW.Reader reader = new ScriptRW.Reader();
@@ -102,6 +103,11 @@ namespace SlimDxGame.Scene
 
             void LoadSounds(AssetContainer<Asset.Sound> sound_container)
             {
+                Asset.Sound new_sound;
+                string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+                byte[] data_array = File.ReadAllBytes(Path.Combine(baseDir, Path.Combine("sounds", "MusicMono.wav")));
+                new_sound = AssetFactory.AudioMediaFactory.CreateSoundFromMemory(data_array);
+                sound_container.Add("test_sound", new_sound);
             }
 
             void LoadModels(ScriptRW.Properties properties, AssetContainer<Asset.Model> model_container)
@@ -167,6 +173,7 @@ namespace SlimDxGame.Scene
                         ThreadCreated = true;
                     }
                     LoadAssetList(parent);
+                    LoadSounds(root_objects.SoundContainer);
                     LoadTextures(parent.AssetsList, root_objects.TextureContainer);
                     LoadModels(parent.AssetsList, root_objects.ModelContainer);
                     LoadStage(root_objects, parent);
@@ -340,11 +347,12 @@ namespace SlimDxGame.Scene
                 cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 2));
                 cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 3 / 4));
 
+                var sound = root_objects.SoundContainer.GetValue("test_sound");
                 // メニュー用のカーソル
                 var menu_cursor = new Object.Cursor()
                 {
                     Texture = tex,
-                    MoveAction = () => { },
+                    MoveAction = () => { sound.Play(); },
                     Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
                     Scale = new SlimDX.Vector2(30.0f, 30.0f),
                     Position = new SlimDX.Vector2(60.0f, 60.0f),
