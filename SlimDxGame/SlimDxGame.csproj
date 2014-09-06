@@ -89,6 +89,7 @@
     <Compile Include="Asset\Sound.cs" />
     <Compile Include="Asset\Texture.cs" />
     <Compile Include="Collision\Shape.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Core\CommonMatrix.cs" />
     <Compile Include="Effect\Light.cs" />
     <Compile Include="Menu.cs" />

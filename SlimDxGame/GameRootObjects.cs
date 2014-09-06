@@ -8,13 +8,41 @@ namespace SlimDxGame
 {
     class GameRootObjects
     {
+        /// <summary>
+        /// 更新リスト
+        /// Component.IUpdateObjectインターフェースを継承したオブジェクトを格納する
+        /// </summary>
         public List<Component.IUpdateObject> UpdateList { get; set; }
+        /// <summary>
+        /// レイヤー
+        /// Component.IDrawableObjectインターフェースを継承したオブジェクトを格納する
+        /// </summary>
         public List<List<Component.IDrawableObject>> Layers { get; set; }
+        /// <summary>
+        /// 入力管理クラス
+        /// コントローラーの追加などを行う
+        /// </summary>
         public InputManager InputManager { get; set; }
+        /// <summary>
+        /// フォントコンテナ
+        /// </summary>
         public AssetContainer<Asset.Font> FontContainer { get; set; }
+        /// <summary>
+        /// テクスチャコンテナ
+        /// </summary>
         public AssetContainer<Asset.Texture> TextureContainer { get; set; }
+        /// <summary>
+        /// サウンドコンテナ
+        /// </summary>
         public AssetContainer<Asset.Sound> SoundContainer { get; set; }
+        /// <summary>
+        /// モデルコンテナ
+        /// </summary>
         public AssetContainer<Asset.Model> ModelContainer { get; set; }
+        /// <summary>
+        /// ゲームの設定
+        /// </summary>
+        public Config Settings { get; set; }
 
         public GameRootObjects()
         {
