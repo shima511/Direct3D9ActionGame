@@ -21,19 +21,19 @@ namespace SlimDxGame.Object
         /// <summary>
         /// カーソルが操作された時に行うアクション
         /// </summary>
-        public Action MoveAction { get; set; }
+        public event Action OnMove;
 
         public void ControllerAction(SlimDxGame.Controller controller)
         {
             if (controller.DownButton.IsPressed())
             {
-                MoveAction();
+                OnMove();
                 NonActionTime = 0;
                 Index++;
             }
             if (controller.UpButton.IsPressed())
             {
-                MoveAction();
+                OnMove();
                 NonActionTime = 0;
                 Index--;
             }
