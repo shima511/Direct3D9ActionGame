@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Threading;
+using SlimDxGame.Utility;
 
 namespace SlimDxGame.Scene
 {
@@ -29,7 +30,7 @@ namespace SlimDxGame.Scene
         // フェーダー
         Object.Fader fader = new Object.Fader();
         // メニュー
-        Menu menu = new Menu();
+        Utility.Menu menu = new Utility.Menu();
 
         GameState<Title> CurrentState = new LoadingState();
 
@@ -40,13 +41,13 @@ namespace SlimDxGame.Scene
             Thread thread;
             Object.LoadingScreen loading_screen = new Object.LoadingScreen();
 
-            void AddFont( AssetContainer<Asset.Font> font_container)
+            void AddFont(AssetContainer<Asset.Font> font_container)
             {
                 var font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
                 font_container.Add("SimpleFont", font);
             }
 
-            void AddLoadingScreen( GameRootObjects root_objects)
+            void AddLoadingScreen(GameRootObjects root_objects)
             {
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
@@ -55,13 +56,13 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[1].Add(loading_screen);
             }
 
-            void RemoveLoadingScreen( GameRootObjects root_objects)
+            void RemoveLoadingScreen(GameRootObjects root_objects)
             {
                 root_objects.UpdateList.Remove(loading_screen);
                 root_objects.Layers[1].Remove(loading_screen);
             }
 
-            void LoadTextures( AssetContainer<Asset.Texture> tex_container)
+            void LoadTextures(AssetContainer<Asset.Texture> tex_container)
             {
                 Asset.Texture new_tex;
 
@@ -76,7 +77,7 @@ namespace SlimDxGame.Scene
                 tex_container.Add("BlackTexture", new_tex);
             }
 
-            void LoadSounds( AssetContainer<Asset.Sound> sound_container)
+            void LoadSounds(AssetContainer<Asset.Sound> sound_container)
             {
                 Asset.Sound new_sound;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -84,7 +85,7 @@ namespace SlimDxGame.Scene
                 sound_container.Add("test_sound", new_sound);
             }
 
-            void LoadModels( AssetContainer<Asset.Model> model_container)
+            void LoadModels(AssetContainer<Asset.Model> model_container)
             {
                 Asset.Model new_model;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -157,16 +158,16 @@ namespace SlimDxGame.Scene
                     }
                     else
                     {
-                        new_state = new InitObjectsState();
+                        new_state = new InitState();
                     }
                 }
                 return ret_val;
             }
         }
 
-        class InitObjectsState : GameState<Title>
+        class InitState : GameState<Title>
         {
-            void SetMenuCursor( GameRootObjects root_objects,  Menu menu)
+            void SetMenuCursor(GameRootObjects root_objects, Utility.Menu menu)
             {
                 var cursor = new Object.Cursor();
                 // テクスチャ貼り付け
@@ -183,24 +184,23 @@ namespace SlimDxGame.Scene
                 // カーソルを動かした時の効果
                 Asset.Sound sound;
                 root_objects.SoundContainer.TryGetValue("test_sound", out sound);
-                cursor.MoveAction += () =>
+                cursor.OnMove += () =>
                 {
- //                   sound.Play();
+                    sound.Play();
                 };
 
                 menu.Cursor = cursor;
             }
 
-            void SetMenuFont( GameRootObjects root_objects,  Menu menu)
+            void SetMenuFont(GameRootObjects root_objects, Utility.Menu menu)
             {
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
                 menu.DefaultFont = font;
             }
 
-            void SetMenuColumns( Menu menu)
+            void SetMenuColumns(Utility.Menu menu)
             {
-                menu.StartPosition = new SlimDX.Vector2(Core.Game.AppInfo.Width / 3, Core.Game.AppInfo.Height * 3 / 4);
                 List<Object.Base.String> columns = new List<Object.Base.String>();
 
                 string[] column_texts = {"Game Start", "Quit Game"};
@@ -213,10 +213,9 @@ namespace SlimDxGame.Scene
                 }
                 
                 menu.Columns = columns;
-                menu.ColumnInterval = 50;
             }
 
-            void AddMenu( GameRootObjects root_objects,  Title parent)
+            void AddMenu(GameRootObjects root_objects, Title parent)
             {
                 // 設定
                 SetMenuFont( root_objects,  parent.menu);
@@ -256,6 +255,14 @@ namespace SlimDxGame.Scene
                 parent.title_label.Text = "Sample Game";
                 parent.title_label.Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 1 / 3, 10.0f);
                 root_objects.Layers[0].Add(parent.title_label);
+            }
+
+            void InitVolume(GameRootObjects root_objects)
+            {
+                foreach (var item in root_objects.SoundContainer.Values)
+                {
+                    item.Volume = root_objects.Settings.SEVolume;
+                }
             }
 
             public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
