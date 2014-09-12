@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace SlimDxGame
+namespace SlimDxGame.Utility
 {
     class AssetContainer<TYPE> : Dictionary<string, TYPE>
         where TYPE : IDisposable
