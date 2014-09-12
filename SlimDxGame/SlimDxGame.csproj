@@ -79,7 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssetContainer.cs" />
+    <Compile Include="Utility\AssetContainer.cs" />
     <Compile Include="AssetFactory\ModelFactory.cs" />
     <Compile Include="AssetFactory\AudioMediaFactory.cs" />
     <Compile Include="AssetFactory\TextureFactory.cs" />
@@ -92,7 +92,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Core\CommonMatrix.cs" />
     <Compile Include="Effect\Light.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="Utility\Menu.cs" />
     <Compile Include="Object\Base\Model.cs" />
     <Compile Include="Object\Base\SquarePolygon.cs" />
     <Compile Include="Collision\Manager.cs" />
@@ -124,7 +124,6 @@
     <Compile Include="Object\Base\String.cs" />
     <Compile Include="Object\Shadow.cs" />
     <Compile Include="Object\StateDrawer.cs" />
-    <Compile Include="PauseMenuDispatcher.cs" />
     <Compile Include="Scene\Credit.cs" />
     <Compile Include="PolygonFactory.cs" />
     <Compile Include="ShadowManager.cs" />

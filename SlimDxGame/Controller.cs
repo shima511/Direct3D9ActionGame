@@ -25,14 +25,26 @@ namespace SlimDxGame
                 keyboard_key = key;
             }
 
+            /// <summary>
+            /// 押された時、trueを返す
+            /// </summary>
+            /// <returns></returns>
             public bool IsPressed()
             {
                 return Keyboard.IsPressed(keyboard_key) | Mouse.IsPressed() | Joypad.IsPressed();
             }
+            /// <summary>
+            /// 押している間、trueを返す
+            /// </summary>
+            /// <returns></returns>
             public bool IsBeingPressed()
             {
                 return Keyboard.IsBeingPressed(keyboard_key) | Mouse.IsBeingPressed() | Joypad.IsBeingPressed();
             }
+            /// <summary>
+            /// 離された時、trueを返す
+            /// </summary>
+            /// <returns></returns>
             public bool IsReleased()
             {
                 return Keyboard.IsReleased(keyboard_key) | Mouse.IsReleased() | Joypad.IsReleased();
@@ -93,6 +105,37 @@ namespace SlimDxGame
         /// </summary>
         public Button SelectButton = new Button(Key.Space);
         public AnalogStick Stick = new AnalogStick();
+
+        /// <summary>
+        /// 押された時、trueを返す
+        /// </summary>
+        /// <param name="button">ボタンオブジェクト</param>
+        /// <returns></returns>
+        public bool IsPressed(Button button)
+        {
+            return button.IsPressed();
+        }
+
+        /// <summary>
+        /// 押されている間、trueを返す
+        /// </summary>
+        /// <param name="button">ボタンオブジェクト</param>
+        /// <returns></returns>
+        public bool IsBeingPressed(Button button)
+        {
+            return button.IsBeingPressed();
+        }
+
+        /// <summary>
+        /// 離された時、trueを返す
+        /// </summary>
+        /// <param name="button">ボタンオブジェクト</param>
+        /// <returns></returns>
+        public bool IsReleased(Button button)
+        {
+            return button.IsReleased();
+        }
+
 
         public void Update(ref Device.Input.Keyboard keyboard, ref Device.Input.Mouse mouse, ref Device.Input.JoyPad joypad)
         {
