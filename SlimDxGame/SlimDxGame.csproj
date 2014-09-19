@@ -79,6 +79,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MenuCreator\DialogMenuBuilder.cs" />
+    <Compile Include="MenuCreator\MenuBuilder.cs" />
+    <Compile Include="MenuCreator\MenuDirector.cs" />
+    <Compile Include="MenuCreator\PauseMenuBuilder.cs" />
     <Compile Include="Utility\AssetContainer.cs" />
     <Compile Include="AssetFactory\ModelFactory.cs" />
     <Compile Include="AssetFactory\AudioMediaFactory.cs" />
