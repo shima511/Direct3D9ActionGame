@@ -334,123 +334,35 @@ namespace SlimDxGame.Scene
                     root_objects.Layers[1].Add(new_item);
                 }
             }
-
+            
             void InitPauseMenu(GameRootObjects root_objects, Stage parent)
             {
-                Asset.Texture tex;
-                root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
-
-                // メニューを表示するための黒背景
-                var menu_bg = new Object.Base.Sprite()
+                Utility.Menu pause_menu = new Utility.Menu();
+                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
                 {
-                    Texture = tex,
-                    Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2),
-                    Color = new SlimDX.Color4(0.8f, 0.0f, 0.0f, 0.0f),
+                    RootObjects = root_objects,
+                    Controller = parent.PlayerController
                 };
-
-                root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
-
-                var cursor_position_list = new List<SlimDX.Vector2>();
-                cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 4));
-                cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 2));
-                cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 3 / 4));
-
-                var sound = root_objects.SoundContainer.GetValue("test_sound");
-                // メニュー用のカーソル
-                var menu_cursor = new Object.Cursor()
-                {
-                    Texture = tex,
-                    Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
-                    Scale = new SlimDX.Vector2(30.0f, 30.0f),
-                    Position = new SlimDX.Vector2(60.0f, 60.0f),
-                    PositionList = cursor_position_list
-                };
-
-                menu_cursor.OnMove += () => { sound.Play(); };
-
-                // メニュー表示用のフォント
-                Asset.Font font;
-                root_objects.FontContainer.TryGetValue("Arial", out font);
-
-                // 項目を追加
-                List<Object.Base.String> columns = new List<Object.Base.String>();
-                columns.AddRange(new []{
-                    new Object.Base.String(){Text = "Return Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height / 4)},
-                    new Object.Base.String(){Text = "To Title", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height / 2)},
-                    new Object.Base.String(){Text = "Exit Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 3 / 4)}
-                });
-
-                parent.PauseMenu = new Utility.Menu()
-                {
-                    Cursor = menu_cursor,
-                    BackGround = menu_bg,
-                    DefaultFont = font,
-                    Columns = columns
-                };
-                parent.PauseMenu.OnShown += () => { };
-
+                parent.PauseMenu = m_director.Create(new MenuCreator.PauseMenuBuilder(pause_menu));
                 InitDialogMenu(root_objects, parent);
-                parent.PlayerController.Add(parent.PauseMenu);
             }
 
             void InitDialogMenu(GameRootObjects root_objects, Stage parent)
             {
-                Asset.Texture tex;
-                root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
-
-                // メニューを表示するための黒背景
-                var menu_bg = new Object.Base.Sprite()
+                Utility.Menu dialog_menu = new Utility.Menu();
+                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
                 {
-                    Texture = tex,
-                    Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2),
-                    Color = new SlimDX.Color4(0.8f, 0.0f, 0.0f, 0.0f),
+                    RootObjects = root_objects,
+                    Controller = parent.PlayerController
                 };
-
-                root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
-
-                var cursor_position_list = new List<SlimDX.Vector2>();
-                cursor_position_list.AddRange(new []
-                {
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width / 5 - 30, Core.Game.AppInfo.Height * 3 / 5),
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 5 - 30, Core.Game.AppInfo.Height * 3 / 5)
+                dialog_menu.ParentMenu = parent.PauseMenu;
+                dialog_menu.ChildMenus.Add(null);
+                dialog_menu.ChildMenus.Add(null);
+                parent.PauseMenu.ChildMenus.AddRange(new[]{
+                    null,
+                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu)),
+                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu))
                 });
-
-                var sound = root_objects.SoundContainer.GetValue("test_sound");
-                // メニュー用のカーソル
-                var menu_cursor = new Object.Cursor()
-                {
-                    Texture = tex,
-                    Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
-                    Scale = new SlimDX.Vector2(30.0f, 30.0f),
-                    Position = new SlimDX.Vector2(60.0f, 60.0f),
-                    PositionList = cursor_position_list
-                };
-                menu_cursor.OnMove += () => { sound.Play(); };
-
-                // メニュー表示用のフォント
-                Asset.Font font;
-                root_objects.FontContainer.TryGetValue("Arial", out font);
-
-                // 項目を追加
-                List<Object.Base.String> columns = new List<Object.Base.String>();
-                columns.AddRange(new[]{
-                    new Object.Base.String(){Text = "Confirmation", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 3, Core.Game.AppInfo.Height / 5)},
-                    new Object.Base.String(){Text = "Do you really stop playing?", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 4, Core.Game.AppInfo.Height * 2 / 5)},
-                    new Object.Base.String(){Text = "Yes", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 5, Core.Game.AppInfo.Height * 3 / 5)},
-                    new Object.Base.String(){Text = "No", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 5, Core.Game.AppInfo.Height * 3 / 5)}
-                });
-
-                var dialogMenu = new Utility.Menu()
-                {
-                    Cursor = menu_cursor,
-                    BackGround = menu_bg,
-                    DefaultFont = font,
-                    Columns = columns,
-                    ParentMenu = parent.PauseMenu
-                };
-
-                parent.PauseMenu.ChildMenus = new List<Utility.Menu>();
-                parent.PauseMenu.ChildMenus.Add(dialogMenu);
             }
 
             void AddShadow(GameRootObjects root_objects, List<Object.Shadow> list, Stage parent)
@@ -553,10 +465,12 @@ namespace SlimDxGame.Scene
 
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
-                //time++;
-                //if(time >= 120){
-                    new_state = new PlayingState( root_objects,  parent);
-                //}
+                time++;
+                if(time >= 0){
+                    // ポーズメニューを操作できるようにする
+                    parent.PlayerController.Add(parent.PauseMenu);
+                    new_state = new PlayingState(root_objects,  parent);
+                }
                 return 0;
             }
         }
@@ -606,18 +520,6 @@ namespace SlimDxGame.Scene
         // ポーズ状態
         class PausingState : GameState<Stage>
         {
-            void ShowMenu(GameRootObjects root_objects, Stage parent)
-            {
-                root_objects.UpdateList.Add(parent.PauseMenu);
-                root_objects.Layers[2].Add(parent.PauseMenu);
-            }
-
-            void CloseMenu(GameRootObjects root_objects, Stage parent)
-            {
-                root_objects.UpdateList.Remove(parent.PauseMenu);
-                root_objects.Layers[2].Remove(parent.PauseMenu);
-            }
-
             void PausePlayer(GameRootObjects root_objects, Stage parent)
             {
                 parent.PlayerController.Remove(parent.Player);
@@ -629,33 +531,31 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.Player);
             }
 
-
             public PausingState(GameRootObjects root_objects, Stage parent)
             {
                 PausePlayer(root_objects, parent);
-                ShowMenu(root_objects, parent);
             }
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
-                if (parent.PauseMenu.Selected)
+                if (parent.PauseMenu.Fixed)
                 {
-                    CloseMenu(root_objects, parent);
                     EnablePlayer(root_objects, parent);
                     switch (parent.PauseMenu.Cursor.Index)
                     {
                         case 0:
-                            parent.CurrentState = new PlayingState(root_objects, parent);
+                            new_state = new PlayingState(root_objects, parent);
                             break;
                         case 1:
                             parent.ReturnTo = ReturnFrag.ToTitle;
-                            parent.CurrentState = new FadeOutState(root_objects, parent);
+                            new_state = new FadeOutState(root_objects, parent);
                             break;
                         case 2:
                             parent.ReturnTo = ReturnFrag.ExitGame;
-                            parent.CurrentState = new FadeOutState(root_objects, parent);
+                            new_state = new FadeOutState(root_objects, parent);
                             break;
                         default:
+                            new_state = new PlayingState(root_objects, parent); 
                             break;
                     }
                 }

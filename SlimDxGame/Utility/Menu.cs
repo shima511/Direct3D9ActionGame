@@ -15,7 +15,7 @@ namespace SlimDxGame.Utility
         /// <summary>
         /// 項目が選択された場合、trueを返します。
         /// </summary>
-        public bool Selected { get; private set; }
+        public bool Fixed { get; private set; }
         /// <summary>
         /// メニューの枠
         /// </summary>
@@ -47,7 +47,7 @@ namespace SlimDxGame.Utility
         /// <summary>
         /// メニューが表示中の場合、trueを返します。
         /// </summary>
-        public bool Showing { get; private set; }
+        public bool Showing { get; set; }
         /// <summary>
         /// 表示した瞬間のアクション
         /// </summary>
@@ -59,19 +59,42 @@ namespace SlimDxGame.Utility
         /// <summary>
         /// 現在のメニュー
         /// </summary>
-        Menu CurrentMenu { get; set; }
+        public Menu CurrentMenu { get; set; }
+        /// <summary>
+        /// メニューを開くボタン
+        /// </summary>
+        public Controller.Button ShowButton { get; set; }
+        /// <summary>
+        /// メニューを閉じるボタン
+        /// </summary>
+        public Controller.Button CloseButton { get; set; }
+        /// <summary>
+        /// 項目を選択するボタン
+        /// </summary>
+        public Controller.Button FixButton { get; set; }
+        /// <summary>
+        /// キャンセルボタン
+        /// </summary>
+        public Controller.Button CancellButton { get; set; }
+
+        public Menu()
+        {
+            ChildMenus = new List<Menu>();
+            Fixed = false;
+        }
 
         public void Update()
         {
-            Cursor.Update();
+            if (CurrentMenu == null) Cursor.Update();
+            else CurrentMenu.Update();
         }
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
         {
 
         }
-        
-        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+
+        void DrawMenu(SlimDX.Direct3D9.Sprite dev)
         {
             if (BackGround != null)
             {
@@ -88,47 +111,61 @@ namespace SlimDxGame.Utility
             }
         }
 
+        public void Draw2D(SlimDX.Direct3D9.Sprite dev)
+        {
+            if (CurrentMenu == null) DrawMenu(dev);
+            else CurrentMenu.Draw2D(dev);
+        }
+
         void ChangeCurrentMenu(SlimDxGame.Controller controller)
         {
-            if (controller.AButton.IsPressed())
+            if (controller.IsPressed(FixButton) && ChildMenus[Cursor.Index] != null)
             {
-                if (ChildMenus[Cursor.Index] != null)
+                CurrentMenu = ChildMenus[Cursor.Index];
+                CurrentMenu.Showing = true;
+            }
+            else if (controller.IsPressed(CancellButton) && ParentMenu != null)
+            {
+                ParentMenu.CurrentMenu = null;
+            }
+        }
+
+        void Show()
+        {
+            Fixed = false;
+            Showing = true;
+            OnShown();
+        }
+
+        public void Close()
+        {
+            Fixed = true;
+            Showing = false;
+            OnClose();
+        }
+
+        void OperateMenu(SlimDxGame.Controller controller)
+        {
+            if (Showing)
+            {
+                Cursor.ControllerAction(controller);
+                ChangeCurrentMenu(controller);
+                // 子供メニューが存在しない状態で選択ボタンが押された場合、メニューを閉じる
+                if (controller.IsPressed(FixButton) && ChildMenus[Cursor.Index] == null)
                 {
-                    CurrentMenu = ChildMenus[Cursor.Index];
+                    Close();
                 }
             }
-            else if (controller.BButton.IsPressed())
+            else if (controller.IsPressed(ShowButton) && ParentMenu == null)
             {
-                if (ParentMenu != null)
-                {
-                    CurrentMenu = ParentMenu;
-                }
+                Show();
             }
         }
 
         public void ControllerAction(SlimDxGame.Controller controller)
         {
-            if (Showing)
-            {
-                Cursor.ControllerAction(controller);
-                Selected = controller.AButton.IsPressed();
-                ChangeCurrentMenu(controller);
-                if (controller.StartButton.IsPressed())
-                {
-                    Selected = true;
-                    Showing = false;
-                }
-                if(OnClose != null) OnClose();
-            }
-            else
-            {
-                if (controller.StartButton.IsPressed())
-                {
-                    Selected = false;
-                    Showing = true;
-                }
-                if(OnShown != null) OnShown();
-            }
+            if (CurrentMenu == null) OperateMenu(controller);
+            else CurrentMenu.ControllerAction(controller);
         }
     }
 }
