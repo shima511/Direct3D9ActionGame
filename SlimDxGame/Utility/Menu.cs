@@ -81,11 +81,12 @@ namespace SlimDxGame.Utility
         {
             ChildMenus = new List<Menu>();
             Fixed = false;
+            Showing = false;
         }
 
         public void Update()
         {
-            if (CurrentMenu == null) Cursor.Update();
+            if (CurrentMenu == null && Cursor != null) Cursor.Update();
             else CurrentMenu.Update();
         }
 
@@ -100,7 +101,7 @@ namespace SlimDxGame.Utility
             {
                 BackGround.Draw2D(dev);
             }
-            Cursor.Draw2D(dev);
+            if(Cursor != null) Cursor.Draw2D(dev);
             for (int i = 0; i < Columns.Count; i++)
             {
                 if (Columns[i].Font == null)

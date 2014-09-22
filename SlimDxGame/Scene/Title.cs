@@ -167,64 +167,19 @@ namespace SlimDxGame.Scene
 
         class InitState : GameState<Title>
         {
-            void SetMenuCursor(GameRootObjects root_objects, Utility.Menu menu)
-            {
-                var cursor = new Object.Cursor();
-                // テクスチャ貼り付け
-                Asset.Texture tex;
-                root_objects.TextureContainer.TryGetValue("test", out tex);
-                cursor.Texture = tex;
-
-                // カーソルの位置を決める
-                var positions = new List<SlimDX.Vector2>();
-                positions.Add(new SlimDX.Vector2(30.0f, 30.0f));
-                positions.Add(new SlimDX.Vector2(30.0f, 60.0f));
-                cursor.PositionList = positions;
-
-                // カーソルを動かした時の効果
-                Asset.Sound sound;
-                root_objects.SoundContainer.TryGetValue("test_sound", out sound);
-                cursor.OnMove += () =>
-                {
-                    sound.Play();
-                };
-
-                menu.Cursor = cursor;
-            }
-
-            void SetMenuFont(GameRootObjects root_objects, Utility.Menu menu)
-            {
-                Asset.Font font;
-                root_objects.FontContainer.TryGetValue("SimpleFont", out font);
-                menu.DefaultFont = font;
-            }
-
-            void SetMenuColumns(Utility.Menu menu)
-            {
-                List<Object.Base.String> columns = new List<Object.Base.String>();
-
-                string[] column_texts = {"Game Start", "Quit Game"};
-
-                for (int i = 0; i < column_texts.Length;i++ )
-                {
-                    var new_column = new Object.Base.String();
-                    new_column.Text = column_texts[i];
-                    columns.Add(new_column);
-                }
-                
-                menu.Columns = columns;
-            }
-
             void AddMenu(GameRootObjects root_objects, Title parent)
             {
-                // 設定
-                SetMenuFont( root_objects,  parent.menu);
-                SetMenuCursor( root_objects,  parent.menu);
-                SetMenuColumns( parent.menu);
-
-                // リストへの追加
-                root_objects.Layers[0].Add(parent.menu);
-                root_objects.UpdateList.Add(parent.menu);
+                Utility.Menu menu = new Utility.Menu();
+                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
+                {
+                    Controller = parent.controller,
+                    RootObjects = root_objects
+                };
+                parent.menu = m_director.Create(new MenuCreator.TitleMenuBuilder(menu));
+                parent.menu.ChildMenus.Add(null);
+                parent.menu.ChildMenus.Add(null);
+                parent.menu.ChildMenus.Add(null);
+                parent.menu.ChildMenus.Add(null);
             }
 
             void InitBGM( GameRootObjects root_objects,  Title parent)
@@ -253,7 +208,7 @@ namespace SlimDxGame.Scene
                 root_objects.FontContainer.TryGetValue("SimpleFont", out font);
                 parent.title_label.Font = font;
                 parent.title_label.Text = "Sample Game";
-                parent.title_label.Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 1 / 3, 10.0f);
+                parent.title_label.Position = new SlimDX.Vector2(-30, 10.0f);
                 root_objects.Layers[0].Add(parent.title_label);
             }
 
@@ -268,17 +223,17 @@ namespace SlimDxGame.Scene
             public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
             {
                 // メニュー画面を追加
-                AddMenu( root_objects,  parent);
+                AddMenu(root_objects,  parent);
                 // BGMを追加
-                InitBGM( root_objects,  parent);
+                InitBGM(root_objects, parent);
                 // カメラを追加
-                InitCamera( root_objects,  parent);
+                InitCamera(root_objects, parent);
                 // 背景を追加
-                InitBackGround( root_objects,  parent);
+                InitBackGround(root_objects, parent);
                 // タイトル文字を追加
-                InitTitleLabel( root_objects,  parent);
+                InitTitleLabel(root_objects, parent);
 
-                new_state = new FadeInState( root_objects,  parent);
+                new_state = new FadeInState(root_objects, parent);
                 return 0;
             }
         }
@@ -287,7 +242,7 @@ namespace SlimDxGame.Scene
         {
             public FadeInState( GameRootObjects root_objects,  Title parent)
             {
-                AddFadeInEffect( root_objects,  parent);
+                AddFadeInEffect(root_objects,  parent);
             }
 
             void Exit( GameRootObjects root_objects,  Title parent)
@@ -301,7 +256,7 @@ namespace SlimDxGame.Scene
                 root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
                 parent.fader.Texture = tex;
                 parent.fader.Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2);
-                parent.fader.FadingTime = 120;
+                parent.fader.FadingTime = 30;
                 parent.fader.Color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f);
                 parent.fader.Effect = Object.Fader.Flag.FADE_IN;
                 root_objects.Layers[2].Add(parent.fader);
@@ -320,47 +275,90 @@ namespace SlimDxGame.Scene
                 if (parent.fader.Color.Alpha <= 0.1f)
                 {
                     Exit( root_objects,  parent);
-                    new_state = new MenuState(parent);
+                    new_state = new TitleCallState();
                 }
                 return 0;
             }
         }
 
-        class MenuState : GameState<Title>
+        class TitleCallState : GameState<Title>
         {
-            void RemoveMenu( GameRootObjects root_objects,  Title parent)
+            int time = 0;
+            readonly int RequiredTime = 30;
+
+            void MoveTitleLabel(Title parent)
             {
-                root_objects.Layers[0].Remove(parent.menu);
-                root_objects.UpdateList.Remove(parent.menu);
-                parent.controller.Add(parent.menu);
+                var pos = parent.title_label.Position;
+                pos.X+=time;
+                parent.title_label.Position = pos;
             }
 
-            public MenuState(Title parent)
+            public int Update(GameRootObjects root_objects, Title parent, ref GameState<Title> new_state)
             {
-                // メニューを操作可能に
-                parent.controller.Add(parent.menu);
-            }
-
-            void Exit( GameRootObjects root_objects,  Title parent)
-            {
-                RemoveMenu( root_objects,  parent);
-            }
-
-            public int Update( GameRootObjects root_objects,  Title parent, ref GameState<Title> new_state)
-            {
-
-                if (parent.menu.Selected)
+                time++;
+                MoveTitleLabel(parent);
+                if (time >= RequiredTime)
                 {
-                    Exit( root_objects,  parent);
+                    new_state = new SelectState(root_objects, parent);
+                }
+                return 0;
+            }
+        }
+
+        class SelectState : GameState<Title>
+        {
+            Object.Base.String key_wait_label;
+
+            void InitKeyWaitLabel(GameRootObjects root_objects, Title parent)
+            {
+                key_wait_label = new Object.Base.String()
+                {
+                    Font = root_objects.FontContainer.GetValue("SimpleFont"),
+                    Text = "Press Enter To Start",
+                    Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 4 / 5)
+                };
+                root_objects.Layers[0].Add(key_wait_label);
+            }
+
+            public SelectState(GameRootObjects root_objects, Title parent)
+            {
+                parent.controller.Add(parent.menu);
+                InitKeyWaitLabel(root_objects, parent);
+            }
+
+            void Exit(GameRootObjects root_objects, Title parent)
+            {
+                root_objects.Layers[0].Remove(key_wait_label);
+                parent.controller.Remove(parent.menu);
+            }
+
+            void UpdateLabel(Title parent)
+            {
+                if (parent.menu.Showing)
+                {
+                    key_wait_label.IsVisible = false;
+                }
+                else if (!parent.menu.Fixed)
+                {
+                    key_wait_label.IsVisible = true;
+                }
+            }
+
+            public int Update(GameRootObjects root_objects, Title parent, ref GameState<Title> new_state)
+            {
+                UpdateLabel(parent);
+                if (parent.menu.Fixed)
+                {
+                    Exit(root_objects, parent);
                     switch (parent.menu.Cursor.Index)
                     {
                         case 0:
                             parent.game_flag = Title.ReturnFlag.ToNextScene;
-                            new_state = new FadeOutState( root_objects,  parent);
+                            new_state = new FadeOutState(root_objects, parent);
                             break;
-                        case 1:
+                        case 3:
                             parent.game_flag = Title.ReturnFlag.ExitGame;
-                            new_state = new FadeOutState( root_objects,  parent);
+                            new_state = new FadeOutState(root_objects, parent);
                             break;
                         default:
                             break;
@@ -413,7 +411,7 @@ namespace SlimDxGame.Scene
             }
         }
 
-        public override int Update( GameRootObjects root_objects, ref Scene.Base new_scene){
+        public override int Update(GameRootObjects root_objects, ref Scene.Base new_scene){
             int ret_val = 0;
             if (CurrentState.Update(root_objects, this, ref CurrentState) != 0)
             {
