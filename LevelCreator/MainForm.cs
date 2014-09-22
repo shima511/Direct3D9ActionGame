@@ -59,6 +59,33 @@ namespace LevelCreator
             {
                 item.Line.ModelAsset = ModelFactory.FindModel("Box");
             }
+            foreach (var item in StageObjects.Decolations)
+            {
+                string model_name = "";
+                foreach (var obj in ObjectMaps.Decolations)
+                {
+                    if (obj.Id == item.DecolationInfo.TypeId) model_name = obj.Name;
+                }
+                item.ModelAsset = ModelFactory.FindModel(model_name);
+            }
+            foreach (var item in StageObjects.Items)
+            {
+                string model_name = "";
+                foreach (var obj in ObjectMaps.Items)
+                {
+                    if (obj.Id == item.ItemInfo.TypeId) model_name = obj.Name;
+                }
+                item.ModelAsset = ModelFactory.FindModel(model_name);
+            }
+            foreach (var item in StageObjects.Enemies)
+            {
+                string model_name = "";
+                foreach (var obj in ObjectMaps.Enemies)
+                {
+                    if (obj.Id == item.EnemyInfo.TypeId) model_name = obj.Name;
+                }
+                item.ModelAsset = ModelFactory.FindModel(model_name);
+            }
 
             StageObjects.StageInfo.ModelAsset = ModelFactory.FindModel("Box");
         }
@@ -119,7 +146,7 @@ namespace LevelCreator
 
         private void OpenFileStripMenuItem1_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog diag = new OpenFileDialog())
+            using (OpenFileDialog diag = new OpenFileDialog() { Filter = "datファイル(.dat)| *.dat"})
             {
                 if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {

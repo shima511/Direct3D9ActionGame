@@ -76,7 +76,7 @@ namespace LevelCreator.PropertyController
                 var dec = ItemList[CurrentIndex].ItemInfo;
                 var pos = dec.Position;
                 pos.X = TextBoxParser.ToSingle(PositionXAxis.Text);
-                PositionYAxis.Text = pos.X.ToString();
+                PositionXAxis.Text = pos.X.ToString();
                 dec.Position = pos;
                 ItemList[CurrentIndex].ItemInfo = dec;
             }
