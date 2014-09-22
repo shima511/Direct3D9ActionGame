@@ -14,7 +14,13 @@ namespace SlimDxGame.Object
             FADE_OUT
         };
 
+        /// <summary>
+        /// フェード効果の種類
+        /// </summary>
         public Flag Effect { private get; set; }
+        /// <summary>
+        /// フェードを行う時間
+        /// </summary>
         public int FadingTime { private get; set; }
         public void Update()
         {
