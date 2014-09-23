@@ -6,26 +6,36 @@ using System.Threading.Tasks;
 
 namespace SlimDxGame.Object.Ground
 {
-    abstract class Base : ICollisionObject
+    abstract class Base : IFieldObject
     {
-        bool _is_visible;
         /// <summary>
         /// 衝突判定の存在する線分
         /// </summary>
         public Collision.Shape.Line CollisionLine { get; set; }
-        public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
+        public bool IsVisible { get; set; }
+        public SlimDX.Vector3 Position { get; set; }
+
+        [System.Diagnostics.Conditional("DEBUG")]
+        void DebugDrawMode()
+        {
+            IsVisible = true;
+        }
 
         public Base()
         {
             CollisionLine = new Collision.Shape.Line();
-#if DEBUG
-            _is_visible = true;
-#else
-            _is_visible = false;
-#endif
+            DebugDrawMode();
         }
+
+        public void Update()
+        {
+
+        }
+
         abstract public void Dispatch(ICollisionObject obj);
+
         abstract public void Hit(Player player);
+
         public void Hit(Floor floor)
         {
 

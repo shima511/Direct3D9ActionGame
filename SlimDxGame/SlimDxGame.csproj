@@ -84,6 +84,9 @@
     <Compile Include="MenuCreator\MenuDirector.cs" />
     <Compile Include="MenuCreator\PauseMenuBuilder.cs" />
     <Compile Include="MenuCreator\TitleMenuBuilder.cs" />
+    <Compile Include="Object\Decolation\Field.cs" />
+    <Compile Include="Object\IFieldObject.cs" />
+    <Compile Include="SpawnManager.cs" />
     <Compile Include="Utility\AssetContainer.cs" />
     <Compile Include="AssetFactory\ModelFactory.cs" />
     <Compile Include="AssetFactory\AudioMediaFactory.cs" />
