@@ -10,9 +10,6 @@ namespace SlimDxGame.Object.Item
     class Factory
     {
         public AssetContainer<Asset.Model> ModelContainer { private get; set; }
-        public Collision.Manager CollisionManager { private get; set; }
-        public List<Component.IUpdateObject> UpdateList { private get; set; }
-        public List<List<Component.IDrawableObject>> Layers { private get; set; }
         public Status.Stage StageStatus { private get; set; }
 
         public void Create(StageRW.Property.Item obj, out IBase new_item)
@@ -21,7 +18,7 @@ namespace SlimDxGame.Object.Item
             switch (obj.TypeId)
             {
                 case 0:
-                    new_item = new Item.Coin()
+                    new_item = new Item.Coin(obj.Position)
                     {
                         StageState = this.StageStatus,
                         ModelAsset = ModelContainer.GetValue("Coins")
@@ -31,15 +28,6 @@ namespace SlimDxGame.Object.Item
                     new_item = new Item.Portion();
                     break;
             }
-            new_item.Position2D = obj.Position;
-            new_item.OnHit += new_item_OnHit;
-        }
-
-        void new_item_OnHit(IBase obj)
-        {
-            CollisionManager.Remove(obj);
-            UpdateList.Remove(obj);
-            Layers[0].Remove(obj);
         }
     }
 }

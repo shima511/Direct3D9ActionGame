@@ -22,7 +22,7 @@ namespace SlimDxGame.Object.Item
                 Position = pos;
             }
         }
-        public event OnHitAction OnHit;
+        public event Action<IBase> OnHit;
         public void Update()
         {
 

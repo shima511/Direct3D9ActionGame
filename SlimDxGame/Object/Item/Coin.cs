@@ -23,13 +23,26 @@ namespace SlimDxGame.Object.Item
             }
         }
         public Status.Stage StageState { private get; set; }
-        public event OnHitAction OnHit;
-        Collision.Shape.Point HitCollision;
-        readonly uint score = 10;
+        public event Action<IBase> OnHit;
+        Collision.Shape.Line hit_collision;
+        public readonly uint _score = 10;
+        public uint Score { get { return _score; } private set {} }
 
-        public Coin()
+        public Coin(SlimDX.Vector2 pos)
         {
-            HitCollision = new Collision.Shape.Point();
+            hit_collision = new Collision.Shape.Line()
+            {
+                StartingPoint = new SlimDX.Vector2(pos.X - 1.0f, pos.Y + 1.0f),
+                TerminalPoint = new SlimDX.Vector2(pos.X + 1.0f, pos.Y + 1.0f)
+            };
+            OnHit += Coin_OnHit;
+        }
+
+        void Coin_OnHit(IBase obj)
+        {
+            var score = StageState.Score;
+            score += this._score;
+            StageState.Score = score;
         }
 
         public void Update()
@@ -39,6 +52,18 @@ namespace SlimDxGame.Object.Item
             Rotation = rot;
         }
 
+        [System.Diagnostics.Conditional("DEBUG")]
+        void DebugDraw(SlimDX.Direct3D9.Device dev)
+        {
+            hit_collision.Draw3D(dev);
+        }
+
+        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            DebugDraw(dev);
+            base.Draw3D(dev);
+        }
+
         public bool IsCatched { get; set; }
         public void Dispatch(ICollisionObject obj)
         {
@@ -46,12 +71,9 @@ namespace SlimDxGame.Object.Item
         }
         public void Hit(Player player)
         {
-            if (player.RightSideCollision.Hit(HitCollision))
+            if (player.FeetCollision.Hit(hit_collision))
             {
-                var score = StageState.Score;
-                score += this.score;
-                StageState.Score = score;
-           //     OnHit(this);
+                OnHit(this);
             }
         }
         public void Hit(Ground.Floor floor)
