@@ -7,6 +7,7 @@ namespace SlimDxGame.Object
     class Camera : Component.IUpdateObject, Component.IDrawableObject, Component.IOperableObject
     {
         private bool _is_visible = true;
+        public bool IsActive { get; set; }
         public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
         private float _range = (float)Math.PI / 4;
         /// <summary>

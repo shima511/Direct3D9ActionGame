@@ -11,13 +11,16 @@ namespace SlimDxGame
     /// </summary>
     class SpawnManager : List<Object.IFieldObject>, Component.IUpdateObject
     {
+        public bool IsActive { get; set; }
         /// <summary>
         /// リストへの登録・削除を決定するオブジェクト
         /// </summary>
         public Object.Base.Model CenterObject { get; set; }
-        public List<Component.IUpdateObject> UpdateList { private get; set; }
-        public List<List<Component.IDrawableObject>> Layers { private get; set; }
         public Collision.Manager CollisionManager { private get; set; }
+        /// <summary>
+        /// 出現・削除の範囲
+        /// </summary>
+        readonly float SpawnRange = 50.0f;
 
         public void Update()
         {
@@ -25,15 +28,23 @@ namespace SlimDxGame
             {
                 if (item.IsVisible)
                 {
-                    /*
-                    UpdateList.Remove(item);
-                    Layers[0].Remove(item);
-                    CollisionManager.Remove(item);
-                    **/
+                    var length = (item.Position - CenterObject.Position).Length();
+                    if (length > SpawnRange)
+                    {
+                        CollisionManager.Remove(item);
+                        item.IsVisible = false;
+                        item.IsActive = false;
+                    }
                 }
                 else
                 {
-
+                    var length = (item.Position - CenterObject.Position).Length();
+                    if (length < SpawnRange)
+                    {
+                        CollisionManager.Add(item);
+                        item.IsVisible = true;
+                        item.IsActive = true;
+                    }
                 }
             }
         }

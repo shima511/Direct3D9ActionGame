@@ -8,6 +8,7 @@ namespace SlimDxGame.Object
 {
     class StateDrawer : Component.IDrawableObject, Component.IUpdateObject
     {
+        public bool IsActive { get; set; }
         public bool IsVisible { get; set; }
         public Asset.Font Font { private get; set; }
         Status.Charactor player_state;

@@ -13,6 +13,7 @@ namespace SlimDxGame.Object.Ground
         /// </summary>
         public Collision.Shape.Line CollisionLine { get; set; }
         public bool IsVisible { get; set; }
+        public bool IsActive { get; set; }
         public SlimDX.Vector3 Position { get; set; }
 
         [System.Diagnostics.Conditional("DEBUG")]

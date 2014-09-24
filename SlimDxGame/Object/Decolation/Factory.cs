@@ -11,13 +11,13 @@ namespace SlimDxGame.Object.Decolation
     {
         public AssetContainer<Asset.Model> ModelContainer { private get; set; }
 
-        public void Create(StageRW.Property.Decolation obj, out Object.Base.Model new_item)
+        public void Create(StageRW.Property.Decolation obj, out IFieldObject new_item)
         {
             new_item = null;
             switch (obj.TypeId)
             {
                 case 0:
-                    new_item = new Base.Model()
+                    new_item = new Field()
                     {
                         Position = obj.Position,
                         ModelAsset = ModelContainer.GetValue("Field0")

@@ -4,6 +4,7 @@ namespace SlimDxGame.Component
 {
     interface IUpdateObject
     {
+        bool IsActive { get; set; }
         void Update();
     }
 

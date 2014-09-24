@@ -7,7 +7,7 @@ namespace SlimDxGame.Object
     class Player : Object.Base.Model, ICollisionObject, Component.IUpdateObject, Component.IOperableObject
     {
         public delegate void OnJumpEventHandler(SlimDX.Vector3 pos);
-
+        public bool IsActive { get; set; }
         /// <summary>
         /// ジャンプした瞬間に実行されるメソッドです。
         /// </summary>

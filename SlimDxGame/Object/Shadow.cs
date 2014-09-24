@@ -17,7 +17,7 @@ namespace SlimDxGame.Object
         /// </summary>
         public Collision.Shape.Line ProjectionLine { private get; set; }
         readonly float MaxScale;
-
+        public bool IsActive { get; set; }
         public Shadow(float max_scale = 3.0f)
         {
             MaxScale = max_scale;

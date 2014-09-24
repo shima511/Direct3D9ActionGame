@@ -23,6 +23,8 @@ namespace SlimDxGame.Object
         /// </summary>
         public event Action OnMove;
 
+        public bool IsActive { get; set; }
+
         public void ControllerAction(SlimDxGame.Controller controller)
         {
             if (controller.DownButton.IsPressed())

@@ -14,6 +14,8 @@ namespace SlimDxGame.Object
             FADE_OUT
         };
 
+        public bool IsActive { get; set; }
+
         /// <summary>
         /// フェード効果の種類
         /// </summary>

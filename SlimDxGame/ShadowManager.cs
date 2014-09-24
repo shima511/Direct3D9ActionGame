@@ -8,6 +8,7 @@ namespace SlimDxGame
 {
     class ShadowManager : Component.IUpdateObject, Component.IDrawableObject
     {
+        public bool IsActive { get; set; }
         public bool IsVisible { get { return true; } set { } }
         public List<Object.Shadow> Shadows { private get; set; }
         public List<Object.Ground.Base> Grounds { private get; set; }

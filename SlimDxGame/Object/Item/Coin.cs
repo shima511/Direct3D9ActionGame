@@ -22,6 +22,7 @@ namespace SlimDxGame.Object.Item
                 Position = pos;
             }
         }
+        public bool IsActive { get; set; }
         public Status.Stage StageState { private get; set; }
         public event Action<IBase> OnHit;
         Collision.Shape.Line hit_collision;

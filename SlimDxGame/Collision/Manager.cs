@@ -6,6 +6,7 @@ namespace SlimDxGame.Collision
     class Manager : List<Object.ICollisionObject>, Component.IUpdateObject, Component.IDrawableObject
     {
         bool _is_visible = true;
+        public bool IsActive { get; set; }
         public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
         public Object.Player Player { private get; set; }
         public void Update()

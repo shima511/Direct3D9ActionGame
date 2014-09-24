@@ -13,7 +13,7 @@ namespace SlimDxGame.Object
         private int time = 0;
         private Color4 _color = new Color4(1.0f, 1.0f, 1.0f, 1.0f);
         public Asset.Font Font { private get; set; }
-
+        public bool IsActive { get; set; }
         private void ChangeText()
         {
             if (time < CHANGE_INTERBAL) { text = "Now Loading."; }

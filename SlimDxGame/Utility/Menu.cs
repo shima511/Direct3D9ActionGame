@@ -10,6 +10,7 @@ namespace SlimDxGame.Utility
 {
     class Menu : Component.IUpdateObject, Component.IDrawableObject, Component.IOperableObject
     {
+        public bool IsActive { get; set; }
         private bool _is_visible = true;
         public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
         /// <summary>
