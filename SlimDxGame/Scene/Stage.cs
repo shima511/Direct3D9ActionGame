@@ -16,13 +16,37 @@ namespace SlimDxGame.Scene
         /// ステージ番号
         /// </summary>
         int level_id = 0;
+        /// <summary>
+        /// ステージの状態
+        /// </summary>
         Status.Stage StageState { get; set; }
+        /// <summary>
+        /// ステージ読み込みクラス
+        /// </summary>
         StageRW.Reader StageLoader { get; set; }
+        /// <summary>
+        /// 状態の戻り先
+        /// </summary>
         ReturnFrag ReturnTo { get; set; }
+        /// <summary>
+        /// 衝突判定管理クラス
+        /// </summary>
         Collision.Manager CollisionManager { get; set; }
+        /// <summary>
+        /// カメラ
+        /// </summary>
         Object.Camera Camera { get; set; }
+        /// <summary>
+        /// プレイヤークラス
+        /// </summary>
         Object.Player Player { get; set; }
+        /// <summary>
+        /// コントローラー
+        /// </summary>
         Controller PlayerController { get; set; }
+        /// <summary>
+        /// フェーダー
+        /// </summary>
         Object.Fader Fader { get; set; }
         Object.StateDrawer StateDrawManager { get; set; }
         Object.Item.Factory ItemFactory { get; set; }
@@ -54,6 +78,10 @@ namespace SlimDxGame.Scene
         /// ポーズメニュー
         /// </summary>
         Utility.Menu PauseMenu { get; set; }
+        /// <summary>
+        /// オブジェクト表示・非表示マネージャ
+        /// </summary>
+        SpawnManager SpawnManage { get; set; }
 
         public Stage()
         {
@@ -218,6 +246,7 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[3].Add(parent.Camera);
                 parent.PlayerController.Add(parent.Camera);
                 parent.Camera.Subject = parent.Player;
+                parent.Camera.IsActive = true;
             }
 
             void InitLightEffect(GameRootObjects root_objects, Stage parent)
@@ -271,6 +300,7 @@ namespace SlimDxGame.Scene
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
                 root_objects.UpdateList.Add(parent.Player);
                 root_objects.Layers[2].Add(parent.Player);
+                parent.Player.IsActive = true;
             }
 
             void InitDecoration(GameRootObjects root_objects, Stage parent)
@@ -279,9 +309,12 @@ namespace SlimDxGame.Scene
                 factory.ModelContainer = root_objects.ModelContainer;
                 foreach (var item in parent.StageComponents.Decolations)
                 {
-                    Object.Base.Model new_item;
+                    Object.IFieldObject new_item;
                     factory.Create(item, out new_item);
-                    root_objects.Layers[1].Add(new_item);
+                    new_item.IsActive = true;
+                    new_item.IsVisible = false;
+                    root_objects.UpdateList.Add(new_item);
+                    parent.SpawnManage.Add(new_item);
                 }
             }
 
@@ -294,11 +327,14 @@ namespace SlimDxGame.Scene
             void InitCollisionObjects(GameRootObjects root_objects, Stage parent)
             {
                 parent.CollisionManager.Player = parent.Player;
+                parent.CollisionManager.IsActive = true;
 
                 // 地形の衝突判定を追加していく
                 foreach (var item in parent.StageComponents.Collisions)
                 {
                     Object.Ground.Base new_collision = Object.Ground.Base.CreateGround(item);
+                    new_collision.IsVisible = false;
+                    parent.SpawnManage.Add(new_collision);
                     parent.CollisionManager.Add(new_collision);
                     parent.Grounds.Add(new_collision);
                 }
@@ -313,6 +349,8 @@ namespace SlimDxGame.Scene
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("Arial", out font);
                 parent.StateDrawManager.Font = font;
+                parent.StateDrawManager.IsVisible = true;
+                parent.StateDrawManager.IsActive = true;
                 root_objects.UpdateList.Add(parent.StateDrawManager);
                 root_objects.Layers[1].Add(parent.StateDrawManager);
             }
@@ -320,24 +358,23 @@ namespace SlimDxGame.Scene
             void InitItem(GameRootObjects root_objects, Stage parent)
             {
                 parent.ItemFactory.ModelContainer = root_objects.ModelContainer;
-                parent.ItemFactory.UpdateList = root_objects.UpdateList;
-                parent.ItemFactory.Layers = root_objects.Layers;
-                parent.ItemFactory.CollisionManager = parent.CollisionManager;
                 parent.ItemFactory.StageStatus = parent.StageState;
 
                 foreach (var item in parent.StageComponents.Items)
                 {
                     Object.Item.IBase new_item;
                     parent.ItemFactory.Create(item, out new_item);
-                    parent.CollisionManager.Add(new_item);
+                    new_item.IsActive = true;
+                    new_item.IsVisible = false;
                     root_objects.UpdateList.Add(new_item);
-                    root_objects.Layers[1].Add(new_item);
+                    parent.SpawnManage.Add(new_item);
                 }
             }
             
             void InitPauseMenu(GameRootObjects root_objects, Stage parent)
             {
                 Utility.Menu pause_menu = new Utility.Menu();
+                pause_menu.IsActive = true;
                 MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
                 {
                     RootObjects = root_objects,
@@ -363,6 +400,18 @@ namespace SlimDxGame.Scene
                     m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu)),
                     m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu))
                 });
+            }
+
+            void InitSpawnManager(GameRootObjects root_objects, Stage parent)
+            {
+                parent.SpawnManage = new SpawnManager()
+                {
+                    CenterObject = parent.Player,
+                    CollisionManager = parent.CollisionManager
+                };
+
+                parent.SpawnManage.IsActive = true;
+                root_objects.UpdateList.Add(parent.SpawnManage);
             }
 
             void AddShadow(GameRootObjects root_objects, List<Object.Shadow> list, Stage parent)
@@ -393,12 +442,17 @@ namespace SlimDxGame.Scene
                 parent.ShadowManage.Shadows = list;
 
                 parent.ShadowManage.Grounds = parent.Grounds;
+                parent.ShadowManage.IsActive = true;
                 root_objects.UpdateList.Add(parent.ShadowManage);
                 root_objects.Layers[2].Add(parent.ShadowManage);
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                InitPlayer(root_objects, parent);
+
+                InitSpawnManager(root_objects, parent);
+
                 InitVolume(root_objects);
 
                 InitCamera(root_objects,  parent);
@@ -406,8 +460,6 @@ namespace SlimDxGame.Scene
                 InitLightEffect(root_objects, parent);
 
                 InitInputManager(root_objects,  parent);
-
-                InitPlayer(root_objects,  parent);
 
                 InitDecoration(root_objects, parent);
 
@@ -438,6 +490,7 @@ namespace SlimDxGame.Scene
                 parent.Fader.FadingTime = 120;
                 parent.Fader.Color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f);
                 parent.Fader.Effect = Object.Fader.Flag.FADE_IN;
+                parent.Fader.IsActive = true;
                 root_objects.Layers[2].Add(parent.Fader);
                 root_objects.UpdateList.Add(parent.Fader);
             }
