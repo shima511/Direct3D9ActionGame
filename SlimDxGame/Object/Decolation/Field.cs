@@ -8,9 +8,20 @@ namespace SlimDxGame.Object.Decolation
 {
     class Field : Object.Base.Model, IFieldObject
     {
+        public bool Spawnable { get; set; }
         public bool IsActive { get; set; }
 
+        public Field()
+        {
+            Spawnable = true;
+        }
+
         public void Update()
+        {
+
+        }
+
+        public void DrawHitRange(SlimDX.Direct3D9.Device dev)
         {
 
         }

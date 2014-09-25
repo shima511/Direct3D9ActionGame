@@ -540,19 +540,12 @@ namespace SlimDxGame.Object
             UpdateFallTime();
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
-        void DrawHitLines(SlimDX.Direct3D9.Device dev)
+        public void DrawHitRange(SlimDX.Direct3D9.Device dev)
         {
             FeetCollision.Draw3D(dev);
             HeadCollision.Draw3D(dev);
             RightSideCollision.Draw3D(dev);
             LeftSideCollision.Draw3D(dev);
-        }
-
-        public override void Draw3D(SlimDX.Direct3D9.Device dev)
-        {
-            DrawHitLines(dev);
-            base.Draw3D(dev);
         }
 
         private void ControlSpeed(SlimDxGame.Controller controller)

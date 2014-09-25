@@ -14,6 +14,7 @@ namespace SlimDxGame.Object.Ground
         public Collision.Shape.Line CollisionLine { get; set; }
         public bool IsVisible { get; set; }
         public bool IsActive { get; set; }
+        public bool Spawnable { get; set; }
         public SlimDX.Vector3 Position { get; set; }
 
         [System.Diagnostics.Conditional("DEBUG")]
@@ -24,6 +25,7 @@ namespace SlimDxGame.Object.Ground
 
         public Base()
         {
+            Spawnable = true;
             CollisionLine = new Collision.Shape.Line();
             DebugDrawMode();
         }
@@ -36,6 +38,11 @@ namespace SlimDxGame.Object.Ground
         abstract public void Dispatch(ICollisionObject obj);
 
         abstract public void Hit(Player player);
+
+        public void DrawHitRange(SlimDX.Direct3D9.Device dev)
+        {
+            CollisionLine.Draw3D(dev);
+        }
 
         public void Hit(Floor floor)
         {

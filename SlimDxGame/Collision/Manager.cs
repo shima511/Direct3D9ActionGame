@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SlimDxGame.Collision
 {
-    class Manager : List<Object.ICollisionObject>, Component.IUpdateObject, Component.IDrawableObject
+    class Manager : List<Object.IFieldObject>, Component.IUpdateObject, Component.IDrawableObject
     {
         bool _is_visible = true;
         public bool IsActive { get; set; }
@@ -16,7 +16,7 @@ namespace SlimDxGame.Collision
             Player.IsBesideOfLeftWall = false;
             foreach (var obj in this)
             {
-                obj.Hit(Player);
+                if(obj.Spawnable) obj.Hit(Player);
             }
         }
 
@@ -30,7 +30,7 @@ namespace SlimDxGame.Collision
         {
             foreach (var item in this)
             {
-                item.Draw3D(dev);
+                item.DrawHitRange(dev);
             }
         }
 

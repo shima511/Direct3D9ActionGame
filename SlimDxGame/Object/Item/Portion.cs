@@ -8,6 +8,7 @@ namespace SlimDxGame.Object.Item
 {
     class Portion : Object.Base.Model, IBase
     {
+        public bool Spawnable { get; set; }
         public SlimDX.Vector2 Position2D
         {
             get 
@@ -25,6 +26,10 @@ namespace SlimDxGame.Object.Item
         public bool IsActive { get; set; }
         public event Action<IBase> OnHit;
         public void Update()
+        {
+
+        }
+        public void DrawHitRange(SlimDX.Direct3D9.Device dev)
         {
 
         }

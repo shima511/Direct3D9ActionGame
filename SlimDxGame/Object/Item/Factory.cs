@@ -9,6 +9,7 @@ namespace SlimDxGame.Object.Item
 {
     class Factory
     {
+        public AssetContainer<Asset.Sound> SoundContainer { private get; set;}
         public AssetContainer<Asset.Model> ModelContainer { private get; set; }
         public Status.Stage StageStatus { private get; set; }
 
@@ -28,6 +29,14 @@ namespace SlimDxGame.Object.Item
                     new_item = new Item.Portion();
                     break;
             }
+            new_item.OnHit += new_item_OnHit;
+        }
+
+        void new_item_OnHit(IBase obj)
+        {
+            obj.IsVisible = false;
+            obj.IsActive = false;
+            obj.Spawnable = false;
         }
     }
 }

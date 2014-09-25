@@ -22,6 +22,7 @@ namespace SlimDxGame.Object.Item
                 Position = pos;
             }
         }
+        public bool Spawnable { get; set; }
         public bool IsActive { get; set; }
         public Status.Stage StageState { private get; set; }
         public event Action<IBase> OnHit;
@@ -37,6 +38,7 @@ namespace SlimDxGame.Object.Item
                 TerminalPoint = new SlimDX.Vector2(pos.X + 1.0f, pos.Y + 1.0f)
             };
             OnHit += Coin_OnHit;
+            Spawnable = true;
         }
 
         void Coin_OnHit(IBase obj)
@@ -53,16 +55,9 @@ namespace SlimDxGame.Object.Item
             Rotation = rot;
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
-        void DebugDraw(SlimDX.Direct3D9.Device dev)
+        public void DrawHitRange(SlimDX.Direct3D9.Device dev)
         {
-            hit_collision.Draw3D(dev);
-        }
-
-        public override void Draw3D(SlimDX.Direct3D9.Device dev)
-        {
-            DebugDraw(dev);
-            base.Draw3D(dev);
+            if (this.Spawnable) hit_collision.Draw3D(dev);
         }
 
         public bool IsCatched { get; set; }
