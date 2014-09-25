@@ -36,7 +36,7 @@ namespace SlimDxGame
                         item.IsActive = false;
                     }
                 }
-                else
+                else if(item.Spawnable)
                 {
                     var length = (item.Position - CenterObject.Position).Length();
                     if (length < SpawnRange)
