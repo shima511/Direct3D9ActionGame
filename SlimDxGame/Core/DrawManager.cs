@@ -35,10 +35,7 @@ namespace SlimDxGame.Core
             {
                 foreach (var obj in layer)
                 {
-                    if (obj.IsVisible)
-                    {
-                        obj.Draw3D(d3d_dev);
-                    }
+                    if (obj.IsVisible) obj.Draw3D(d3d_dev);
                 }
             }
 
@@ -48,10 +45,7 @@ namespace SlimDxGame.Core
             {
                 foreach (var obj in layer)
                 {
-                    if (obj.IsVisible)
-                    {
-                        obj.Draw2D(sprite_dev);
-                    }
+                    if (obj.IsVisible) obj.Draw2D(sprite_dev);
                 }
             }
             sprite_dev.End();

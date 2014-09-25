@@ -314,6 +314,7 @@ namespace SlimDxGame.Scene
                     new_item.IsActive = true;
                     new_item.IsVisible = false;
                     root_objects.UpdateList.Add(new_item);
+                    root_objects.Layers[0].Add(new_item);
                     parent.SpawnManage.Add(new_item);
                 }
             }
@@ -367,6 +368,7 @@ namespace SlimDxGame.Scene
                     new_item.IsActive = true;
                     new_item.IsVisible = false;
                     root_objects.UpdateList.Add(new_item);
+                    root_objects.Layers[0].Add(new_item);
                     parent.SpawnManage.Add(new_item);
                 }
             }
