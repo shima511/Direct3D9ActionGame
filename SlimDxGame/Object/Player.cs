@@ -97,7 +97,6 @@ namespace SlimDxGame.Object
                     }
                     else
                     {
-                        parent.State |= StateFrag.Turn;
                         new_state = new WalkStart();
                     }
                 }
@@ -113,7 +112,6 @@ namespace SlimDxGame.Object
                     }
                     else
                     {
-                        parent.State |= StateFrag.Walk;
                         new_state = new WalkStart();
                     }
                 }
