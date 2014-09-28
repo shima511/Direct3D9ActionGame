@@ -108,7 +108,10 @@ namespace SlimDxGame.Object.Ground
                 var p_pos = player.Position;
                 p_pos.Y = player_y;
                 player.Position = p_pos;
-                player.IsInTheAir = false;
+                if ((player.State & Player.StateFrag.InAir) == Player.StateFrag.InAir)
+                {
+                    player.State -= Object.Player.StateFrag.InAir;
+                }
             }
         }
     }
@@ -152,7 +155,7 @@ namespace SlimDxGame.Object.Ground
                 player_spd.X = w_vec.X;
                 player_spd.Y = w_vec.Y;
                 player.Speed = player_spd;
-                player.IsBesideOfRightWall = true;
+                player.State |= Player.StateFrag.StickToRightWall;
             }
         }
     }
@@ -177,7 +180,7 @@ namespace SlimDxGame.Object.Ground
                 player_spd.X = w_vec.X;
                 player_spd.Y = w_vec.Y;
                 player.Speed = player_spd;
-                player.IsBesideOfLeftWall = true;
+                player.State |= Player.StateFrag.StickToLeftWall;
             }
         }
     }
