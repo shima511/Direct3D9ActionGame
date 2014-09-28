@@ -24,6 +24,7 @@ namespace SlimDxGame.Object
         public void Update()
         {
             _eye_position.X = Subject.Position.X;
+            _at_position.X = Subject.Position.X;
         }
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
