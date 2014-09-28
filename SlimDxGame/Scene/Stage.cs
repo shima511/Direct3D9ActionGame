@@ -192,6 +192,11 @@ namespace SlimDxGame.Scene
                 parent.Fader = new Object.Fader();
                 parent.ItemFactory = new Object.Item.Factory();
                 parent.Grounds = new List<Object.Ground.Base>();
+                parent.SpawnManage = new SpawnManager()
+                {
+                    CenterObject = parent.Player,
+                    CollisionManager = parent.CollisionManager
+                };
             }
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
@@ -234,7 +239,7 @@ namespace SlimDxGame.Scene
             }
         }
 
-        // ステージの配置など初期設定を行う
+        // ステージのオブジェクトを初期化する
         class InitState : GameState<Stage>
         {
             void InitVolume(GameRootObjects root_objects)
@@ -245,7 +250,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            void InitCamera(GameRootObjects root_objects,  Stage parent)
+            void InitCamera(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.UpdateList.Add(parent.Camera);
                 root_objects.Layers[3].Add(parent.Camera);
@@ -256,7 +261,8 @@ namespace SlimDxGame.Scene
 
             void InitLightEffect(GameRootObjects root_objects, Stage parent)
             {
-                var right_light = new Effect.Light(){
+                var right_light = new Effect.Light()
+                {
                     Index = 0,
                     EnableLight = true,
                     Property = new SlimDX.Direct3D9.Light()
@@ -291,7 +297,7 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            void InitInputManager(GameRootObjects root_objects,  Stage parent)
+            void InitInputManager(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.InputManager.Add(parent.PlayerController);
             }
@@ -301,14 +307,8 @@ namespace SlimDxGame.Scene
                 Asset.Model model;
                 root_objects.ModelContainer.TryGetValue("TestModel", out model);
                 parent.Player.ModelAsset = model;
-                var p_pos = parent.StageComponents.Player.Position;
-                parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
-                var state = parent.Player.State;
-                state.HP = 3;
-                parent.Player.State = state;
                 root_objects.UpdateList.Add(parent.Player);
                 root_objects.Layers[2].Add(parent.Player);
-                parent.Player.IsActive = true;
             }
 
             void InitDecoration(GameRootObjects root_objects, Stage parent)
@@ -325,6 +325,70 @@ namespace SlimDxGame.Scene
                     root_objects.Layers[0].Add(new_item);
                     parent.SpawnManage.Add(new_item);
                 }
+            }
+
+            void AddShadow(GameRootObjects root_objects, List<Object.Shadow> list, Stage parent)
+            {
+                Asset.Texture shadow_tex;
+                root_objects.TextureContainer.TryGetValue("Shadow", out shadow_tex);
+                Vertex vertex;
+                PolygonFactory.CreateSquarePolygon(out vertex);
+                // 影をつける
+                var shadow = new Object.Shadow()
+                {
+                    Texture = shadow_tex,
+                    Position = new SlimDX.Vector3(),
+                    Scale = new SlimDX.Vector2(3.0f, 3.0f),
+                    Rotation = new SlimDX.Vector3(),
+                    Vertex = vertex,
+                    Owner = parent.Player
+                };
+                list.Add(shadow);
+            }
+
+            void InitShadow(GameRootObjects root_objects, Stage parent)
+            {
+                parent.ShadowManage = new ShadowManager();
+
+                var list = new List<Object.Shadow>();
+                AddShadow(root_objects, list, parent);
+                parent.ShadowManage.Shadows = list;
+
+                parent.ShadowManage.Grounds = parent.Grounds;
+                parent.ShadowManage.IsActive = true;
+                root_objects.UpdateList.Add(parent.ShadowManage);
+                root_objects.Layers[2].Add(parent.ShadowManage);
+            }
+
+            void InitDialogMenu(GameRootObjects root_objects, Stage parent)
+            {
+                Utility.Menu dialog_menu = new Utility.Menu();
+                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
+                {
+                    RootObjects = root_objects,
+                    Controller = parent.PlayerController
+                };
+                dialog_menu.ParentMenu = parent.PauseMenu;
+                dialog_menu.ChildMenus.Add(null);
+                dialog_menu.ChildMenus.Add(null);
+                parent.PauseMenu.ChildMenus.AddRange(new[]{
+                    null,
+                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu)),
+                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu))
+                });
+            }
+
+            void InitPauseMenu(GameRootObjects root_objects, Stage parent)
+            {
+                Utility.Menu pause_menu = new Utility.Menu();
+                pause_menu.IsActive = true;
+                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
+                {
+                    RootObjects = root_objects,
+                    Controller = parent.PlayerController
+                };
+                parent.PauseMenu = m_director.Create(new MenuCreator.PauseMenuBuilder(pause_menu));
+                InitDialogMenu(root_objects, parent);
             }
 
             [System.Diagnostics.Conditional("DEBUG")]
@@ -380,120 +444,76 @@ namespace SlimDxGame.Scene
                     parent.SpawnManage.Add(new_item);
                 }
             }
-            
-            void InitPauseMenu(GameRootObjects root_objects, Stage parent)
-            {
-                Utility.Menu pause_menu = new Utility.Menu();
-                pause_menu.IsActive = true;
-                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
-                {
-                    RootObjects = root_objects,
-                    Controller = parent.PlayerController
-                };
-                parent.PauseMenu = m_director.Create(new MenuCreator.PauseMenuBuilder(pause_menu));
-                InitDialogMenu(root_objects, parent);
-            }
-
-            void InitDialogMenu(GameRootObjects root_objects, Stage parent)
-            {
-                Utility.Menu dialog_menu = new Utility.Menu();
-                MenuCreator.MenuDirector m_director = new MenuCreator.MenuDirector()
-                {
-                    RootObjects = root_objects,
-                    Controller = parent.PlayerController
-                };
-                dialog_menu.ParentMenu = parent.PauseMenu;
-                dialog_menu.ChildMenus.Add(null);
-                dialog_menu.ChildMenus.Add(null);
-                parent.PauseMenu.ChildMenus.AddRange(new[]{
-                    null,
-                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu)),
-                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu))
-                });
-            }
 
             void InitSpawnManager(GameRootObjects root_objects, Stage parent)
             {
-                parent.SpawnManage = new SpawnManager()
-                {
-                    CenterObject = parent.Player,
-                    CollisionManager = parent.CollisionManager
-                };
-
                 parent.SpawnManage.IsActive = true;
                 root_objects.UpdateList.Add(parent.SpawnManage);
             }
 
-            void AddShadow(GameRootObjects root_objects, List<Object.Shadow> list, Stage parent)
+            void InitStageBoundary(Stage parent)
             {
-                Asset.Texture shadow_tex;
-                root_objects.TextureContainer.TryGetValue("Shadow", out shadow_tex);
-                Vertex vertex;
-                PolygonFactory.CreateSquarePolygon(out vertex);
-                // 影をつける
-                var shadow = new Object.Shadow()
-                {
-                    Texture = shadow_tex,
-                    Position = new SlimDX.Vector3(),
-                    Scale = new SlimDX.Vector2(3.0f, 3.0f),
-                    Rotation = new SlimDX.Vector3(),
-                    Vertex = vertex,
-                    Owner = parent.Player
-                };
-                list.Add(shadow);
-            }
-
-            void InitShadow(GameRootObjects root_objects, Stage parent)
-            {
-                parent.ShadowManage = new ShadowManager();
-
-                var list = new List<Object.Shadow>();
-                AddShadow(root_objects, list, parent);
-                parent.ShadowManage.Shadows = list;
-
-                parent.ShadowManage.Grounds = parent.Grounds;
-                parent.ShadowManage.IsActive = true;
-                root_objects.UpdateList.Add(parent.ShadowManage);
-                root_objects.Layers[2].Add(parent.ShadowManage);
-            }
-
-            void InitStageInfo(GameRootObjects root_objects, Stage parent)
-            {
-                // ステージの境界線を設定
                 parent.Boundary = new Object.Boundary(parent.StageComponents.Stage.LimitLine);
 
                 parent.CollisionManager.Add(parent.Boundary);
-
-                // ステージの時間制限を設定
             }
 
-            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
-                InitPlayer(root_objects, parent);
-
-                InitSpawnManager(root_objects, parent);
-
                 InitVolume(root_objects);
 
-                InitCamera(root_objects,  parent);
+                InitCamera(root_objects, parent);
 
                 InitLightEffect(root_objects, parent);
 
-                InitInputManager(root_objects,  parent);
+                InitInputManager(root_objects, parent);
+
+                InitPlayer(root_objects, parent);
 
                 InitDecoration(root_objects, parent);
-
-                InitItem(root_objects, parent);
-
-                InitCollisionObjects(root_objects, parent);
-
-                InitStateDrawer(root_objects, parent);
 
                 InitShadow(root_objects, parent);
 
                 InitPauseMenu(root_objects, parent);
 
-                InitStageInfo(root_objects, parent);
+                InitCollisionObjects(root_objects, parent);
+
+                InitStateDrawer(root_objects, parent);
+
+                InitItem(root_objects, parent);
+
+                InitSpawnManager(root_objects, parent);
+
+                InitStageBoundary(parent);
+
+                new_state = new ArrangeState();
+                return 0;
+            }
+        }
+
+        // ステージの配置を行う
+        class ArrangeState : GameState<Stage>
+        {
+            void InitPlayer(Stage parent)
+            {
+                var p_pos = parent.StageComponents.Player.Position;
+                parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
+                var state = parent.Player.State;
+                state.HP = 3;
+                parent.Player.State = state;
+                parent.Player.IsActive = true;
+            }
+
+            void InitLimitTime(GameRootObjects root_objects, Stage parent)
+            {
+
+            }
+
+            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            {
+                InitPlayer(parent);
+
+                InitLimitTime(root_objects, parent);
 
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
@@ -559,6 +579,11 @@ namespace SlimDxGame.Scene
                 parent.PlayerController.Add(parent.Player);
             }
 
+            void DisableOperate(Stage parent)
+            {
+                parent.PlayerController.Remove(parent.Player);
+            }
+
             public PlayingState(GameRootObjects root_objects, Stage parent)
             {
                 EnableOperate(parent);
@@ -568,10 +593,12 @@ namespace SlimDxGame.Scene
             {
                 if (parent.PauseMenu.Showing)
                 {
+                    DisableOperate(parent);
                     new_state = new PausingState(root_objects, parent);
                 }
                 else if (parent.Player.State.HP <= 0)
                 {
+                    DisableOperate(parent);
                     new_state = new MissedState(root_objects, parent);
                 }
                 return 0;
@@ -611,11 +638,17 @@ namespace SlimDxGame.Scene
             void StopObjects(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.UpdateList.Remove(parent.Player);
-                parent.PlayerController.Remove(parent.Player);
                 parent.PlayerController.Remove(parent.PauseMenu);
                 root_objects.UpdateList.Remove(parent.Camera);
                 root_objects.UpdateList.Remove(parent.CollisionManager);
-                root_objects.UpdateList.Remove(parent.SpawnManage);
+            }
+
+            void ReStartObjects(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.UpdateList.Add(parent.Player);
+                parent.PlayerController.Add(parent.PauseMenu);
+                root_objects.UpdateList.Add(parent.Camera);
+                root_objects.UpdateList.Add(parent.CollisionManager);
             }
 
             public MissedState(GameRootObjects root_objects, Stage parent)
@@ -629,7 +662,8 @@ namespace SlimDxGame.Scene
                 if (parent.Fader.Color.Alpha >= 0.9f)
                 {
                     RemoveFader(root_objects, parent);
-                    new_state = new InitState();
+                    ReStartObjects(root_objects, parent);
+                    new_state = new ArrangeState();
                 }
                 return 0;
             }
