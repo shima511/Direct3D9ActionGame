@@ -84,6 +84,7 @@
     <Compile Include="MenuCreator\MenuDirector.cs" />
     <Compile Include="MenuCreator\PauseMenuBuilder.cs" />
     <Compile Include="MenuCreator\TitleMenuBuilder.cs" />
+    <Compile Include="Object\Boundary.cs" />
     <Compile Include="Object\Decolation\Field.cs" />
     <Compile Include="Object\IFieldObject.cs" />
     <Compile Include="SpawnManager.cs" />
