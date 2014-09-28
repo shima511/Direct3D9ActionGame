@@ -86,12 +86,17 @@ namespace SlimDxGame.Scene
         /// ステージの境界線
         /// </summary>
         Object.Boundary Boundary { get; set; }
+        /// <summary>
+        /// タイムカウンター
+        /// </summary>
+        TimeCounter Counter { get; set; }
 
         public Stage()
         {
             CurrentState = new LoadingState();
             Lights = new List<Effect.Light>();
             Grounds = new List<Object.Ground.Base>();
+            Counter = new TimeCounter(Core.FPSManager.FPS);
         }
 
         // ステージの読み込みなどを行う
@@ -418,7 +423,7 @@ namespace SlimDxGame.Scene
 
             void InitStateDrawer(GameRootObjects root_objects, Stage parent)
             {
-                parent.StateDrawManager = new Object.StateDrawer(parent.StageState, parent.Player.State);
+                parent.StateDrawManager = new Object.StateDrawer(parent.StageState, parent.Player);
                 Asset.Font font;
                 root_objects.FontContainer.TryGetValue("Arial", out font);
                 parent.StateDrawManager.Font = font;
@@ -497,16 +502,19 @@ namespace SlimDxGame.Scene
             void InitPlayer(Stage parent)
             {
                 var p_pos = parent.StageComponents.Player.Position;
+                parent.Player.ResetState();
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
-                var state = parent.Player.State;
+                var state = parent.Player.Parameter;
                 state.HP = 3;
-                parent.Player.State = state;
+                parent.Player.Parameter = state;
                 parent.Player.IsActive = true;
             }
 
             void InitLimitTime(GameRootObjects root_objects, Stage parent)
             {
+                parent.StageState.Time = (uint)parent.StageComponents.Stage.LimitTime;
 
+                parent.Counter.ResetTime();
             }
 
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
@@ -537,7 +545,7 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Add(parent.Fader);
             }
 
-            void RemoveFadeInEffect( GameRootObjects root_objects,  Stage parentects)
+            void RemoveFadeInEffect(GameRootObjects root_objects, Stage parentects)
             {
                 root_objects.Layers[2].Remove(parentects.Fader);
                 root_objects.UpdateList.Remove(parentects.Fader);
@@ -591,12 +599,19 @@ namespace SlimDxGame.Scene
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
+                parent.Counter.UpdateTime();
+                parent.StageState.Time = (uint)parent.StageComponents.Stage.LimitTime - parent.Counter.GetSeconds();
                 if (parent.PauseMenu.Showing)
                 {
                     DisableOperate(parent);
                     new_state = new PausingState(root_objects, parent);
                 }
-                else if (parent.Player.State.HP <= 0)
+                else if (parent.Player.Parameter.HP <= 0)
+                {
+                    DisableOperate(parent);
+                    new_state = new MissedState(root_objects, parent);
+                }
+                else if (parent.StageState.Time <= 0)
                 {
                     DisableOperate(parent);
                     new_state = new MissedState(root_objects, parent);
@@ -618,7 +633,7 @@ namespace SlimDxGame.Scene
         class MissedState : GameState<Stage>
         {
             int time = 0;
-            readonly int RequiredTime = 20;
+            readonly int RequiredTime = 30;
 
             void InitFader(GameRootObjects root_objects, Stage parent)
             {
@@ -653,6 +668,8 @@ namespace SlimDxGame.Scene
 
             public MissedState(GameRootObjects root_objects, Stage parent)
             {
+                var life = --parent.Player.Life;
+                parent.Player.Life = life;
                 InitFader(root_objects, parent);
                 StopObjects(root_objects, parent);
             }
@@ -662,8 +679,15 @@ namespace SlimDxGame.Scene
                 if (parent.Fader.Color.Alpha >= 0.9f)
                 {
                     RemoveFader(root_objects, parent);
-                    ReStartObjects(root_objects, parent);
-                    new_state = new ArrangeState();
+                    if (parent.Player.Life > 0)
+                    {
+                        ReStartObjects(root_objects, parent);
+                        new_state = new ArrangeState();
+                    }
+                    else
+                    {
+                        new_state = new GameOverState();
+                    }
                 }
                 return 0;
             }
@@ -707,10 +731,18 @@ namespace SlimDxGame.Scene
                             new_state = new FadeOutState(root_objects, parent);
                             break;
                         default:
-                            new_state = new PlayingState(root_objects, parent); 
+                            new_state = new PlayingState(root_objects, parent);
                             break;
                     }
                 }
+                return 0;
+            }
+        }
+
+        class GameOverState : GameState<Stage>
+        {
+            public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
+            {
                 return 0;
             }
         }
