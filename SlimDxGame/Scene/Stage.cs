@@ -82,6 +82,10 @@ namespace SlimDxGame.Scene
         /// オブジェクト表示・非表示マネージャ
         /// </summary>
         SpawnManager SpawnManage { get; set; }
+        /// <summary>
+        /// ステージの境界線
+        /// </summary>
+        Object.Boundary Boundary { get; set; }
 
         public Stage()
         {
@@ -243,6 +247,7 @@ namespace SlimDxGame.Scene
 
             void InitCamera(GameRootObjects root_objects,  Stage parent)
             {
+                root_objects.UpdateList.Add(parent.Camera);
                 root_objects.Layers[3].Add(parent.Camera);
                 parent.PlayerController.Add(parent.Camera);
                 parent.Camera.Subject = parent.Player;
@@ -298,6 +303,9 @@ namespace SlimDxGame.Scene
                 parent.Player.ModelAsset = model;
                 var p_pos = parent.StageComponents.Player.Position;
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
+                var state = parent.Player.State;
+                state.HP = 3;
+                parent.Player.State = state;
                 root_objects.UpdateList.Add(parent.Player);
                 root_objects.Layers[2].Add(parent.Player);
                 parent.Player.IsActive = true;
@@ -449,6 +457,16 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[2].Add(parent.ShadowManage);
             }
 
+            void InitStageInfo(GameRootObjects root_objects, Stage parent)
+            {
+                // ステージの境界線を設定
+                parent.Boundary = new Object.Boundary(parent.StageComponents.Stage.LimitLine);
+
+                parent.CollisionManager.Add(parent.Boundary);
+
+                // ステージの時間制限を設定
+            }
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 InitPlayer(root_objects, parent);
@@ -474,6 +492,8 @@ namespace SlimDxGame.Scene
                 InitShadow(root_objects, parent);
 
                 InitPauseMenu(root_objects, parent);
+
+                InitStageInfo(root_objects, parent);
 
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
@@ -550,6 +570,10 @@ namespace SlimDxGame.Scene
                 {
                     new_state = new PausingState(root_objects, parent);
                 }
+                else if (parent.Player.State.HP <= 0)
+                {
+                    new_state = new MissedState(root_objects, parent);
+                }
                 return 0;
             }
         }
@@ -566,8 +590,47 @@ namespace SlimDxGame.Scene
         // ミスした状態
         class MissedState : GameState<Stage>
         {
-            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            int time = 0;
+            readonly int RequiredTime = 20;
+
+            void InitFader(GameRootObjects root_objects, Stage parent)
             {
+                parent.Fader.Effect = Object.Fader.Flag.FADE_OUT;
+                parent.Fader.FadingTime = RequiredTime;
+                parent.Fader.Color = new SlimDX.Color4(0.0f, 0.0f, 0.0f, 0.0f);
+                root_objects.UpdateList.Add(parent.Fader);
+                root_objects.Layers[3].Add(parent.Fader);
+            }
+
+            void RemoveFader(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.UpdateList.Remove(parent.Fader);
+                root_objects.Layers[3].Remove(parent.Fader);
+            }
+
+            void StopObjects(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.UpdateList.Remove(parent.Player);
+                parent.PlayerController.Remove(parent.Player);
+                parent.PlayerController.Remove(parent.PauseMenu);
+                root_objects.UpdateList.Remove(parent.Camera);
+                root_objects.UpdateList.Remove(parent.CollisionManager);
+                root_objects.UpdateList.Remove(parent.SpawnManage);
+            }
+
+            public MissedState(GameRootObjects root_objects, Stage parent)
+            {
+                InitFader(root_objects, parent);
+                StopObjects(root_objects, parent);
+            }
+
+            public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
+            {
+                if (parent.Fader.Color.Alpha >= 0.9f)
+                {
+                    RemoveFader(root_objects, parent);
+                    new_state = new InitState();
+                }
                 return 0;
             }
         }
