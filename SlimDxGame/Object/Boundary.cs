@@ -66,9 +66,9 @@ namespace SlimDxGame.Object
             {
                 if (player.HeadCollision.Hit(item))
                 {
-                    var state = player.State;
+                    var state = player.Parameter;
                     state.HP = 0;
-                    player.State = state;
+                    player.Parameter = state;
                 }
             }
         }
