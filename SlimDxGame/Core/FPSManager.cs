@@ -8,7 +8,10 @@ namespace SlimDxGame.Core
 {
     class FPSManager
     {
-        const int FPS = 60;
+        /// <summary>
+        /// ゲームのFPS
+        /// </summary>
+        public const int FPS = 60;
         float fps = 0;
         int count = 0;
         int time_begin = 0;
