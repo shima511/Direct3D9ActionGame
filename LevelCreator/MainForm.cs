@@ -154,6 +154,7 @@ namespace LevelCreator
                     StageRW.Objects stage_objects;
                     reader.Read(diag.FileName, out stage_objects);
                     StageObjects = new Object.ExProperty.Property(stage_objects);
+                    
                     OnSetAssets();
                     current_filename = diag.FileName;
                     this.Text = System.IO.Path.GetFileName(current_filename);
@@ -201,11 +202,14 @@ namespace LevelCreator
                 graphic_device.D3DDevice.SetRenderState(SlimDX.Direct3D9.RenderState.Lighting, true);
                 graphic_device.D3DDevice.SetRenderState(SlimDX.Direct3D9.RenderState.Ambient, System.Drawing.Color.White.ToArgb());
 
-                foreach (var item in objects)
-                {
-                    item.Update();
-                    item.Draw(graphic_device.D3DDevice);
-                }
+                camera.Update();
+                camera.Draw(graphic_device.D3DDevice);
+
+                StageObjects.PlayerInfo.Update();
+                StageObjects.PlayerInfo.Draw(graphic_device.D3DDevice);
+
+                StageObjects.StageInfo.Update();
+                StageObjects.StageInfo.Draw(graphic_device.D3DDevice);
                 foreach (var item in StageObjects.Collisions)
                 {
                     item.Update();
