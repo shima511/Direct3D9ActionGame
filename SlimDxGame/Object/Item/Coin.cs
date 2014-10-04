@@ -84,9 +84,5 @@ namespace SlimDxGame.Object.Item
         {
 
         }
-        public void Hit(Ground.LeftWall wall)
-        {
-
-        }
     }
 }

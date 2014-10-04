@@ -87,10 +87,5 @@ namespace SlimDxGame.Object
         {
             throw new NotImplementedException();
         }
-
-        public void Hit(Ground.LeftWall wall)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

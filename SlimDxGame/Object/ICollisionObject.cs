@@ -12,6 +12,5 @@ namespace SlimDxGame.Object
         void Hit(Ground.Floor floor);
         void Hit(Ground.Ceiling ceiling);
         void Hit(Ground.RightWall wall);
-        void Hit(Ground.LeftWall wall);
     }
 }

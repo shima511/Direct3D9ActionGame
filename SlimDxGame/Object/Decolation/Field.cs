@@ -50,10 +50,5 @@ namespace SlimDxGame.Object.Decolation
         {
 
         }
-
-        public void Hit(Ground.LeftWall wall)
-        {
-
-        }
     }
 }

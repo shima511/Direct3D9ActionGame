@@ -56,10 +56,6 @@ namespace SlimDxGame.Object.Ground
         {
 
         }
-        public void Hit(LeftWall wall)
-        {
-
-        }
 
         public void Draw2D(SlimDX.Direct3D9.Sprite dev)
         {
@@ -80,9 +76,6 @@ namespace SlimDxGame.Object.Ground
                     break;
                 case 1:
                     new_collision = new RightWall();
-                    break;
-                case 2:
-                    new_collision = new LeftWall();
                     break;
                 case 3:
                     new_collision = new Ceiling();
@@ -144,45 +137,8 @@ namespace SlimDxGame.Object.Ground
         {
             if (player.RightSideCollision.Hit(CollisionLine))
             {
-                var player_vector = player.Speed;
-                float common_denomi = (float)Math.Sqrt(Math.Pow(CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X, 2.0) + Math.Pow(CollisionLine.TerminalPoint.Y - CollisionLine.StartingPoint.Y, 2.0));
-                var n_normal = new SlimDX.Vector2((CollisionLine.StartingPoint.Y - CollisionLine.TerminalPoint.Y) / common_denomi, (CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X) / common_denomi);
-                var length = -SlimDX.Vector2.Dot(player_vector, n_normal);
-                var w_vec = player_vector + length * n_normal;
-
-                // プレイヤーのスピードを調整
-                var player_spd = player.Speed;
-                player_spd.X = w_vec.X;
-                player_spd.Y = w_vec.Y;
-                player.Speed = player_spd;
                 player.State |= Player.StateFrag.StickToRightWall;
             }
         }
     }
-    class LeftWall : Base
-    {
-        public override void Dispatch(ICollisionObject obj)
-        {
-            obj.Hit(this);
-        }
-        public override void Hit(Player player)
-        {
-            if (player.LeftSideCollision.Hit(CollisionLine))
-            {
-                var player_vector = player.Speed;
-                float common_denomi = (float)Math.Sqrt(Math.Pow(CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X, 2.0) + Math.Pow(CollisionLine.TerminalPoint.Y - CollisionLine.StartingPoint.Y, 2.0));
-                var n_normal = new SlimDX.Vector2((CollisionLine.StartingPoint.Y - CollisionLine.TerminalPoint.Y) / common_denomi, (CollisionLine.TerminalPoint.X - CollisionLine.StartingPoint.X) / common_denomi);
-                var length = -SlimDX.Vector2.Dot(player_vector, n_normal);
-                var w_vec = player_vector + length * n_normal;
-
-                // プレイヤーのスピードを調整
-                var player_spd = player.Speed;
-                player_spd.X = w_vec.X;
-                player_spd.Y = w_vec.Y;
-                player.Speed = player_spd;
-                player.State |= Player.StateFrag.StickToLeftWall;
-            }
-        }
-    }
-
 }
