@@ -16,7 +16,7 @@ namespace SlimDxGame.Object.Base
         public Vector3 Scale { get { return _scale; } set { _scale = value; } }
         public Vector3 Rotation { get { return _rotation; } set { _rotation = value; } }
 
-        private void UpdateMatrix()
+        protected void UpdateMatrix()
         {
             var world_mat = Matrix.Scaling(_scale.X, _scale.Y, _scale.Z) * Matrix.RotationYawPitchRoll(_rotation.Y, _rotation.X, _rotation.Z);
             world_mat.M41 = _position.X;

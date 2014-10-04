@@ -10,15 +10,10 @@ namespace SlimDxGame.Object
         public enum StateFrag
         {
             None = 0,
-            Wait = 1,
-            Walk = 2,
-            Run = 4,
-            Jump = 8,
-            StickToRightWall = 16,
-            StickToLeftWall = 32,
-            InAir = 64,
-            FaceRight = 128,
-            Turn = 256
+            Run = 1,
+            Jump = 2,
+            StickToRightWall = 4,
+            InAir = 8,
         }
 
         public StateFrag State { get; set; }
@@ -46,7 +41,6 @@ namespace SlimDxGame.Object
         public Collision.Shape.Line LeftSideCollision { get; set; }
         int fall_time = 0;
         readonly float MoveSpeed = 0.01f;
-        readonly float WalkSpeed = 0.05f;
         readonly float RunSpeed = 0.1f;
         readonly float JumpSpeed = 0.2f;
         readonly float FallSpeed = 0.01f;
@@ -70,174 +64,7 @@ namespace SlimDxGame.Object
         /// </summary>
         public int Life { get; set; }
 
-        private class Wait : ObjectState<Player>
-        {
-            public Wait(Player parent)
-            {
-                parent.State |= StateFrag.Wait;
-            }
-
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                parent._speed.X = 0.0f;
-                parent._rotation.Z = (float)Math.PI / 2;
-            }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                // 左ボタンが押された場合
-                if (controller.LeftButton.IsBeingPressed())
-                {
-                    parent.State -= StateFrag.Wait;
-                    // 右を向いている場合
-                    if ((parent.State & StateFrag.FaceRight) == StateFrag.FaceRight)
-                    {
-                        parent.State -= StateFrag.FaceRight;
-                        new_state = new Turn(parent);
-                    }
-                    else
-                    {
-                        new_state = new WalkStart();
-                    }
-                }
-                // 右ボタンが押された場合
-                if (controller.RightButton.IsBeingPressed())
-                {
-                    parent.State -= StateFrag.Wait;
-                    // 左を向いている場合
-                    if ((parent.State & StateFrag.FaceRight) != StateFrag.FaceRight)
-                    {
-                        parent.State |= StateFrag.FaceRight;
-                        new_state = new Turn(parent);
-                    }
-                    else
-                    {
-                        new_state = new WalkStart();
-                    }
-                }
-                if (controller.AButton.IsPressed())
-                {
-                    parent.State -= StateFrag.Wait;
-                    new_state = new JumpStart();
-                }
-                if(controller.DownButton.IsBeingPressed())
-                {
-                    parent.State -= StateFrag.Wait;
-                    new_state = new CrouchStart();
-                }
-            }
-        }
-
-        private class Turn : ObjectState<Player>
-        {
-            private int time = 0;
-            readonly int RequiredFrame = 10;
-
-            public Turn(Player parent)
-            {
-                parent.State |= StateFrag.Turn;
-            }
-
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                parent._rotation.Y += (float)Math.PI / RequiredFrame;
-                if (time >= RequiredFrame)
-                {
-                    parent.State -= StateFrag.Turn;
-                    new_state = new WalkStart();
-                }
-            }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                if (controller.RightButton.IsPressed() || controller.LeftButton.IsPressed())
-                {
-                    parent.State -= StateFrag.Turn;
-                    new_state = new Run(parent);
-                }
-            }
-        }
-
-        private class QuickTurn : ObjectState<Player>
-        {
-            private int time = 0;
-            readonly int RequiredFrame = 15;
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                parent._rotation.Y += (float)Math.PI / RequiredFrame;
-                if (time >= RequiredFrame)
-                {
-                    new_state = new Run(parent);
-                }
-            }
-        }
-
-        private class WalkStart : ObjectState<Player>
-        {
-            private int time = 0;
-            readonly int RequiredFrame = 10;
-
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                if (time >= RequiredFrame)
-                {
-                    new_state = new Walk(parent);
-                }
-            }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                if(controller.LeftButton.IsPressed() || controller.RightButton.IsPressed()){
-                    new_state = new Run(parent);
-                }
-                if(controller.AButton.IsPressed()){
-                    new_state = new JumpStart();
-                }
-            }
-        }
-
-        private class Walk : ObjectState<Player>
-        {
-            public Walk(Player parent)
-            {
-                parent.State |= StateFrag.Walk;
-            }
-
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-            }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                if (controller.RightButton.IsBeingPressed() && (parent.State & StateFrag.FaceRight) == StateFrag.FaceRight)
-                {
-                    parent._speed.X = parent.WalkSpeed;
-                    parent._rotation.Z = (float)Math.PI / 6;
-                }
-                else if (controller.LeftButton.IsBeingPressed() && (parent.State & StateFrag.FaceRight) != StateFrag.FaceRight)
-                {
-                    parent._speed.X = -parent.WalkSpeed;
-                    parent._rotation.Z = (float)Math.PI / 6;
-                }
-                if (controller.RightButton.IsReleased() || controller.LeftButton.IsReleased())
-                {
-                    parent.State -= StateFrag.Walk;
-                    new_state = new Wait(parent);
-                }
-                if(controller.AButton.IsPressed()){
-                    parent.State -= StateFrag.Walk;
-                    new_state = new JumpStart();
-                }
-            }
-        }
-
-        private class WalkEnd : ObjectState<Player>
-        {
-
-        }
+        public MikuMikuDance.Core.Model.MMDModel MMDModel { get; set; }
 
         private class Run : ObjectState<Player>
         {
@@ -248,43 +75,19 @@ namespace SlimDxGame.Object
 
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
+                parent._speed.X = 0.1f;
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
-                if (controller.RightButton.IsBeingPressed() && (parent.State & StateFrag.FaceRight) == StateFrag.FaceRight)
-                {
-                    parent._speed.X = parent.RunSpeed;
-                    parent._rotation.Z = (float)Math.PI / 4;
-                }
-                else if (controller.LeftButton.IsBeingPressed() && (parent.State & StateFrag.FaceRight) != StateFrag.FaceRight)
-                {
-                    parent._speed.X = -parent.RunSpeed;
-                    parent._rotation.Z = (float)Math.PI / 4;
-                }
                 if (controller.RightButton.IsReleased() || controller.LeftButton.IsReleased())
                 {
                     parent.State -= StateFrag.Run;
-                    new_state = new Break();
                 }
                 if (controller.AButton.IsPressed())
                 {
                     parent.State -= StateFrag.Run;
                     new_state = new JumpStart();
-                }
-            }
-        }
-
-        private class Break : ObjectState<Player>
-        {
-            private int time = 0;
-            readonly int RequiredFrame = 5;
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                if (time >= RequiredFrame)
-                {
-                    new_state = new Wait(parent);
                 }
             }
         }
@@ -330,14 +133,6 @@ namespace SlimDxGame.Object
                 {
                     new_state = new TwiceJump(parent);
                 }
-                if (controller.RightButton.IsBeingPressed() && parent.Speed.X < parent.RunSpeed)
-                {
-                    parent._speed.X += parent.MoveSpeed;
-                }
-                if (controller.LeftButton.IsBeingPressed() && parent.Speed.X > -parent.RunSpeed)
-                {
-                    parent._speed.X -= parent.MoveSpeed;
-                }
             }
         }
 
@@ -359,18 +154,6 @@ namespace SlimDxGame.Object
                     new_state = new Fall();
                 }
             }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                if (controller.RightButton.IsBeingPressed() && parent.Speed.X < parent.RunSpeed)
-                {
-                    parent._speed.X += parent.MoveSpeed;
-                }
-                if (controller.LeftButton.IsBeingPressed() && parent.Speed.X > -parent.RunSpeed)
-                {
-                    parent._speed.X -= parent.MoveSpeed;
-                }
-            }
         }
 
         private class Fall : ObjectState<Player>
@@ -389,14 +172,6 @@ namespace SlimDxGame.Object
                 {
                     new_state = new TwiceJump(parent);
                 }
-                if (controller.RightButton.IsBeingPressed() && parent.Speed.X < parent.RunSpeed)
-                {
-                    parent._speed.X += parent.MoveSpeed;
-                }
-                if (controller.LeftButton.IsBeingPressed() && parent.Speed.X > -parent.RunSpeed)
-                {
-                    parent._speed.X -= parent.MoveSpeed;
-                }
             }
         }
 
@@ -407,11 +182,10 @@ namespace SlimDxGame.Object
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
-                parent.Speed = new Vector2();
                 if (time >= RequiredFrame)
                 {
                     parent.jumped_two_times = false;
-                    new_state = new Wait(parent);
+                    new_state = new Run(parent);
                 }
             }
         }
@@ -423,9 +197,6 @@ namespace SlimDxGame.Object
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
-                var rot = parent.Rotation;
-                rot.Z += (float)(Math.PI) / (RequiredFrame * 2);
-                parent.Rotation = rot;
                 if (time >= RequiredFrame)
                 {
                     new_state = new Crouching();
@@ -447,9 +218,6 @@ namespace SlimDxGame.Object
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
-                var rot = parent.Rotation;
-                rot.Y = (float)(Math.PI * Math.Sin(time * 0.01) / 3);
-                parent.Rotation = rot;
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
@@ -468,12 +236,9 @@ namespace SlimDxGame.Object
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
-                var rot = parent.Rotation;
-                rot.Z -= (float)(Math.PI) / (RequiredFrame * 2);
-                parent.Rotation = rot;
                 if (time >= RequiredFrame)
                 {
-                    new_state = new Wait(parent);
+                    new_state = new Run(parent);
                 }
             }
         }
@@ -498,20 +263,16 @@ namespace SlimDxGame.Object
         {
 
         }
-        public void Hit(Ground.LeftWall wall)
-        {
-
-        }
         public Player()
         {
             Life = 3;
-
-            _rotation.Z = (float)Math.PI / 4;
 
             Parameter = new Status.Charactor()
             {
                 HP = 10
             };
+
+            _position.Z = -40.0f;
 
             Width = 1.0f;
             Height = 1.0f;
@@ -520,7 +281,7 @@ namespace SlimDxGame.Object
             RightSideCollision = new Collision.Shape.Line();
             LeftSideCollision = new Collision.Shape.Line();
 
-            CurrentState = new Wait(this);
+            CurrentState = new Run(this);
         }
 
         private void UpdateSpeed()
@@ -529,15 +290,19 @@ namespace SlimDxGame.Object
             {
                 _speed.Y -= FallSpeed;
             }
-
+            if ((State & StateFrag.StickToRightWall) == StateFrag.StickToRightWall)
+            {
+                _speed.X = 0.0f;
+            }
+            if ((State & StateFrag.StickToRightWall) != StateFrag.StickToRightWall)
+            {
+                _speed.X = RunSpeed;
+            }
         }
 
         private void UpdatePosition()
         {
-            if ((Speed.X < 0 && (State & StateFrag.StickToLeftWall) != StateFrag.StickToLeftWall) || (Speed.X > 0 && (State & StateFrag.StickToRightWall) != StateFrag.StickToRightWall))
-            {
-                _position.X += _speed.X;
-            }
+            _position.X += _speed.X;
             _position.Y += _speed.Y;
         }
 
@@ -587,6 +352,8 @@ namespace SlimDxGame.Object
             UpdatePosition();
             UpdateCollision();
             UpdateFallTime();
+            UpdateMatrix();
+            MMDModel.Transform = CommonMatrix.WorldMatrix;
         }
 
         public void DrawHitRange(SlimDX.Direct3D9.Device dev)
@@ -597,17 +364,12 @@ namespace SlimDxGame.Object
             LeftSideCollision.Draw3D(dev);
         }
 
-        private void ControlSpeed(SlimDxGame.Controller controller)
-        {
-
-        }
-
         [System.Diagnostics.Conditional("DEBUG")]
         void ActionForDebug(SlimDxGame.Controller controller)
         {
             if (controller.DButton.IsPressed() && controller.UpButton.IsBeingPressed())
             {
-                _position = new Vector3();
+                _position = new Vector3(0.0f, 0.0f, -40.0f);
             }
         }
 
@@ -617,12 +379,20 @@ namespace SlimDxGame.Object
             ActionForDebug(controller);
         }
 
+        public override void Draw3D(SlimDX.Direct3D9.Device dev)
+        {
+            base.Draw3D(dev);
+//            MMDModel.Draw();
+        }
+
         public void ResetState()
         {
             State = StateFrag.None;
+            _position.Z = -40.0f;
             Speed = new Vector2(0.0f, 0.0f);
             Rotation = new Vector3(0.0f, 0.0f, 0.0f);
-            Scale = new Vector3(1.0f, 1.0f, 1.0f);
+            Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            _rotation.Y = (float)Math.PI / 2;
         }
     }
 }

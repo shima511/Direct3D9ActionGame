@@ -105,6 +105,12 @@ namespace SlimDxGame.Scene
             bool ThreadCreated { get; set; }
             bool LoadCompleted { get; set; }
 
+            public LoadingState()
+            {
+                ThreadCreated = false;
+                LoadCompleted = false;
+            }
+
             void InitLayer(GameRootObjects root_objects)
             {
                 root_objects.Layers.Capacity = 4;
@@ -145,6 +151,14 @@ namespace SlimDxGame.Scene
                 byte[] data_array = File.ReadAllBytes(Path.Combine(baseDir, Path.Combine("sounds", "MusicMono.wav")));
                 new_sound = AssetFactory.AudioMediaFactory.CreateSoundFromMemory(data_array);
                 sound_container.Add("test_sound", new_sound);
+            }
+
+            void LoadMMDModel(Stage parent)
+            {
+                var model = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadModelFromFile("models/human/human.pmd");
+                var motion = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Wait.vmd");
+                model.AnimationPlayer.AddMotion("Wait", motion, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.UpdateWhenStopped);
+                parent.Player.MMDModel = model;
             }
 
             void LoadModels(ScriptRW.Properties properties, AssetContainer<Asset.Model> model_container)
@@ -217,6 +231,7 @@ namespace SlimDxGame.Scene
                     LoadAssetList(parent);
                     LoadSounds(root_objects.SoundContainer);
                     LoadTextures(parent.AssetsList, root_objects.TextureContainer);
+                    LoadMMDModel(parent);
                     LoadModels(parent.AssetsList, root_objects.ModelContainer);
                     LoadStage(root_objects, parent);
                     LoadFont(root_objects);
@@ -234,12 +249,22 @@ namespace SlimDxGame.Scene
                         }
                         new_state = new InitState();
                     }
-                }catch(SystemException ex){
+                }
+                catch (NullReferenceException ex)
+                {
+                    MessageBox.Show(ex.Message, "Nullを参照しています", MessageBoxButtons.OK);
+                    parent.ReturnTo = ReturnFrag.ExitGame;
+                    new_state = new InitState();
+                    return -1;
+                }
+                catch (SystemException ex)
+                {
                     MessageBox.Show(ex.Message, "ファイルエラー", MessageBoxButtons.OK);
                     parent.ReturnTo = ReturnFrag.ExitGame;
                     new_state = new InitState();
                     return -1;
                 }
+
                 return 0;
             }
         }
