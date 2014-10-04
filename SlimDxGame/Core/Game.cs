@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MikuMikuDance.SlimDX;
 using System.IO;
 using System.Windows.Forms;
+using System.Threading;
+using System.Diagnostics;
 
 namespace SlimDxGame.Core
 {
@@ -18,6 +20,8 @@ namespace SlimDxGame.Core
         private Device.Audio audio_dev;
         // FPS表示用のフォント
         SlimDxGame.Asset.Font default_font;
+        float timeStep;
+        long beforeCount = -1;
 
         public Game(Scene.Base first_scene)
         {
@@ -71,9 +75,25 @@ namespace SlimDxGame.Core
             sprite_dev.End();
         }
 
+        void UpdateMMDX()
+        {
+            if (beforeCount < 0)
+            {
+                timeStep = 0.0f;
+                beforeCount = Stopwatch.GetTimestamp();
+            }
+            else
+            {
+                timeStep = ((float)(Stopwatch.GetTimestamp() - beforeCount)) / (float)Stopwatch.Frequency;
+                beforeCount = Stopwatch.GetTimestamp();
+            }
+            SlimMMDXCore.Instance.Update(timeStep);
+        }
+
         new void Update()
         {
             if (now_scene.Update(root_objects, ref now_scene) != 0) this.Close();
+            UpdateMMDX();
             foreach (var item in root_objects.UpdateList)
             {
                 if(item.IsActive) item.Update();
