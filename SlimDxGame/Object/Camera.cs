@@ -1,6 +1,7 @@
 ﻿using System;
 using SlimDX;
 using SlimDX.Direct3D9;
+using MikuMikuDance.SlimDX;
 
 namespace SlimDxGame.Object
 {
@@ -25,6 +26,10 @@ namespace SlimDxGame.Object
         {
             _eye_position.X = Subject.Position.X;
             _at_position.X = Subject.Position.X;
+            var pos = _eye_position;
+            pos.Z = 50.0f;
+            SlimMMDXCore.Instance.Camera.Position = pos;
+            SlimMMDXCore.Instance.Camera.SetVector(new Vector3(0.0f, 0.0f, -1.0f));
         }
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
