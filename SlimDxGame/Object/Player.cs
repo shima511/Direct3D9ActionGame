@@ -87,28 +87,6 @@ namespace SlimDxGame.Object
                 if (controller.AButton.IsPressed())
                 {
                     parent.State -= StateFrag.Run;
-                    new_state = new JumpStart();
-                }
-            }
-        }
-
-        private class JumpStart : ObjectState<Player>
-        {
-            private int time = 0;
-            readonly int RequiredFrame = 15;
-
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                if (time <= RequiredFrame)
-                {
-                    // 初速度
-                    parent._speed.Y = parent.JumpSpeed;
-                    parent.State |= StateFrag.InAir;
-                    if (parent.OnJump != null)
-                    {
-                        parent.OnJump(parent.Position);
-                    }
                     new_state = new Jump();
                 }
             }
@@ -162,7 +140,7 @@ namespace SlimDxGame.Object
             {
                 if ((parent.State & StateFrag.InAir) != StateFrag.InAir)
                 {
-                    new_state = new Land();
+                    new_state = new Run(parent);
                 }
             }
 
@@ -171,74 +149,6 @@ namespace SlimDxGame.Object
                 if(controller.AButton.IsPressed() && !parent.jumped_two_times)
                 {
                     new_state = new TwiceJump(parent);
-                }
-            }
-        }
-
-        private class Land : ObjectState<Player>
-        {
-            int time = 0;
-            readonly int RequiredFrame = 5;
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                if (time >= RequiredFrame)
-                {
-                    parent.jumped_two_times = false;
-                    new_state = new Run(parent);
-                }
-            }
-        }
-
-        private class CrouchStart : ObjectState<Player>
-        {
-            int time = 0;
-            readonly int RequiredFrame = 5;
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                if (time >= RequiredFrame)
-                {
-                    new_state = new Crouching();
-                }
-            }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                if (controller.DownButton.IsReleased())
-                {
-                    new_state = new CrouchEnd();
-                }
-            }
-        }
-
-        private class Crouching : ObjectState<Player>
-        {
-            int time = 0;
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-            }
-
-            public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
-            {
-                if (controller.DownButton.IsReleased())
-                {
-                    new_state = new CrouchEnd();
-                }
-            }
-        }
-
-        private class CrouchEnd : ObjectState<Player>
-        {
-            int time = 0;
-            readonly int RequiredFrame = 5;
-            public override void Update(Player parent, ref ObjectState<Player> new_state)
-            {
-                time++;
-                if (time >= RequiredFrame)
-                {
-                    new_state = new Run(parent);
                 }
             }
         }
@@ -382,7 +292,7 @@ namespace SlimDxGame.Object
         public override void Draw3D(SlimDX.Direct3D9.Device dev)
         {
             base.Draw3D(dev);
-//            MMDModel.Draw();
+            MMDModel.Draw();
         }
 
         public void ResetState()
