@@ -40,8 +40,7 @@ namespace SlimDxGame.Object
         /// </summary>
         public Collision.Shape.Line LeftSideCollision { get; set; }
         int fall_time = 0;
-        readonly float MoveSpeed = 0.01f;
-        readonly float RunSpeed = 0.1f;
+        readonly float RunSpeed = 0.2f;
         readonly float JumpSpeed = 0.2f;
         readonly float FallSpeed = 0.01f;
         readonly float MaxFallSpeed = 0.1f;
@@ -68,26 +67,33 @@ namespace SlimDxGame.Object
 
         private class Run : ObjectState<Player>
         {
+            int time = 0;
+            readonly int RequiredTime = 80;
+
             public Run(Player parent)
             {
+                parent.jumped_two_times = false;
                 parent.State |= StateFrag.Run;
             }
 
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
-                parent._speed.X = 0.1f;
+                if (time == 0)
+                {
+                    parent.MMDModel.AnimationPlayer["Run"].Reset();
+                    parent.MMDModel.AnimationPlayer["Run"].Start();
+                }
+                time++;
+                time %= RequiredTime;
+                parent._speed.X = parent.RunSpeed;
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
-                if (controller.RightButton.IsReleased() || controller.LeftButton.IsReleased())
-                {
-                    parent.State -= StateFrag.Run;
-                }
                 if (controller.AButton.IsPressed())
                 {
                     parent.State -= StateFrag.Run;
-                    new_state = new Jump();
+                    new_state = new Jump(parent);
                 }
             }
         }
@@ -96,11 +102,21 @@ namespace SlimDxGame.Object
         {
             private int time = 0;
             readonly int RequiredFrame = 15;
+
+            public Jump(Player parent)
+            {
+                var spd = parent.Speed;
+                spd.Y = parent.JumpSpeed;
+                parent.Speed = spd;
+                parent.State |= StateFrag.Jump;
+            }
+
             public override void Update(Player parent, ref ObjectState<Player> new_state)
             {
                 time++;
                 if (time >= RequiredFrame)
                 {
+                    parent.State -= StateFrag.Jump;
                     new_state = new Fall();
                 }
             }
@@ -120,7 +136,9 @@ namespace SlimDxGame.Object
             readonly int RequiredFrame = 5;
             public TwiceJump(Player parent)
             {
-                parent._speed.Y = parent.JumpSpeed;
+                var spd = parent.Speed;
+                spd.Y = parent.JumpSpeed;
+                parent.Speed = spd;
                 parent.jumped_two_times = true;
             }
 
@@ -129,6 +147,7 @@ namespace SlimDxGame.Object
                 time++;
                 if (time >= RequiredFrame)
                 {
+                    parent.State -= StateFrag.Jump;
                     new_state = new Fall();
                 }
             }
