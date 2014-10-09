@@ -274,6 +274,13 @@ namespace SlimDxGame.Object
             CurrentState.Update(this, ref CurrentState);
         }
 
+        void MendMatrix()
+        {
+            var mat = CommonMatrix.WorldMatrix;
+            mat.M42 -= 0.4f;
+            CommonMatrix.WorldMatrix = mat;
+        }
+
         public void Update()
         {
             UpdateState();
@@ -282,6 +289,7 @@ namespace SlimDxGame.Object
             UpdateCollision();
             UpdateFallTime();
             UpdateMatrix();
+            MendMatrix();
             MMDModel.Transform = CommonMatrix.WorldMatrix;
         }
 
@@ -320,7 +328,7 @@ namespace SlimDxGame.Object
             _position.Z = -40.0f;
             Speed = new Vector2(0.0f, 0.0f);
             Rotation = new Vector3(0.0f, 0.0f, 0.0f);
-            Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            Scale = new Vector3(0.2f, 0.2f, 0.2f);
             _rotation.Y = (float)Math.PI / 2;
         }
     }

@@ -15,18 +15,22 @@ namespace SlimDxGame.Object
         /// カメラが注視する対象
         /// </summary>
         public Base.Model Subject { private get; set; }
-        private Vector3 _eye_position = new Vector3(0.0f, 4.0f, -15.0f);
-        private Vector3 _at_position = new Vector3(0.0f, 0.0f, 0.0f);
+        private Vector3 _eye_position = new Vector3(0.0f, 8.0f, -25.0f);
+        private Vector3 _at_position = new Vector3(0.0f, 8.0f, -5.0f);
         private Vector3 _up_direction = new Vector3(0.0f, 1.0f, 0.0f);
         public Vector3 EyePosition { get { return _eye_position; } set { _eye_position = value; } }
         public Vector3 AtPosition { get { return _at_position; } set { _at_position = value; } }
         public Vector3 UpDirection { get { return _up_direction; } set { _up_direction = value; } }
+        /// <summary>
+        /// 注視点との差
+        /// </summary>
+        readonly Vector3 Diff = new Vector3(10.0f, 0.0f, 0.0f);
         MMDXCamera mmd_camera = new MMDXCamera();
 
         public void Update()
         {
-            _eye_position.X = Subject.Position.X;
-            _at_position.X = Subject.Position.X;
+            _eye_position.X = Subject.Position.X + Diff.X;
+            _at_position.X = Subject.Position.X + Diff.X;
         }
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
