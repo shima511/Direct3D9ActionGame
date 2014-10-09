@@ -156,8 +156,14 @@ namespace SlimDxGame.Scene
             void LoadMMDModel(Stage parent)
             {
                 var model = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadModelFromFile("models/human/human.pmd");
-                var motion = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Wait.vmd");
-                model.AnimationPlayer.AddMotion("Wait", motion, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.UpdateWhenStopped);
+                var motion1 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Run.vmd");
+                model.AnimationPlayer.AddMotion("Run", motion1, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+                var motion2 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/JumpStart.vmd");
+                model.AnimationPlayer.AddMotion("JumpStart", motion2, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+                model.AnimationPlayer["JumpStart"].Stop();
+                var motion3 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Jump.vmd");
+                model.AnimationPlayer.AddMotion("Jump", motion3, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+                model.AnimationPlayer["Jump"].Stop();
                 parent.Player.MMDModel = model;
             }
 
