@@ -12,6 +12,7 @@ namespace SlimDxGame.Collision
         public void Update()
         {
             if ((Player.State & Object.Player.StateFrag.InAir) != Object.Player.StateFrag.InAir) Player.State |= Object.Player.StateFrag.InAir;
+            if ((Player.State & Object.Player.StateFrag.StickToRightWall) == Object.Player.StateFrag.StickToRightWall) Player.State -= Object.Player.StateFrag.StickToRightWall;
             foreach (var obj in this)
             {
                 if(obj.Spawnable) obj.Hit(Player);
