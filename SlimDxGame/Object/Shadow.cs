@@ -39,13 +39,9 @@ namespace SlimDxGame.Object
             var scale = Scale;
             scale.X = MaxScale - diff;
             scale.Y = MaxScale - diff;
-            if (scale.X < 0)
+            if (diff < 0)
             {
-                scale.X = 0.0f;
-            }
-            if (scale.Y < 0)
-            {
-                scale.Y = 0.0f;
+                scale.X = 0.0f; scale.Y = 0.0f;
             }
             Scale = scale;
         }
