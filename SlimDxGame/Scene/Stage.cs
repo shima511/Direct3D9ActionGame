@@ -562,6 +562,8 @@ namespace SlimDxGame.Scene
                 parent.Player.ResetState();
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
                 parent.Player.IsActive = true;
+                parent.Player.RunStart = false;
+                parent.Player.Update();
             }
 
             void InitLimitTime(GameRootObjects root_objects, Stage parent)
@@ -571,11 +573,19 @@ namespace SlimDxGame.Scene
                 parent.Counter.ResetTime();
             }
 
+            void StepOneFrame(Stage parent)
+            {
+                parent.CollisionManager.Update();
+                parent.Camera.Update();
+            }
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 InitPlayer(parent);
 
                 InitLimitTime(root_objects, parent);
+
+                StepOneFrame(parent);
 
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
@@ -608,7 +618,7 @@ namespace SlimDxGame.Scene
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 if(parent.Fader.Color.Alpha <= 0.1f){
-                    RemoveFadeInEffect( root_objects,  parent);
+                    RemoveFadeInEffect(root_objects, parent);
                     new_state = new CountDownState();
                 }
                 return 0;
@@ -619,11 +629,13 @@ namespace SlimDxGame.Scene
         class CountDownState : GameState<Stage>
         {
             int time = 0;
+            readonly int RequiredTime = 30;
 
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 time++;
-                if(time >= 0){
+                if(time >= RequiredTime){
+                    parent.Player.RunStart = true;
                     // ポーズメニューを操作できるようにする
                     parent.PlayerController.Add(parent.PauseMenu);
                     new_state = new PlayingState(root_objects,  parent);
@@ -806,6 +818,13 @@ namespace SlimDxGame.Scene
                 parent.PlayerController.Add(gameOverMenu);
             }
 
+            void ReStartObjects(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.UpdateList.Add(parent.Camera);
+                root_objects.UpdateList.Add(parent.Player);
+                root_objects.UpdateList.Add(parent.CollisionManager);
+            }
+
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 if (gameOverMenu.Fixed)
@@ -815,6 +834,7 @@ namespace SlimDxGame.Scene
                     {
                         case 0:
                             parent.Player.Life = 1;
+                            ReStartObjects(root_objects, parent);
                             new_state = new ArrangeState();
                             break;
                         case 1:

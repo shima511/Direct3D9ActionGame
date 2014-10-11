@@ -45,6 +45,7 @@ namespace SlimDxGame.Object
         readonly float FallSpeed = 0.01f;
         readonly float MaxFallSpeed = 0.1f;
         readonly int DefaultLives = 1;
+        public bool RunStart { get; set; }
         bool jumped_two_times = false;
         /// <summary>
         /// 現在の状態
@@ -86,7 +87,8 @@ namespace SlimDxGame.Object
                 }
                 time++;
                 time %= RequiredTime;
-                parent._speed.X = parent.RunSpeed;
+                if (parent.RunStart) parent._speed.X = parent.RunSpeed;
+                else parent._speed.X = 0;
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
@@ -226,7 +228,8 @@ namespace SlimDxGame.Object
             }
             if ((State & StateFrag.StickToRightWall) != StateFrag.StickToRightWall)
             {
-                _speed.X = RunSpeed;
+                if (RunStart) _speed.X = RunSpeed;
+                else _speed.X = 0;
             }
         }
 
@@ -326,9 +329,8 @@ namespace SlimDxGame.Object
         public void ResetState()
         {
             fall_time = 0;
-            State = StateFrag.None;
-            Speed = new Vector2(0.0f, 0.0f);
-            Rotation = new Vector3(0.0f, 0.0f, 0.0f);
+            Parameter.HP = 1;
+            CurrentState = new Run(this);
             Scale = new Vector3(0.2f, 0.2f, 0.2f);
             _rotation.Y = (float)Math.PI / 2;
         }
