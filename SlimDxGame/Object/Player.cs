@@ -44,6 +44,7 @@ namespace SlimDxGame.Object
         readonly float JumpSpeed = 0.2f;
         readonly float FallSpeed = 0.01f;
         readonly float MaxFallSpeed = 0.1f;
+        readonly int DefaultLives = 1;
         bool jumped_two_times = false;
         /// <summary>
         /// 現在の状態
@@ -194,11 +195,11 @@ namespace SlimDxGame.Object
         }
         public Player()
         {
-            Life = 3;
+            Life = DefaultLives;
 
             Parameter = new Status.Charactor()
             {
-                HP = 10
+                HP = 1
             };
 
             _position.Z = -40.0f;
@@ -306,7 +307,7 @@ namespace SlimDxGame.Object
         {
             if (controller.DButton.IsPressed() && controller.UpButton.IsBeingPressed())
             {
-                _position = new Vector3(0.0f, 0.0f, -40.0f);
+                _position = new Vector3(0.0f, 3.0f, 0.0f);
             }
         }
 
@@ -324,8 +325,8 @@ namespace SlimDxGame.Object
 
         public void ResetState()
         {
+            fall_time = 0;
             State = StateFrag.None;
-            _position.Z = -40.0f;
             Speed = new Vector2(0.0f, 0.0f);
             Rotation = new Vector3(0.0f, 0.0f, 0.0f);
             Scale = new Vector3(0.2f, 0.2f, 0.2f);
