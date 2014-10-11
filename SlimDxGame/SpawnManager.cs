@@ -20,7 +20,7 @@ namespace SlimDxGame
         /// <summary>
         /// 出現・削除の範囲
         /// </summary>
-        readonly float SpawnRange = 50.0f;
+        readonly float SpawnRange = 100.0f;
 
         public void Update()
         {
