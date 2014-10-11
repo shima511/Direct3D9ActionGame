@@ -132,7 +132,7 @@ namespace SlimDxGame.Utility
             }
         }
 
-        void Show()
+        public void Show()
         {
             Fixed = false;
             Showing = true;
