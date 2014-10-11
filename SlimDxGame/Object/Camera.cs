@@ -24,7 +24,7 @@ namespace SlimDxGame.Object
         /// <summary>
         /// 注視点との差
         /// </summary>
-        readonly Vector3 Diff = new Vector3(10.0f, 0.0f, 0.0f);
+        readonly Vector3 Diff = new Vector3(12.5f, 0.0f, 0.0f);
         MMDXCamera mmd_camera = new MMDXCamera();
 
         public void Update()
