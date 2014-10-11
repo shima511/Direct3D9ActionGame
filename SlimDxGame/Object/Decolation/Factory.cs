@@ -23,6 +23,13 @@ namespace SlimDxGame.Object.Decolation
                         ModelAsset = ModelContainer.GetValue("Field0")
                     };
                     break;
+                case 1:
+                    new_item = new Field()
+                    {
+                        Position = obj.Position,
+                        ModelAsset = ModelContainer.GetValue("Field1")
+                    };
+                    break;
             }
         }
     }
