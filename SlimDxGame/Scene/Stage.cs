@@ -157,20 +157,6 @@ namespace SlimDxGame.Scene
                 sound_container.Add("test_sound", new_sound);
             }
 
-            void LoadMMDModel(Stage parent)
-            {
-                var model = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadModelFromFile("models/human/human.pmd");
-                var motion1 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Run.vmd");
-                model.AnimationPlayer.AddMotion("Run", motion1, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
-                var motion2 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/JumpStart.vmd");
-                model.AnimationPlayer.AddMotion("JumpStart", motion2, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
-                model.AnimationPlayer["JumpStart"].Stop();
-                var motion3 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Jump.vmd");
-                model.AnimationPlayer.AddMotion("Jump", motion3, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
-                model.AnimationPlayer["Jump"].Stop();
-                parent.Player.MMDModel = model;
-            }
-
             void LoadModels(ScriptRW.Properties properties, AssetContainer<Asset.Model> model_container)
             {
                 Asset.Model new_model;
@@ -241,7 +227,6 @@ namespace SlimDxGame.Scene
                     LoadAssetList(parent);
                     LoadSounds(root_objects.SoundContainer);
                     LoadTextures(parent.AssetsList, root_objects.TextureContainer);
-                    LoadMMDModel(parent);
                     LoadModels(parent.AssetsList, root_objects.ModelContainer);
                     LoadStage(root_objects, parent);
                     LoadFont(root_objects);
@@ -344,9 +329,8 @@ namespace SlimDxGame.Scene
 
             void InitPlayer(GameRootObjects root_objects, Stage parent)
             {
-                Asset.Model model;
-                root_objects.ModelContainer.TryGetValue("TestModel", out model);
-                parent.Player.ModelAsset = model;
+                parent.Player.ModelAsset = root_objects.ModelContainer["TestModel"];
+                parent.Player.MMDModel = root_objects.MMDModels["Player"];
                 root_objects.UpdateList.Add(parent.Player);
                 root_objects.Layers[2].Add(parent.Player);
             }
@@ -546,7 +530,7 @@ namespace SlimDxGame.Scene
 
                 InitStageBoundary(parent);
 
-                InitBackGround(root_objects, parent);
+ //               InitBackGround(root_objects, parent);
 
                 new_state = new ArrangeState();
                 return 0;

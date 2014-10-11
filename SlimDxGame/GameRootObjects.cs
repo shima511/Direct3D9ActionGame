@@ -44,6 +44,10 @@ namespace SlimDxGame
         /// ゲームの設定
         /// </summary>
         public Config Settings { get; set; }
+        /// <summary>
+        /// MMDモデルのリスト
+        /// </summary>
+        public Dictionary<string, MikuMikuDance.Core.Model.MMDModel> MMDModels { get; private set; }
 
         public GameRootObjects()
         {
@@ -55,6 +59,7 @@ namespace SlimDxGame
             SoundContainer = new AssetContainer<Asset.Sound>();
             ModelContainer = new AssetContainer<Asset.Model>();
             Settings = new Config();
+            MMDModels = new Dictionary<string, MikuMikuDance.Core.Model.MMDModel>();
         }
 
         /// <summary>

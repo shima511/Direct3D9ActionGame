@@ -134,11 +134,24 @@ namespace SlimDxGame.Core
             {
                 SlimMMDXCore.Setup(graphic_dev.D3DDevice, toonTexPath);
                 SlimMMDXCore.Instance.UsePhysics = false;
+                LoadMMDModels();
             }
             catch (SlimDX.Direct3D9.Direct3D9Exception ex)
             {
                 System.Diagnostics.Debug.Assert(false, ex.Message + "MMDX失敗");
             }
+        }
+
+        void LoadMMDModels()
+        {
+            var model = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadModelFromFile("models/human/human.pmd");
+            var motion1 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Run.vmd");
+            model.AnimationPlayer.AddMotion("Run", motion1, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+            var motion2 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/JumpStart.vmd");
+            model.AnimationPlayer.AddMotion("JumpStart", motion2, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+            var motion3 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Jump.vmd");
+            model.AnimationPlayer.AddMotion("Jump", motion3, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+            root_objects.MMDModels.Add("Player", model);
         }
 
         private void SetDevice()
