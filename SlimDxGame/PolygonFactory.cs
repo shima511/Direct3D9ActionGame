@@ -22,24 +22,24 @@ namespace SlimDxGame
             Vector2 UV;
         }
 
-        public static SlimDX.Direct3D9.Device Device { private get; set; }
+        static Vertex vertex_instance;
 
-        public static void CreateSquarePolygon(out Vertex vertex)
+        static void CreateVertexInstance()
         {
-            vertex = new Vertex();
-            vertex.Size = Marshal.SizeOf(typeof(PolygonVertex));
-            vertex.TriangleCount = 2;
-            vertex.Format = VertexFormat.Position | VertexFormat.Texture1;
-            vertex.Buffer = new VertexBuffer(
+            vertex_instance = new Vertex();
+            vertex_instance.Size = Marshal.SizeOf(typeof(PolygonVertex));
+            vertex_instance.TriangleCount = 2;
+            vertex_instance.Format = VertexFormat.Position | VertexFormat.Texture1;
+            vertex_instance.Buffer = new VertexBuffer(
                 Device,
-                vertex.TriangleCount * 3 * vertex.Size,
+                vertex_instance.TriangleCount * 3 * vertex_instance.Size,
                 Usage.WriteOnly,
                 VertexFormat.None,
                 Pool.Managed
                 );
 
-            var stream = vertex.Buffer.Lock(0, 0, LockFlags.None);
-            stream.WriteRange(new []{
+            var stream = vertex_instance.Buffer.Lock(0, 0, LockFlags.None);
+            stream.WriteRange(new[]{
                 new PolygonVertex(new Vector3(-0.5f, 0.0f, 0.5f), new Vector2(0.0f, 0.0f)),
                 new PolygonVertex(new Vector3(0.5f, 0.0f, 0.5f), new Vector2(1.0f, 0.0f)),
                 new PolygonVertex(new Vector3(-0.5f, 0.0f, -0.5f), new Vector2(0.0f, 1.0f)),
@@ -47,13 +47,29 @@ namespace SlimDxGame
                 new PolygonVertex(new Vector3(-0.5f, 0.0f, -0.5f), new Vector2(0.0f, 1.0f)),
                 new PolygonVertex(new Vector3(0.5f, 0.0f, 0.5f), new Vector2(1.0f, 0.0f))
             });
-            vertex.Buffer.Unlock();
+            vertex_instance.Buffer.Unlock();
 
-            vertex.Declaration = new VertexDeclaration(Device, new[]{
+            vertex_instance.Declaration = new VertexDeclaration(Device, new[]{
                                 new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
                                 new VertexElement(0, 12, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
                                 VertexElement.VertexDeclarationEnd
             });
+        }
+
+        public static SlimDX.Direct3D9.Device Device { private get; set; }
+
+        public static void CreateSquarePolygon(out Vertex vertex)
+        {
+            if (vertex_instance == null)
+            {
+                CreateVertexInstance();
+            }
+            vertex = vertex_instance;
+        }
+
+        public static void Terminate()
+        {
+            vertex_instance.Buffer.Dispose();
         }
     }
 }
