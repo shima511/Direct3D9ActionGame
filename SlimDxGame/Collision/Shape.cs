@@ -61,7 +61,7 @@ namespace SlimDxGame.Collision.Shape
 
         public Line()
         {
-            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
+            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace SlimDxGame.Collision.Shape
 #if DEBUG
         public Point()
         {
-            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box, System.Drawing.Color.White);
+            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box);
         }
 #endif
 
@@ -193,7 +193,7 @@ namespace SlimDxGame.Collision.Shape
 #if DEBUG
         public Circle()
         {
-            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Sphere, System.Drawing.Color.White);
+            this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Sphere);
         }
 #endif
 

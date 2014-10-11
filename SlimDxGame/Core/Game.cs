@@ -149,6 +149,8 @@ namespace SlimDxGame.Core
             PolygonFactory.Device = graphic_dev.D3DDevice;
             AssetFactory.AudioMediaFactory.Device = audio_dev.XAudioDevice;
             default_font = AssetFactory.FontFactory.CreateFont(new System.Drawing.Font("Arial", 20));
+
+            AssetFactory.ModelFactory.InitBasicModels(AssetFactory.ModelType.Box);
         }
 
         private void FreeAllResources()
@@ -157,6 +159,7 @@ namespace SlimDxGame.Core
             root_objects.TextureContainer.DeleteAllObject();
             root_objects.SoundContainer.DeleteAllObject();
             root_objects.ModelContainer.DeleteAllObject();
+            AssetFactory.ModelFactory.Terminate();
         }
 
         public void Run()

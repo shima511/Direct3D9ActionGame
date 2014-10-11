@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace SlimDxGame.AssetFactory
 {
@@ -14,8 +15,10 @@ namespace SlimDxGame.AssetFactory
     class ModelFactory
     {
         static public SlimDX.Direct3D9.Device Device { private get; set; }
+        static Dictionary<string, Asset.Model> meshes = new Dictionary<string,Asset.Model>();
 
-        public static Asset.Model CreateBasicModel(ModelType type, System.Drawing.Color color)
+        [System.Diagnostics.Conditional("DEBUG")]
+        public static void InitBasicModels(ModelType type)
         {
             var new_model = new Asset.Model();
             switch (type)
@@ -37,12 +40,27 @@ namespace SlimDxGame.AssetFactory
             {
                 MaterialD3D = new SlimDX.Direct3D9.Material()
                 {
-                    Diffuse = new SlimDX.Color4(color),
-                    Emissive = new SlimDX.Color4(color)
+                    Diffuse = new SlimDX.Color4(System.Drawing.Color.White.ToArgb()),
+                    Emissive = new SlimDX.Color4(System.Drawing.Color.White.ToArgb())
                 }
             };
             new_model.Materials.Add(new_mat);
-            return new_model;
+            meshes.Add(type.ToString(), new_model);
+        }
+
+        [System.Diagnostics.Conditional("DEBUG")]
+        public static void Terminate()
+        {
+            foreach (var item in meshes)
+            {
+                item.Value.Dispose();
+            }
+        }
+
+
+        public static Asset.Model CreateBasicModel(ModelType type)
+        {
+            return meshes[type.ToString()];
         }
 
         public static Asset.Model CreateModelFromMemory(byte[] bytes)
