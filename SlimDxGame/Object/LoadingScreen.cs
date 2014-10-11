@@ -7,7 +7,7 @@ namespace SlimDxGame.Object
     {
         private bool _is_visible = true;
         public bool IsVisible { get { return _is_visible; } set { _is_visible = value; } }
-        private string text;
+        private string text = "Now Loading.";
         private const int CHANGE_INTERBAL = 20;
         private const int TEXT_CHANGE_TIMES = 3;
         private int time = 0;
