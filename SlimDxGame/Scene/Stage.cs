@@ -90,6 +90,10 @@ namespace SlimDxGame.Scene
         /// タイムカウンター
         /// </summary>
         TimeCounter Counter { get; set; }
+        /// <summary>
+        /// 背景
+        /// </summary>
+        Object.Base.SquarePolygon BackGround { get; set; }
 
         public Stage()
         {
@@ -494,6 +498,26 @@ namespace SlimDxGame.Scene
                 parent.CollisionManager.Add(parent.Boundary);
             }
 
+            void InitBackGround(GameRootObjects root_objects, Stage parent)
+            {
+                var tex = AssetFactory.TextureFactory.CreateTextureFromFile("tex/Desert.jpg");
+                root_objects.TextureContainer.Add("BackGround", tex);
+                Asset.Texture shadow_tex;
+                root_objects.TextureContainer.TryGetValue("BackGround", out shadow_tex);
+                Vertex vertex;
+                PolygonFactory.CreateSquarePolygon(out vertex);
+                parent.BackGround = new Object.Base.SquarePolygon()
+                {
+                    Texture = shadow_tex,
+                    Position = new SlimDX.Vector3(0.0f, 5.0f, 0.0f),
+                    Scale = new SlimDX.Vector2(10.0f, 10.0f),
+                    Rotation = new SlimDX.Vector3(- (float) Math.PI / 2 , 0.0f, 0.0f),
+                    Vertex = vertex
+                };
+                parent.BackGround.IsVisible = true;
+                root_objects.Layers[0].Add(parent.BackGround);
+            }
+
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 InitVolume(root_objects);
@@ -522,6 +546,8 @@ namespace SlimDxGame.Scene
 
                 InitStageBoundary(parent);
 
+                InitBackGround(root_objects, parent);
+
                 new_state = new ArrangeState();
                 return 0;
             }
@@ -535,16 +561,13 @@ namespace SlimDxGame.Scene
                 var p_pos = parent.StageComponents.Player.Position;
                 parent.Player.ResetState();
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
-                var state = parent.Player.Parameter;
-                state.HP = 3;
-                parent.Player.Parameter = state;
                 parent.Player.IsActive = true;
             }
 
             void InitLimitTime(GameRootObjects root_objects, Stage parent)
             {
-                parent.StageState.Time = (uint)parent.StageComponents.Stage.LimitTime;
-
+                parent.StageState.Score = 0;
+                parent.StageState.Time = 0;
                 parent.Counter.ResetTime();
             }
 
@@ -631,18 +654,13 @@ namespace SlimDxGame.Scene
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 parent.Counter.UpdateTime();
-                parent.StageState.Time = (uint)parent.StageComponents.Stage.LimitTime - parent.Counter.GetSeconds();
+                parent.StageState.Time = parent.Counter.GetSeconds();
                 if (parent.PauseMenu.Showing)
                 {
                     DisableOperate(parent);
                     new_state = new PausingState(root_objects, parent);
                 }
                 else if (parent.Player.Parameter.HP <= 0)
-                {
-                    DisableOperate(parent);
-                    new_state = new MissedState(root_objects, parent);
-                }
-                else if (parent.StageState.Time <= 0)
                 {
                     DisableOperate(parent);
                     new_state = new MissedState(root_objects, parent);
@@ -717,7 +735,7 @@ namespace SlimDxGame.Scene
                     }
                     else
                     {
-                        new_state = new GameOverState();
+                        new_state = new GameOverState(root_objects, parent);
                     }
                 }
                 return 0;
@@ -772,8 +790,43 @@ namespace SlimDxGame.Scene
 
         class GameOverState : GameState<Stage>
         {
+            MenuCreator.MenuDirector menuDirector = new MenuCreator.MenuDirector();
+            Utility.Menu gameOverMenu = new Utility.Menu();
+
+            public GameOverState(GameRootObjects root_objects, Stage parent)
+            {
+                menuDirector.Controller = parent.PlayerController;
+                menuDirector.RootObjects = root_objects;
+                menuDirector.Create(new MenuCreator.GameOverMenuBuilder(gameOverMenu));
+                gameOverMenu.IsActive = true;
+                gameOverMenu.ChildMenus.Add(null);
+                gameOverMenu.ChildMenus.Add(null);
+                gameOverMenu.ChildMenus.Add(null);
+                gameOverMenu.Show();
+                parent.PlayerController.Add(gameOverMenu);
+            }
+
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
+                if (gameOverMenu.Fixed)
+                {
+                    parent.PlayerController.Remove(gameOverMenu);
+                    switch (gameOverMenu.Cursor.Index)
+                    {
+                        case 0:
+                            parent.Player.Life = 1;
+                            new_state = new ArrangeState();
+                            break;
+                        case 1:
+                            parent.ReturnTo = ReturnFrag.ToTitle;
+                            new_state = new FadeOutState(root_objects, parent);
+                            break;
+                        case 2:
+                            parent.ReturnTo = ReturnFrag.ExitGame;
+                            new_state = new FadeOutState(root_objects, parent);
+                            break;
+                    }
+                }
                 return 0;
             }
         }

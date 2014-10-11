@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MenuCreator\DialogMenuBuilder.cs" />
+    <Compile Include="MenuCreator\GameOverMenuBuilder.cs" />
     <Compile Include="MenuCreator\MenuBuilder.cs" />
     <Compile Include="MenuCreator\MenuDirector.cs" />
     <Compile Include="MenuCreator\PauseMenuBuilder.cs" />
