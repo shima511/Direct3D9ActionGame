@@ -37,15 +37,15 @@ namespace LevelCreator
             form.CurrentController.OnLostFocus += CurrentController_OnLostFocus;
 
             var dec_list = from p in form.ObjectMaps.Decolations
-                           orderby p.Id descending
+                           orderby p.Id ascending
                            select p.Name;
             this.DecolationType.Items.AddRange(dec_list.ToArray<string>());
             var item_list = from p in form.ObjectMaps.Items
-                            orderby p.Id descending
+                            orderby p.Id ascending
                             select p.Name;
             this.ItemType.Items.AddRange(item_list.ToArray<string>());
             var enemy_list = from p in form.ObjectMaps.Enemies
-                             orderby p.Id descending
+                             orderby p.Id ascending
                              select p.Name;
             this.EnemyType.Items.AddRange(enemy_list.ToArray<string>());
             
