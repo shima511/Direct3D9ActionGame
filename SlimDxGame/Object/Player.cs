@@ -40,9 +40,10 @@ namespace SlimDxGame.Object
         /// </summary>
         public Collision.Shape.Line LeftSideCollision { get; set; }
         int fall_time = 0;
-        readonly float RunSpeed = 0.2f;
-        readonly float JumpSpeed = 0.2f;
-        readonly float FallSpeed = 0.01f;
+        readonly float MinimumRunSpeed = 0.1f;
+        readonly float MaxRunSpeed = 1.5f;
+        readonly float JumpSpeed = 0.35f;
+        readonly float FallSpeed = 0.02f;
         readonly float MaxFallSpeed = 0.1f;
         readonly int DefaultLives = 1;
         public bool RunStart { get; set; }
@@ -71,6 +72,7 @@ namespace SlimDxGame.Object
         {
             int time = 0;
             readonly int RequiredTime = 80;
+            readonly float SpeedDiff = 0.02f;
 
             public Run(Player parent)
             {
@@ -87,8 +89,6 @@ namespace SlimDxGame.Object
                 }
                 time++;
                 time %= RequiredTime;
-                if (parent.RunStart) parent._speed.X = parent.RunSpeed;
-                else parent._speed.X = 0;
             }
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
@@ -97,6 +97,18 @@ namespace SlimDxGame.Object
                 {
                     parent.State -= StateFrag.Run;
                     new_state = new Jump(parent);
+                }
+                if (controller.RightButton.IsPressed() && parent.Speed.X < parent.MaxRunSpeed)
+                {
+                    var spd = parent.Speed;
+                    spd.X += SpeedDiff;
+                    parent.Speed = spd;
+                }
+                if (controller.LeftButton.IsPressed() && parent.Speed.X > parent.MinimumRunSpeed)
+                {
+                    var spd = parent.Speed;
+                    spd.X -= SpeedDiff;
+                    parent.Speed = spd;
                 }
             }
         }
@@ -126,6 +138,12 @@ namespace SlimDxGame.Object
 
             public override void ControllerAction(Player parent, Controller controller, ref ObjectState<Player> new_state)
             {
+                if (controller.DownButton.IsPressed())
+                {
+                    var spd = parent.Speed;
+                    spd.Y = -parent.MaxFallSpeed;
+                    parent.Speed = spd;
+                }
                 if (controller.AButton.IsPressed() && !parent.jumped_two_times)
                 {
                     new_state = new TwiceJump(parent);
@@ -222,14 +240,13 @@ namespace SlimDxGame.Object
             {
                 _speed.Y -= FallSpeed;
             }
+            if ((State & StateFrag.InAir) == StateFrag.InAir && _speed.X == 0.0f)
+            {
+                _speed.X = MinimumRunSpeed;
+            }
             if ((State & StateFrag.StickToRightWall) == StateFrag.StickToRightWall)
             {
                 _speed.X = 0.0f;
-            }
-            if ((State & StateFrag.StickToRightWall) != StateFrag.StickToRightWall)
-            {
-                if (RunStart) _speed.X = RunSpeed;
-                else _speed.X = 0;
             }
         }
 
@@ -246,7 +263,7 @@ namespace SlimDxGame.Object
             HeadCollision.TerminalPoint = new Vector2(_position.X, _position.Y + Height / 2);
 
             // 足の当たり判定を更新
-            FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y);
+            FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height / 2);
             FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - Height / 2);
 
             // 右側の当たり判定を更新
