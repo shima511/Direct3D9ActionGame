@@ -27,6 +27,7 @@ namespace SlimDxGame.Collision
         [System.Diagnostics.Conditional("DEBUG")]
         void DebugDraw(SlimDX.Direct3D9.Device dev)
         {
+            Player.DrawHitRange(dev);
             foreach (var item in this)
             {
                 item.DrawHitRange(dev);
