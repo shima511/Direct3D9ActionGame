@@ -49,7 +49,7 @@ namespace SlimDxGame.MenuCreator
                 Texture = tex_container.GetValue("BlackTexture"),
                 Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
                 Scale = new SlimDX.Vector2(30.0f, 30.0f),
-                Position = new SlimDX.Vector2(60.0f, 60.0f),
+                Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 5 / 9),
                 PositionList = cursor_position_list
             };
 
