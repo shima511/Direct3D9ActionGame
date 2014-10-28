@@ -14,7 +14,6 @@ namespace SlimDxGame.Device
         public Graphic(System.Windows.Forms.Form f)
         {
             form = f;
-            
         }
 
         public void Initialize()
@@ -39,16 +38,16 @@ namespace SlimDxGame.Device
                         DeviceWindowHandle = form.Handle
                     });
                 D3DSprite = new SlimDX.Direct3D9.Sprite(D3DDevice);
-            }catch(Direct3D9Exception ex){
-                System.Diagnostics.Debug.Assert(false, ex.Message + "初期化失敗");
+            }catch(Direct3D9Exception){
+                throw new Core.InitializeException("Direct3Dの初期化に失敗しました。");
             }
         }
 
         public void Terminate()
         {
-            D3DSprite.Dispose();
-            D3DDevice.Dispose();
-            direct3D.Dispose();
+            if(D3DSprite != null) D3DSprite.Dispose();
+            if(D3DDevice != null) D3DDevice.Dispose();
+            if(direct3D != null) direct3D.Dispose();
         }
     }
 }

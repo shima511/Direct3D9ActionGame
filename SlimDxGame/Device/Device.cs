@@ -11,5 +11,4 @@ namespace SlimDxGame.Device
         void Initialize();
         void Terminate();
     }
-
 }

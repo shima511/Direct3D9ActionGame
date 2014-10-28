@@ -8,6 +8,20 @@ using System.Diagnostics;
 
 namespace SlimDxGame.Core
 {
+    public class InitializeException : SystemException
+    {
+        public InitializeException() : base()
+        {
+
+        }
+
+        public InitializeException(string s)
+            : base(s)
+        {
+
+        }
+    }
+
     class Game : System.Windows.Forms.Form
     {
         static public System.Windows.Forms.Form AppInfo { get; private set; }
@@ -35,28 +49,19 @@ namespace SlimDxGame.Core
             AppInfo = this;
         }
 
-        private bool InitializeDevices(){
-            try
-            {
-                graphic_dev.Initialize();
-                input_dev.Initialize();
-                audio_dev.Initialize();
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message, "DirectX Initialization Failed", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return false;
-            }
-            return true;
+        void InitializeDevices(){
+            graphic_dev.Initialize();
+            input_dev.Initialize();
+            audio_dev.Initialize();
         }
 
         private void TerminateDevices()
         {
-            default_font.Dispose();
-            SlimMMDXCore.Instance.Dispose();
-            graphic_dev.Terminate();
-            input_dev.Terminate();
-            audio_dev.Terminate();
+            if(default_font != null) default_font.Dispose();
+            if(SlimMMDXCore.Instance != null) SlimMMDXCore.Instance.Dispose();
+            if(graphic_dev != null) graphic_dev.Terminate();
+            if(input_dev != null) input_dev.Terminate();
+            if(audio_dev != null) audio_dev.Terminate();
         }
 
         private void MakeInstances()
@@ -126,19 +131,22 @@ namespace SlimDxGame.Core
         {
             string[] toonTexPath = new string[10];
             string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-            for (int i = 1; i <= 10; ++i)
-            {
-                toonTexPath[i - 1] = Path.Combine(baseDir, Path.Combine("toons", "toon" + i.ToString("00") + ".bmp"));
-            }
             try
             {
+                for (int i = 1; i <= 10; ++i)
+                {
+                    toonTexPath[i - 1] = Path.Combine(baseDir, Path.Combine("toons", "toon" + i.ToString("00") + ".bmp"));
+                }
                 SlimMMDXCore.Setup(graphic_dev.D3DDevice, toonTexPath);
                 SlimMMDXCore.Instance.UsePhysics = false;
                 LoadMMDModels();
             }
-            catch (SlimDX.Direct3D9.Direct3D9Exception ex)
+            catch(System.IO.FileNotFoundException){
+                throw new InitializeException("MMDモデルが見つかりませんでした。");
+            }
+            catch (SlimDX.Direct3D9.Direct3D9Exception)
             {
-                System.Diagnostics.Debug.Assert(false, ex.Message + "MMDX失敗");
+                throw new InitializeException("MMDXの初期化に失敗しました。");
             }
         }
 
@@ -175,6 +183,18 @@ namespace SlimDxGame.Core
             AssetFactory.ModelFactory.Terminate();
         }
 
+        void OpenArchiveData()
+        {
+#if !DEBUG
+            try
+            {
+                root_objects.DataReader.Open("bidat.dat");
+            }catch(FileNotFoundException){
+                throw new InitializeException("datファイルが見つかりませんでした。");
+            }
+#endif
+        }
+
         public void Run()
         {
             if(System.Diagnostics.Process.GetProcessesByName(
@@ -183,10 +203,20 @@ namespace SlimDxGame.Core
                 MessageBox.Show("既にアプリを起動しています。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            MakeInstances();
-            if(!InitializeDevices()) return;
-            SetDevice();
-            InitMMDX();
+            try
+            {
+                MakeInstances();
+                InitializeDevices();
+                SetDevice();
+                InitMMDX();
+                OpenArchiveData();
+            }
+            catch (InitializeException ex)
+            {
+                MessageBox.Show(ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TerminateDevices();
+                return;
+            }
             SlimDX.Windows.MessagePump.Run(this, MainLoop);
             FreeAllResources();
             TerminateDevices();

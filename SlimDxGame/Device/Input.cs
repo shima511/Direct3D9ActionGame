@@ -187,8 +187,8 @@ namespace SlimDxGame.Device
                 InitializeKeyboardDevice();
                 InitializeMouseDevice();
                 InitializeJoyPadDevice();
-            }catch(SlimDX.DirectInput.DirectInputException ex){
-                System.Diagnostics.Debug.Assert(false, ex.Message);
+            }catch(SlimDX.DirectInput.DirectInputException){
+                throw new Core.InitializeException("DirectInputの初期化に失敗しました。");
             }
         }
 
@@ -197,7 +197,7 @@ namespace SlimDxGame.Device
             if(keyboard_dev != null) keyboard_dev.Dispose();
             if(mouse_dev != null) mouse_dev.Dispose();
             joypad_devs.ForEach(delegate(SlimDX.DirectInput.Joystick joypad_dev) { joypad_dev.Dispose(); });
-            dip_dev.Dispose();
+            if(dip_dev != null) dip_dev.Dispose();
         }
     }
 }

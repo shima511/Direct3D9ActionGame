@@ -11,14 +11,19 @@ namespace SlimDxGame.Device
 
         public void Initialize()
         {
-            XAudioDevice = new XAudio2();
-            xaMasterVoice = new MasteringVoice(XAudioDevice);
+            try
+            {
+                XAudioDevice = new XAudio2();
+                xaMasterVoice = new MasteringVoice(XAudioDevice);
+            }catch(XAudio2Exception){
+                throw new Core.InitializeException("XAudio2の初期化に失敗しました。");
+            }
         }
 
         public void Terminate()
         {
-            xaMasterVoice.Dispose();
-            XAudioDevice.Dispose();
+            if(xaMasterVoice != null) xaMasterVoice.Dispose();
+            if(XAudioDevice != null) XAudioDevice.Dispose();
         }
     }
 }
