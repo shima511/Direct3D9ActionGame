@@ -34,11 +34,13 @@ namespace SlimDxGame.Object.Item
         {
             hit_collision = new Collision.Shape.Line()
             {
-                StartingPoint = new SlimDX.Vector2(pos.X - 1.0f, pos.Y + 1.0f),
-                TerminalPoint = new SlimDX.Vector2(pos.X + 1.0f, pos.Y + 1.0f)
+                StartingPoint = new SlimDX.Vector2(pos.X, pos.Y + 2.0f),
+                TerminalPoint = new SlimDX.Vector2(pos.X, pos.Y - 1.0f)
             };
+            Position = new SlimDX.Vector3(pos.X, pos.Y, 0.0f);
+            Scale = new SlimDX.Vector3(3.0f, 3.0f, 3.0f);
+            Rotation = new SlimDX.Vector3((float)Math.PI / 2, 0.0f, 0.0f);
             OnHit += Coin_OnHit;
-            Spawnable = true;
         }
 
         void Coin_OnHit(IBase obj)
@@ -57,7 +59,7 @@ namespace SlimDxGame.Object.Item
 
         public void DrawHitRange(SlimDX.Direct3D9.Device dev)
         {
-            if (this.Spawnable) hit_collision.Draw3D(dev);
+            if(this.IsActive) hit_collision.Draw3D(dev);
         }
 
         public bool IsCatched { get; set; }
@@ -67,7 +69,7 @@ namespace SlimDxGame.Object.Item
         }
         public void Hit(Player player)
         {
-            if (player.FeetCollision.Hit(hit_collision))
+            if (player.RightSideCollision.Hit(hit_collision) || player.LeftSideCollision.Hit(hit_collision))
             {
                 OnHit(this);
             }

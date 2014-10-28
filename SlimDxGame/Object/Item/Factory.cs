@@ -9,7 +9,7 @@ namespace SlimDxGame.Object.Item
 {
     class Factory
     {
-        public AssetContainer<Asset.Sound> SoundContainer { private get; set;}
+        public AssetContainer<Asset.Sound> SoundContainer { private get; set; }
         public AssetContainer<Asset.Model> ModelContainer { private get; set; }
         public Status.Stage StageStatus { private get; set; }
 
@@ -22,13 +22,16 @@ namespace SlimDxGame.Object.Item
                     new_item = new Item.Coin(obj.Position)
                     {
                         StageState = this.StageStatus,
-                        ModelAsset = ModelContainer.GetValue("Coins")
+                        ModelAsset = ModelContainer.GetValue("Coin")
                     };
                     break;
                 case 1:
                     new_item = new Item.Portion();
                     break;
             }
+            new_item.IsVisible = true;
+            new_item.IsActive = true;
+            new_item.Spawnable = true;
             new_item.OnHit += new_item_OnHit;
         }
 
