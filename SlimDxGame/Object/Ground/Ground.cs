@@ -111,7 +111,7 @@ namespace SlimDxGame.Object.Ground
 
     class Ceiling : Base
     {
-        const float HitEffect = 0.05f;
+        readonly float HitEffect = 0.1f;
         public override void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);

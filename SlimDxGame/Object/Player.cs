@@ -46,7 +46,6 @@ namespace SlimDxGame.Object
         readonly float FallSpeed = 0.02f;
         readonly float MaxFallSpeed = 0.1f;
         readonly int DefaultLives = 1;
-        public bool RunStart { get; set; }
         bool jumped_two_times = false;
         /// <summary>
         /// 現在の状態
@@ -260,7 +259,7 @@ namespace SlimDxGame.Object
         {
             // 頭の当たり判定を更新
             HeadCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            HeadCollision.TerminalPoint = new Vector2(_position.X, _position.Y + Height / 2);
+            HeadCollision.TerminalPoint = new Vector2(_position.X, _position.Y + 2.0f + Height / 2);
 
             // 足の当たり判定を更新
             FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height / 2);
@@ -268,7 +267,7 @@ namespace SlimDxGame.Object
 
             // 右側の当たり判定を更新
             RightSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            RightSideCollision.TerminalPoint = new Vector2(_position.X + Width / 2, _position.Y);
+            RightSideCollision.TerminalPoint = new Vector2(_position.X + 1.0f + Width / 2, _position.Y);
 
             // 左側の当たり判定を更新
             LeftSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
@@ -349,6 +348,7 @@ namespace SlimDxGame.Object
             Parameter.HP = 1;
             CurrentState = new Run(this);
             Scale = new Vector3(0.2f, 0.2f, 0.2f);
+            Speed = new Vector2(MinimumRunSpeed, 0.0f);
             _rotation.Y = (float)Math.PI / 2;
         }
     }
