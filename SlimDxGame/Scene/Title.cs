@@ -173,11 +173,11 @@ namespace SlimDxGame.Scene
                     Controller = parent.controller,
                     RootObjects = root_objects
                 };
+                parent.menu.ChildMenus.Add(null);
+                parent.menu.ChildMenus.Add(null);
+                parent.menu.ChildMenus.Add(null);
+                parent.menu.ChildMenus.Add(null);
                 parent.menu = m_director.Create(new MenuCreator.TitleMenuBuilder(menu));
-                parent.menu.ChildMenus.Add(null);
-                parent.menu.ChildMenus.Add(null);
-                parent.menu.ChildMenus.Add(null);
-                parent.menu.ChildMenus.Add(null);
             }
 
             void InitBGM(GameRootObjects root_objects,  Title parent)
