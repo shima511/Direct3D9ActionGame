@@ -21,7 +21,8 @@ namespace ScriptRW
                 Decolations = new List<ObjectProperty>(),
                 Enemies = new List<ObjectProperty>(),
                 Items = new List<ObjectProperty>(),
-                Textures = new List<ObjectProperty>()
+                Textures = new List<ObjectProperty>(),
+                Sounds = new List<ObjectProperty>()
             };
             using (StreamReader s_reader = new StreamReader(filename))
             {

@@ -32,6 +32,10 @@ namespace ScriptRW
             else if(str.Contains("texture")){
                 current_list = Properties.Textures;
             }
+            else if (str.Contains("sound"))
+            {
+                current_list = Properties.Sounds;
+            }
             return true;
         }
 

@@ -9,7 +9,7 @@ namespace FileArchiveApp
 {
     class Program
     {
-        static void AskNames(string[] args, string folder_name, string file_name)
+        static void AskNames(string[] args, ref string folder_name, ref string file_name)
         {
             if (args.Length == 0)
             {
@@ -25,10 +25,9 @@ namespace FileArchiveApp
             string folder_name = "";
             string file_name = "";
             DataWriter writer = new DataWriter();
-            DataReader reader = new DataReader();
             if (args.Length < 2)
             {
-                AskNames(args, folder_name, file_name);
+                AskNames(args, ref folder_name, ref file_name);
             }
             else
             {

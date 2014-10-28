@@ -8,5 +8,6 @@ namespace ScriptRW
         public List<ObjectProperty> Items { get; set; }
         public List<ObjectProperty> Enemies { get; set; }
         public List<ObjectProperty> Textures { get; set; }
+        public List<ObjectProperty> Sounds { get; set; }
     }
 }
