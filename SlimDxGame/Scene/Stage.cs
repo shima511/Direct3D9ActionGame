@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using SlimDxGame.Utility;
+using System.Diagnostics;
+using FileArchiver;
 
 namespace SlimDxGame.Scene
 {
@@ -10,12 +12,8 @@ namespace SlimDxGame.Scene
     {
         enum ReturnFrag{
             ExitGame,
-            ToTitle
+            Replay
         }
-        /// <summary>
-        /// ステージ番号
-        /// </summary>
-        int level_id = 0;
         /// <summary>
         /// ステージの状態
         /// </summary>
@@ -124,56 +122,82 @@ namespace SlimDxGame.Scene
                 }
             }
 
-            void LoadAssetList(Stage parent)
+            void LoadAssetList(Stage parent, GameRootObjects root_objects)
             {
                 ScriptRW.Reader reader = new ScriptRW.Reader();
                 var assets_list = parent.AssetsList;
+#if DEBUG
                 reader.Read(out assets_list, "obj_list.txt");
+#else
+                reader.Read(out assets_list, root_objects.DataReader.GetBytes("obj_list.dat"));
+#endif
                 parent.AssetsList = assets_list;
             }
 
-            void LoadTextures(ScriptRW.Properties assets, AssetContainer<Asset.Texture> tex_container)
+            void LoadTextures(ScriptRW.Properties assets, AssetContainer<Asset.Texture> tex_container, GameRootObjects root)
             {
-                Asset.Texture new_tex;
                 foreach (var item in assets.Textures)
                 {
+                    Asset.Texture new_tex;
+#if DEBUG
                     string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                     new_tex = AssetFactory.TextureFactory.CreateTextureFromFile(Path.Combine(baseDir, item.AssetPath));
+#else
+                    new_tex = AssetFactory.TextureFactory.CreateFromMemory(root.DataReader.GetBytes(item.AssetPath));
+#endif
                     tex_container.Add(item.Name, new_tex);
                 }
 
                 // フェーダー用のテクスチャを生成
                 byte[] tex_info = { 255, 255, 255, 255 };
-                new_tex = AssetFactory.TextureFactory.CreateFromRawData(1, 1, tex_info);
-                tex_container.Add("BlackTexture", new_tex);
+                tex_container.Add("BlackTexture", AssetFactory.TextureFactory.CreateFromRawData(1, 1, tex_info));
             }
 
-            void LoadSounds(AssetContainer<Asset.Sound> sound_container)
+            void LoadSounds(GameRootObjects root, ScriptRW.Properties assets, AssetContainer<Asset.Sound> sound_container)
             {
-                Asset.Sound new_sound;
-                string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
-                byte[] data_array = File.ReadAllBytes(Path.Combine(baseDir, Path.Combine("sounds", "MusicMono.wav")));
-                new_sound = AssetFactory.AudioMediaFactory.CreateSoundFromMemory(data_array);
-                sound_container.Add("test_sound", new_sound);
+                foreach (var item in assets.Sounds)
+                {
+                    Asset.Sound new_sound;
+#if DEBUG
+                    string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
+                    byte[] data_array = File.ReadAllBytes(Path.Combine(baseDir, item.AssetPath));
+#else
+                    byte[] data_array = root.DataReader.GetBytes(item.AssetPath);
+#endif
+                    new_sound = AssetFactory.AudioMediaFactory.CreateSoundFromMemory(data_array);
+                    sound_container.Add(item.Name, new_sound);
+                }
             }
 
-            void LoadModels(ScriptRW.Properties properties, AssetContainer<Asset.Model> model_container)
+            void LoadModels(ScriptRW.Properties properties, AssetContainer<Asset.Model> model_container, GameRootObjects root)
             {
                 Asset.Model new_model;
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                 foreach (var item in properties.Items)
                 {
+#if DEBUG
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
+#else
+                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath));
+#endif
                     model_container.Add(item.Name, new_model);
                 }
                 foreach (var item in properties.Enemies)
                 {
+#if DEBUG
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
+#else
+                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath));
+#endif
                     model_container.Add(item.Name, new_model);
                 }
                 foreach (var item in properties.Decolations)
                 {
+#if DEBUG
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
+#else
+                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath));
+#endif
                     model_container.Add(item.Name, new_model);
                 }
             }
@@ -182,7 +206,11 @@ namespace SlimDxGame.Scene
             {
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                 var components = parent.StageComponents;
+#if DEBUG
                 parent.StageLoader.Read(Path.Combine(baseDir, Path.Combine("levels", "stage" + parent.level_id.ToString() + ".dat")), out components);
+#else
+                parent.StageLoader.Read(root.DataReader.GetBytes("stage0.dat"), out components);
+#endif
                 parent.StageComponents = components;
                 parent.StageState = new Status.Stage()
                 {
@@ -224,10 +252,10 @@ namespace SlimDxGame.Scene
                         InitLayer(root_objects);
                         ThreadCreated = true;
                     }
-                    LoadAssetList(parent);
-                    LoadSounds(root_objects.SoundContainer);
-                    LoadTextures(parent.AssetsList, root_objects.TextureContainer);
-                    LoadModels(parent.AssetsList, root_objects.ModelContainer);
+                    LoadAssetList(parent, root_objects);
+                    LoadSounds(root_objects, parent.AssetsList, root_objects.SoundContainer);
+                    LoadTextures(parent.AssetsList, root_objects.TextureContainer, root_objects);
+                    LoadModels(parent.AssetsList, root_objects.ModelContainer, root_objects);
                     LoadStage(root_objects, parent);
                     LoadFont(root_objects);
 
@@ -239,6 +267,7 @@ namespace SlimDxGame.Scene
                         if (root_objects.IncludeInvalidAsset(ref invalid_calls) || !parent.StageLoader.Valid)
                         {
                             MessageBox.Show("ファイルの読み込みに失敗", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            
                             parent.ReturnTo = ReturnFrag.ExitGame;
                             return -1;
                         }
@@ -251,6 +280,8 @@ namespace SlimDxGame.Scene
                     parent.ReturnTo = ReturnFrag.ExitGame;
                     new_state = new InitState();
                     return -1;
+                }
+                catch(FileNotFoundException){
                 }
                 catch (SystemException ex)
                 {
@@ -343,8 +374,6 @@ namespace SlimDxGame.Scene
                 {
                     Object.IFieldObject new_item;
                     factory.Create(item, out new_item);
-                    new_item.IsActive = true;
-                    new_item.IsVisible = false;
                     root_objects.UpdateList.Add(new_item);
                     root_objects.Layers[0].Add(new_item);
                     parent.SpawnManage.Add(new_item);
@@ -456,13 +485,12 @@ namespace SlimDxGame.Scene
             {
                 parent.ItemFactory.ModelContainer = root_objects.ModelContainer;
                 parent.ItemFactory.StageStatus = parent.StageState;
+                parent.ItemFactory.SoundContainer = root_objects.SoundContainer;
 
                 foreach (var item in parent.StageComponents.Items)
                 {
                     Object.Item.IBase new_item;
                     parent.ItemFactory.Create(item, out new_item);
-                    new_item.IsActive = true;
-                    new_item.IsVisible = false;
                     root_objects.UpdateList.Add(new_item);
                     root_objects.Layers[0].Add(new_item);
                     parent.SpawnManage.Add(new_item);
@@ -516,6 +544,8 @@ namespace SlimDxGame.Scene
 
                 InitDecoration(root_objects, parent);
 
+                InitItem(root_objects, parent);
+
                 InitShadow(root_objects, parent);
 
                 InitPauseMenu(root_objects, parent);
@@ -523,8 +553,6 @@ namespace SlimDxGame.Scene
                 InitCollisionObjects(root_objects, parent);
 
                 InitStateDrawer(root_objects, parent);
-
-                InitItem(root_objects, parent);
 
                 InitSpawnManager(root_objects, parent);
 
@@ -546,7 +574,6 @@ namespace SlimDxGame.Scene
                 parent.Player.ResetState();
                 parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
                 parent.Player.IsActive = true;
-                parent.Player.RunStart = false;
                 parent.Player.Update();
             }
 
@@ -563,6 +590,11 @@ namespace SlimDxGame.Scene
                 parent.Camera.Update();
             }
 
+            void InitStageObjects(Stage parent)
+            {
+                parent.SpawnManage.InitState();
+            }
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 InitPlayer(parent);
@@ -570,6 +602,8 @@ namespace SlimDxGame.Scene
                 InitLimitTime(root_objects, parent);
 
                 StepOneFrame(parent);
+
+                InitStageObjects(parent);
 
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
@@ -619,7 +653,6 @@ namespace SlimDxGame.Scene
             {
                 time++;
                 if(time >= RequiredTime){
-                    parent.Player.RunStart = true;
                     // ポーズメニューを操作できるようにする
                     parent.PlayerController.Add(parent.PauseMenu);
                     new_state = new PlayingState(root_objects,  parent);
@@ -677,7 +710,6 @@ namespace SlimDxGame.Scene
         // ミスした状態
         class MissedState : GameState<Stage>
         {
-            int time = 0;
             readonly int RequiredTime = 30;
 
             void InitFader(GameRootObjects root_objects, Stage parent)
@@ -768,7 +800,7 @@ namespace SlimDxGame.Scene
                             new_state = new PlayingState(root_objects, parent);
                             break;
                         case 1:
-                            parent.ReturnTo = ReturnFrag.ToTitle;
+                            parent.ReturnTo = ReturnFrag.Replay;
                             new_state = new FadeOutState(root_objects, parent);
                             break;
                         case 2:
@@ -822,7 +854,7 @@ namespace SlimDxGame.Scene
                             new_state = new ArrangeState();
                             break;
                         case 1:
-                            parent.ReturnTo = ReturnFrag.ToTitle;
+                            parent.ReturnTo = ReturnFrag.Replay;
                             new_state = new FadeOutState(root_objects, parent);
                             break;
                         case 2:
@@ -860,12 +892,24 @@ namespace SlimDxGame.Scene
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
+                int ret_val = 0;
                 if (parent.Fader.Color.Alpha >= 0.9f)
                 {
                     RemoveFadeEffect(root_objects, parent);
-                    return -1;
+                    switch (parent.ReturnTo)
+                    {
+                        case ReturnFrag.ExitGame:
+                            ret_val = -1;
+                            break;
+                        case ReturnFrag.Replay:
+                            new_state = new ArrangeState();
+                            break;
+                        default:
+                            ret_val = -1;
+                            break;
+                    }                    
                 }
-                return 0;
+                return ret_val;
             }
         }
 
@@ -877,9 +921,6 @@ namespace SlimDxGame.Scene
                 this.ExitScene(root_objects);
                 switch (ReturnTo)
                 {
-                    case ReturnFrag.ToTitle:
-                        new_scene = new Scene.Title();
-                        break;
                     case ReturnFrag.ExitGame:
                         ret_val = -1;
                         break;

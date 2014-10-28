@@ -27,6 +27,8 @@ namespace ScriptConverter
             PrintPropertyList(p.Enemies);
             Console.WriteLine("Texture:");
             PrintPropertyList(p.Textures);
+            Console.WriteLine("Sounds:");
+            PrintPropertyList(p.Sounds);
         }
 
         static void ConvertData(string input_file = null, string output_file = null)

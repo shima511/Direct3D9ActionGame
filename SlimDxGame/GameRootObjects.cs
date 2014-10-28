@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SlimDxGame.Utility;
+using FileArchiver;
 
 namespace SlimDxGame
 {
@@ -48,9 +49,14 @@ namespace SlimDxGame
         /// MMDモデルのリスト
         /// </summary>
         public Dictionary<string, MikuMikuDance.Core.Model.MMDModel> MMDModels { get; private set; }
+        /// <summary>
+        /// バイナリデータ読み込みオブジェクト
+        /// </summary>
+        public DataReader DataReader { get; private set; }
 
         public GameRootObjects()
         {
+            DataReader = new FileArchiver.DataReader();
             UpdateList = new List<Component.IUpdateObject>();
             Layers = new List<List<Component.IDrawableObject>>();
             InputManager = new InputManager();
