@@ -69,7 +69,7 @@ namespace SlimDxGame
 
         public static void Terminate()
         {
-            vertex_instance.Buffer.Dispose();
+            if(vertex_instance != null) vertex_instance.Buffer.Dispose();
         }
     }
 }
