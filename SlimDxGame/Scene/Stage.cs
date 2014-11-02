@@ -207,7 +207,7 @@ namespace SlimDxGame.Scene
                 string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                 var components = parent.StageComponents;
 #if DEBUG
-                parent.StageLoader.Read(Path.Combine(baseDir, Path.Combine("levels", "stage" + parent.level_id.ToString() + ".dat")), out components);
+                parent.StageLoader.Read(Path.Combine(baseDir, Path.Combine("levels", "stage0.dat")), out components);
 #else
                 parent.StageLoader.Read(root.DataReader.GetBytes("stage0.dat"), out components);
 #endif
