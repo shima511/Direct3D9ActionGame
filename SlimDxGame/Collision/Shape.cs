@@ -61,7 +61,9 @@ namespace SlimDxGame.Collision.Shape
 
         public Line()
         {
+#if DEBUG
             this.ModelAsset = AssetFactory.ModelFactory.CreateBasicModel(AssetFactory.ModelType.Box);
+#endif
         }
 
         /// <summary>

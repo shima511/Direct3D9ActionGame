@@ -178,7 +178,7 @@ namespace SlimDxGame.Scene
 #if DEBUG
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
 #else
-                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath));
+                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath), root.DataReader);
 #endif
                     model_container.Add(item.Name, new_model);
                 }
@@ -187,7 +187,7 @@ namespace SlimDxGame.Scene
 #if DEBUG
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
 #else
-                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath));
+                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath), root.DataReader);
 #endif
                     model_container.Add(item.Name, new_model);
                 }
@@ -196,7 +196,7 @@ namespace SlimDxGame.Scene
 #if DEBUG
                     new_model = AssetFactory.ModelFactory.CreateModelFromFile(Path.Combine(baseDir, item.AssetPath));
 #else
-                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath));
+                    new_model = AssetFactory.ModelFactory.CreateModelFromMemory(root.DataReader.GetBytes(item.AssetPath), root.DataReader);
 #endif
                     model_container.Add(item.Name, new_model);
                 }
@@ -300,6 +300,9 @@ namespace SlimDxGame.Scene
         {
             void InitVolume(GameRootObjects root_objects)
             {
+                var settings = root_objects.Settings;
+                settings.SEVolume = 1.0f;
+                root_objects.Settings = settings;
                 foreach (var item in root_objects.SoundContainer.Values)
                 {
                     if (item != null) item.Volume = root_objects.Settings.SEVolume;
@@ -360,7 +363,7 @@ namespace SlimDxGame.Scene
 
             void InitPlayer(GameRootObjects root_objects, Stage parent)
             {
-                parent.Player.ModelAsset = root_objects.ModelContainer["TestModel"];
+                parent.Player.ModelAsset = root_objects.ModelContainer["Coin"];
                 parent.Player.MMDModel = root_objects.MMDModels["Player"];
                 root_objects.UpdateList.Add(parent.Player);
                 root_objects.Layers[2].Add(parent.Player);
