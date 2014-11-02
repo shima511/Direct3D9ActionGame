@@ -15,6 +15,7 @@ namespace ScriptRW
             data_array.AddRange(BitConverter.GetBytes(properties.Items.Count));
             data_array.AddRange(BitConverter.GetBytes(properties.Enemies.Count));
             data_array.AddRange(BitConverter.GetBytes(properties.Textures.Count));
+            data_array.AddRange(BitConverter.GetBytes(properties.Sounds.Count));
         }
 
         void AddPropertyInfo(List<byte> data_array, List<ObjectProperty> obj_properties)
@@ -38,6 +39,7 @@ namespace ScriptRW
             AddPropertyInfo(data_array, properties.Items);
             AddPropertyInfo(data_array, properties.Enemies);
             AddPropertyInfo(data_array, properties.Textures);
+            AddPropertyInfo(data_array, properties.Sounds);
 
             File.WriteAllBytes(output_file, data_array.ToArray());
         }

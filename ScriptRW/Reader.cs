@@ -72,18 +72,21 @@ namespace ScriptRW
                 Decolations = new List<ObjectProperty>(),
                 Enemies = new List<ObjectProperty>(),
                 Items = new List<ObjectProperty>(),
-                Textures = new List<ObjectProperty>()
+                Textures = new List<ObjectProperty>(),
+                Sounds = new List<ObjectProperty>()
             };
             int tail = 0;
             properties.Decolations.Capacity = GetIntValueFromByteArray(data_array, ref tail);
             properties.Items.Capacity = GetIntValueFromByteArray(data_array, ref tail);
             properties.Enemies.Capacity = GetIntValueFromByteArray(data_array, ref tail);
             properties.Textures.Capacity = GetIntValueFromByteArray(data_array, ref tail);
+            properties.Sounds.Capacity = GetIntValueFromByteArray(data_array, ref tail);
 
             AnalyzePropertiesValue(data_array, properties.Decolations, ref tail);
             AnalyzePropertiesValue(data_array, properties.Items, ref tail);
             AnalyzePropertiesValue(data_array, properties.Enemies, ref tail);
             AnalyzePropertiesValue(data_array, properties.Textures, ref tail);
+            AnalyzePropertiesValue(data_array, properties.Sounds, ref tail);
         }
     }
 }
