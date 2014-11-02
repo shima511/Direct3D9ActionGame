@@ -62,20 +62,20 @@ namespace SlimDxGame.AssetFactory
             var new_sound = new Asset.Sound();
             try
             {
-                MemoryStream stream;
-                WaveFormat format;
-                // データをロードする
-                LoadDataFromMemory(out stream, out format, data_array);
-                var buffer = CreateAudioBuffer(stream);
-                // サウンドに設定
-                new_sound.Buffer = buffer;
-                new_sound.Stream = stream;
-                new_sound.Format = format;
-
                 // 必要な数だけソースボイスを作成
                 new_sound.Voices = new List<SlimDxGame.Asset.Sound.VoiceInfo>();
                 for (int i = 0; i < num_of_sound; i++)
                 {
+                    MemoryStream stream;
+                    WaveFormat format;
+                    // データをロードする
+                    LoadDataFromMemory(out stream, out format, data_array);
+                    var buffer = CreateAudioBuffer(stream);
+                    // サウンドに設定
+                    new_sound.Buffer = buffer;
+                    new_sound.Stream = stream;
+                    new_sound.Format = format;
+
                     stream.Seek(0, SeekOrigin.Begin);
                     var new_voice = new Asset.Sound.VoiceInfo();
                     new_voice.Resource = CreateSourceVoice(stream, format, buffer);
