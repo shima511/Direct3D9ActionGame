@@ -25,10 +25,10 @@ namespace SlimDxGame.Object
             Lines = new List<Collision.Shape.Line>();
             Lines.AddRange(new Collision.Shape.Line[] 
             {
-                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Left, r.Top), TerminalPoint = new SlimDX.Vector2(r.Left, r.Bottom)},
-                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Left, r.Top), TerminalPoint = new SlimDX.Vector2(r.Right, r.Top) },
-                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Right, r.Bottom), TerminalPoint = new SlimDX.Vector2(r.Left, r.Bottom)},
-                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Right, r.Bottom), TerminalPoint = new SlimDX.Vector2(r.Right, r.Top) }
+                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Left, r.Top), TerminalPoint = new SlimDX.Vector2(r.Left, r.Bottom)}, // LeftSide
+                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Left, r.Top), TerminalPoint = new SlimDX.Vector2(r.Right, r.Top) }, // Ceiling
+                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Right, r.Bottom), TerminalPoint = new SlimDX.Vector2(r.Left, r.Bottom)}, // Fall
+                new Collision.Shape.Line() { StartingPoint = new SlimDX.Vector2(r.Right, r.Bottom), TerminalPoint = new SlimDX.Vector2(r.Right, r.Top) } // RightSide
             });
         }
 
@@ -62,14 +62,15 @@ namespace SlimDxGame.Object
 
         public void Hit(Player player)
         {
-            foreach (var item in Lines)
+            // 下のラインと接触
+            if (player.HeadCollision.Hit(Lines[2]))
             {
-                if (player.HeadCollision.Hit(item))
-                {
-                    var state = player.Parameter;
-                    state.HP = 0;
-                    player.Parameter = state;
-                }
+                var state = player.Parameter;
+                state.HP = 0;
+                player.Parameter = state;
+            }
+            else if(player.LeftSideCollision.Hit(Lines[3])){
+
             }
         }
 

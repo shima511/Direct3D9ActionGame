@@ -266,12 +266,12 @@ namespace SlimDxGame.Object
             FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - Height / 2);
 
             // 右側の当たり判定を更新
-            RightSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            RightSideCollision.TerminalPoint = new Vector2(_position.X + 1.0f + Width / 2, _position.Y);
+            RightSideCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height);
+            RightSideCollision.TerminalPoint = new Vector2(_position.X + 1.0f + Width / 2, _position.Y + Height);
 
             // 左側の当たり判定を更新
-            LeftSideCollision.StartingPoint = new Vector2(_position.X, _position.Y);
-            LeftSideCollision.TerminalPoint = new Vector2(_position.X - Width / 2, _position.Y);
+            LeftSideCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height);
+            LeftSideCollision.TerminalPoint = new Vector2(_position.X - Width / 2, _position.Y + Height);
         }
 
         void UpdateFallTime()
