@@ -63,7 +63,7 @@ namespace SlimDxGame.AssetFactory
             return meshes[type.ToString()];
         }
 
-        public static Asset.Model CreateModelFromMemory(byte[] bytes)
+        public static Asset.Model CreateModelFromMemory(byte[] bytes, FileArchiver.DataReader reader)
         {
             var new_model = new Asset.Model();
             try
@@ -83,8 +83,7 @@ namespace SlimDxGame.AssetFactory
                         var tex_filename = new_model.Materials[i].TextureFileName;
                         if (!string.IsNullOrEmpty(tex_filename))
                         {
-                            var tex_path = Path.Combine(baseDir, Path.Combine("models", tex_filename));
-                            new_model.Textures.Add(SlimDX.Direct3D9.Texture.FromFile(Device, tex_path));
+                            new_model.Textures.Add(SlimDX.Direct3D9.Texture.FromMemory(Device, reader.GetBytes(tex_filename)));
                         }
                     }
                 }
