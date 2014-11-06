@@ -36,7 +36,7 @@ namespace SlimDxGame.MenuCreator
                     new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 4 / 5)
                 });
 
-            var sound = sound_container.GetValue("test_sound");
+            var sound = sound_container.GetValue("MenuSelect");
             // メニュー用のカーソル
             var menu_cursor = new Object.Cursor()
             {

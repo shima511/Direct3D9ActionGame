@@ -25,9 +25,13 @@ namespace SlimDxGame.Object
 
         public bool IsActive { get; set; }
         /// <summary>
-        /// ジャンプした瞬間に実行されるメソッドです。
+        /// ジャンプした瞬間に実行されるイベント
         /// </summary>
         public event Action<SlimDX.Vector3> OnJump;
+        /// <summary>
+        /// 2回目のジャンプで実行されるイベント
+        /// </summary>
+        public event Action<SlimDX.Vector3> OnSecondJump;
         /// <summary>
         /// 足の当たり判定
         /// </summary>
@@ -47,7 +51,7 @@ namespace SlimDxGame.Object
         int fall_time = 0;
         readonly float MinimumRunSpeed = 0.1f;
         readonly float MaxRunSpeed = 1.5f;
-        readonly float JumpSpeed = 0.35f;
+        readonly float JumpSpeed = 0.4f;
         readonly float FallSpeed = 0.02f;
         readonly float MaxFallSpeed = 0.1f;
         readonly int DefaultLives = 1;
@@ -128,6 +132,7 @@ namespace SlimDxGame.Object
                 spd.Y = parent.JumpSpeed;
                 parent.Speed = spd;
                 parent.State |= StateFrag.Jump;
+                parent.OnJump(parent.Position);
             }
 
             public override void Update(Player parent, ref ObjectState<Player> new_state)
@@ -165,6 +170,7 @@ namespace SlimDxGame.Object
                 spd.Y = parent.JumpSpeed;
                 parent.Speed = spd;
                 parent.jumped_two_times = true;
+                parent.OnSecondJump(parent.Position);
             }
 
             public override void Update(Player parent, ref ObjectState<Player> new_state)

@@ -43,7 +43,7 @@ namespace SlimDxGame.MenuCreator
                 PositionList = cursor_position_list
             };
 
-            var sound = sound_container.GetValue("test_music");
+            var sound = sound_container.GetValue("MenuSelect");
             menu_cursor.OnMove += () => { sound.Play(); };
 
             menu.Cursor = menu_cursor;

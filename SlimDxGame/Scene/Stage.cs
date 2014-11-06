@@ -301,7 +301,7 @@ namespace SlimDxGame.Scene
             void InitVolume(GameRootObjects root_objects)
             {
                 var settings = root_objects.Settings;
-                settings.SEVolume = 1.0f;
+                settings.SEVolume = 0.3f;
                 root_objects.Settings = settings;
                 foreach (var item in root_objects.SoundContainer.Values)
                 {
@@ -363,6 +363,14 @@ namespace SlimDxGame.Scene
 
             void InitPlayer(GameRootObjects root_objects, Stage parent)
             {
+                parent.Player.OnJump += (pos) =>
+                {
+                    root_objects.SoundContainer.GetValue("FirstJump").Play();
+                };
+                parent.Player.OnSecondJump += (pos) =>
+                {
+                    root_objects.SoundContainer.GetValue("SecondJump").Play();
+                };
                 parent.Player.ModelAsset = root_objects.ModelContainer["Coin"];
                 parent.Player.MMDModel = root_objects.MMDModels["Player"];
                 root_objects.UpdateList.Add(parent.Player);
@@ -444,6 +452,14 @@ namespace SlimDxGame.Scene
                     Controller = parent.PlayerController
                 };
                 parent.PauseMenu = m_director.Create(new MenuCreator.PauseMenuBuilder(pause_menu));
+                parent.PauseMenu.OnShown += () =>
+                {
+                    root_objects.SoundContainer.GetValue("MenuOpen").Play();
+                };
+                parent.PauseMenu.OnClose += () =>
+                {
+                    root_objects.SoundContainer.GetValue("MenuClose").Play();
+                };
                 InitDialogMenu(root_objects, parent);
             }
 
@@ -607,7 +623,7 @@ namespace SlimDxGame.Scene
                 StepOneFrame(parent);
 
                 InitStageObjects(parent);
-
+                
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
             }
@@ -698,6 +714,7 @@ namespace SlimDxGame.Scene
                     new_state = new MissedState(root_objects, parent);
                 }
                 else if(parent.Player.ReachedRightBorder){
+                    root_objects.SoundContainer.GetValue("Cleared").Play();
                     DisableOperate(parent);
                     new_state = new ClearedState();
                 }
@@ -709,7 +726,7 @@ namespace SlimDxGame.Scene
         class ClearedState : GameState<Stage>
         {
             
-            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 parent.Player.IsActive = false;
                 return 0;
@@ -754,6 +771,7 @@ namespace SlimDxGame.Scene
 
             public MissedState(GameRootObjects root_objects, Stage parent)
             {
+                root_objects.SoundContainer.GetValue("Failure").Play();
                 var life = --parent.Player.Life;
                 parent.Player.Life = life;
                 InitFader(root_objects, parent);
@@ -838,7 +856,6 @@ namespace SlimDxGame.Scene
                 gameOverMenu.IsActive = true;
                 gameOverMenu.ChildMenus.Add(null);
                 gameOverMenu.ChildMenus.Add(null);
-                gameOverMenu.ChildMenus.Add(null);
                 gameOverMenu.Show();
                 parent.PlayerController.Add(gameOverMenu);
             }
@@ -863,10 +880,6 @@ namespace SlimDxGame.Scene
                             new_state = new ArrangeState();
                             break;
                         case 1:
-                            parent.ReturnTo = ReturnFrag.Replay;
-                            new_state = new FadeOutState(root_objects, parent);
-                            break;
-                        case 2:
                             parent.ReturnTo = ReturnFrag.ExitGame;
                             new_state = new FadeOutState(root_objects, parent);
                             break;

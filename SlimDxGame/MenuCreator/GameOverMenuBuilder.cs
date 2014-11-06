@@ -30,8 +30,7 @@ namespace SlimDxGame.MenuCreator
         {
             var cursor_position_list = new List<SlimDX.Vector2>();
             cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 4));
-            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 2));
-            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 3 / 4));
+            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 2 / 4));
 
             // メニュー用のカーソル
             var menu_cursor = new Object.Cursor()
@@ -39,11 +38,11 @@ namespace SlimDxGame.MenuCreator
                 Texture = tex_container.GetValue("BlackTexture"),
                 Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
                 Scale = new SlimDX.Vector2(30.0f, 30.0f),
-                Position = new SlimDX.Vector2(60.0f, 60.0f),
+                Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 4),
                 PositionList = cursor_position_list
             };
 
-            var sound = sound_container.GetValue("test_sound");
+            var sound = sound_container.GetValue("MenuSelect");
             menu_cursor.OnMove += () => { sound.Play(); };
 
             menu.Cursor = menu_cursor;
@@ -55,8 +54,7 @@ namespace SlimDxGame.MenuCreator
             List<Object.Base.String> columns = new List<Object.Base.String>();
             columns.AddRange(new[]{
                     new Object.Base.String(){Text = "Restart Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height / 4)},
-                    new Object.Base.String(){Text = "To Title", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height / 2)},
-                    new Object.Base.String(){Text = "Exit Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 3 / 4)}
+                    new Object.Base.String(){Text = "Exit Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 2 / 4)}
                 });
             menu.Columns = columns;
 

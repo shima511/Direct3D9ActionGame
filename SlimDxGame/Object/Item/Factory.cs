@@ -37,6 +37,7 @@ namespace SlimDxGame.Object.Item
 
         void new_item_OnHit(IBase obj)
         {
+            SoundContainer.GetValue("GetCoin").Play();
             obj.IsVisible = false;
             obj.IsActive = false;
             obj.Spawnable = false;
