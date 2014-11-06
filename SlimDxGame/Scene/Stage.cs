@@ -697,6 +697,10 @@ namespace SlimDxGame.Scene
                     DisableOperate(parent);
                     new_state = new MissedState(root_objects, parent);
                 }
+                else if(parent.Player.ReachedRightBorder){
+                    DisableOperate(parent);
+                    new_state = new ClearedState();
+                }
                 return 0;
             }
         }
@@ -704,8 +708,10 @@ namespace SlimDxGame.Scene
         // ステージクリアした状態
         class ClearedState : GameState<Stage>
         {
+            
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                parent.Player.IsActive = false;
                 return 0;
             }
         }

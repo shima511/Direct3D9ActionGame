@@ -69,8 +69,8 @@ namespace SlimDxGame.Object
                 state.HP = 0;
                 player.Parameter = state;
             }
-            else if(player.LeftSideCollision.Hit(Lines[3])){
-
+            else if(player.RightBottomSideCollision.StartingPoint.X > Lines[3].StartingPoint.X){
+                player.ReachedRightBorder = true;
             }
         }
 

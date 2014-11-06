@@ -135,9 +135,12 @@ namespace SlimDxGame.Object.Ground
         }
         public override void Hit(Player player)
         {
-            if (player.RightSideCollision.Hit(CollisionLine))
+            if (player.RightTopSideCollision.Hit(CollisionLine) || player.RightBottomSideCollision.Hit(CollisionLine))
             {
                 player.State |= Player.StateFrag.StickToRightWall;
+                var pos = player.Position;
+                pos.X = CollisionLine.StartingPoint.X - 1.0f;
+                player.Position = pos;
             }
         }
     }

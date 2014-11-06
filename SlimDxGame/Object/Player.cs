@@ -18,6 +18,11 @@ namespace SlimDxGame.Object
 
         public StateFrag State { get; set; }
 
+        /// <summary>
+        /// 終着点についたらtrueを返します。
+        /// </summary>
+        public bool ReachedRightBorder { get; set; }
+
         public bool IsActive { get; set; }
         /// <summary>
         /// ジャンプした瞬間に実行されるメソッドです。
@@ -34,11 +39,11 @@ namespace SlimDxGame.Object
         /// <summary>
         /// プレイヤー右側の当たり判定
         /// </summary>
-        public Collision.Shape.Line RightSideCollision { get; set; }
+        public Collision.Shape.Line RightTopSideCollision { get; set; }
         /// <summary>
         /// プレイヤー左側の当たり判定
         /// </summary>
-        public Collision.Shape.Line LeftSideCollision { get; set; }
+        public Collision.Shape.Line RightBottomSideCollision { get; set; }
         int fall_time = 0;
         readonly float MinimumRunSpeed = 0.1f;
         readonly float MaxRunSpeed = 1.5f;
@@ -227,8 +232,8 @@ namespace SlimDxGame.Object
             Height = 1.0f;
             FeetCollision = new Collision.Shape.Line();
             HeadCollision = new Collision.Shape.Line();
-            RightSideCollision = new Collision.Shape.Line();
-            LeftSideCollision = new Collision.Shape.Line();
+            RightTopSideCollision = new Collision.Shape.Line();
+            RightBottomSideCollision = new Collision.Shape.Line();
 
             CurrentState = new Run(this);
         }
@@ -265,13 +270,13 @@ namespace SlimDxGame.Object
             FeetCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height / 2);
             FeetCollision.TerminalPoint = new Vector2(_position.X, _position.Y - Height / 2);
 
-            // 右側の当たり判定を更新
-            RightSideCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height);
-            RightSideCollision.TerminalPoint = new Vector2(_position.X + 1.0f + Width / 2, _position.Y + Height);
+            // 右側上の当たり判定を更新
+            RightTopSideCollision.StartingPoint = new Vector2(_position.X - Width, _position.Y + 2 * Height);
+            RightTopSideCollision.TerminalPoint = new Vector2(_position.X + Width, _position.Y + 2 * Height);
 
-            // 左側の当たり判定を更新
-            LeftSideCollision.StartingPoint = new Vector2(_position.X, _position.Y + Height);
-            LeftSideCollision.TerminalPoint = new Vector2(_position.X - Width / 2, _position.Y + Height);
+            // 右側下の当たり判定を更新
+            RightBottomSideCollision.StartingPoint = new Vector2(_position.X - Width, _position.Y);
+            RightBottomSideCollision.TerminalPoint = new Vector2(_position.X + Width, _position.Y);
         }
 
         void UpdateFallTime()
@@ -317,8 +322,8 @@ namespace SlimDxGame.Object
         {
             FeetCollision.Draw3D(dev);
             HeadCollision.Draw3D(dev);
-            RightSideCollision.Draw3D(dev);
-            LeftSideCollision.Draw3D(dev);
+            RightTopSideCollision.Draw3D(dev);
+            RightBottomSideCollision.Draw3D(dev);
         }
 
         [System.Diagnostics.Conditional("DEBUG")]
@@ -344,6 +349,7 @@ namespace SlimDxGame.Object
 
         public void ResetState()
         {
+            ReachedRightBorder = false;
             fall_time = 0;
             Parameter.HP = 1;
             CurrentState = new Run(this);
