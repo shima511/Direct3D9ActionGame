@@ -41,14 +41,17 @@ namespace SlimDxGame.AssetFactory
             buffer.AudioData = stream;
             buffer.AudioBytes = (int)stream.Length;
             buffer.Flags = BufferFlags.EndOfStream;
+            buffer.AudioData.Seek(0, SeekOrigin.Begin);
             return buffer;
         }
 
         static private SourceVoice CreateSourceVoice(MemoryStream stream, WaveFormat format, AudioBuffer buffer)
         {
-            var souceVoice = new SourceVoice(Device, format);
-            souceVoice.SubmitSourceBuffer(buffer);
-            return souceVoice;
+            var sourceVoice = new SourceVoice(Device, format);
+            buffer.AudioData.Seek(0, SeekOrigin.Begin);
+            sourceVoice.FlushSourceBuffers();
+            sourceVoice.SubmitSourceBuffer(buffer);
+            return sourceVoice;
         }
 
         /// <summary>
@@ -70,13 +73,14 @@ namespace SlimDxGame.AssetFactory
                     WaveFormat format;
                     // データをロードする
                     LoadDataFromMemory(out stream, out format, data_array);
+                    stream.Seek(0, SeekOrigin.Begin);
+
                     var buffer = CreateAudioBuffer(stream);
                     // サウンドに設定
                     new_sound.Buffer = buffer;
                     new_sound.Stream = stream;
                     new_sound.Format = format;
 
-                    stream.Seek(0, SeekOrigin.Begin);
                     var new_voice = new Asset.Sound.VoiceInfo();
                     new_voice.Resource = CreateSourceVoice(stream, format, buffer);
                     new_sound.Voices.Add(new_voice);

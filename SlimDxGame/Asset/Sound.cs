@@ -47,14 +47,14 @@ namespace SlimDxGame.Asset
                 // バッファがなくなったらバッファを再設定
                 if (Voices[i].Resource.State.BuffersQueued <= 0 && Voices[i].Playing)
                 {
-                    Buffer.AudioData.Seek(0, SeekOrigin.Begin);
-                    Voices[i].Resource.FlushSourceBuffers();
-                    Voices[i].Resource.SubmitSourceBuffer(Buffer);
                     Voices[i].Playing = false;
                 }
                 // 再生中でない場合音声を再生する
                 if (!Voices[i].Playing)
                 {
+                    Buffer.AudioData.Seek(0, SeekOrigin.Begin);
+                    Voices[i].Resource.FlushSourceBuffers();
+                    Voices[i].Resource.SubmitSourceBuffer(Buffer);
                     Voices[i].Resource.Start();
                     Voices[i].Playing = true;
                     break;
