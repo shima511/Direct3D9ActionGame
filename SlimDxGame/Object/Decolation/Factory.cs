@@ -65,6 +65,27 @@ namespace SlimDxGame.Object.Decolation
                         ModelAsset = ModelContainer.GetValue("Field6")
                     };
                     break;
+                case 7:
+                    new_item = new Field()
+                    {
+                        Position = obj.Position,
+                        ModelAsset = ModelContainer.GetValue("Field7")
+                    };
+                    break;
+                case 8:
+                    new_item = new Field()
+                    {
+                        Position = obj.Position,
+                        ModelAsset = ModelContainer.GetValue("Field8")
+                    };
+                    break;
+                case 9:
+                    new_item = new Field()
+                    {
+                        Position = obj.Position,
+                        ModelAsset = ModelContainer.GetValue("Field9")
+                    };
+                    break;
             }
             new_item.IsActive = true;
             new_item.IsVisible = false;
