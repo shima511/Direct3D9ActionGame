@@ -69,7 +69,7 @@ namespace SlimDxGame.Object.Item
         }
         public void Hit(Player player)
         {
-            if (player.RightSideCollision.Hit(hit_collision) || player.LeftSideCollision.Hit(hit_collision))
+            if (player.RightTopSideCollision.Hit(hit_collision) || player.RightBottomSideCollision.Hit(hit_collision))
             {
                 OnHit(this);
             }
