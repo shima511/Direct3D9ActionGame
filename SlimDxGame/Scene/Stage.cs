@@ -623,7 +623,9 @@ namespace SlimDxGame.Scene
                 StepOneFrame(parent);
 
                 InitStageObjects(parent);
-                
+
+                parent.PauseMenu.Reset();
+
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
             }
@@ -672,8 +674,6 @@ namespace SlimDxGame.Scene
             {
                 time++;
                 if(time >= RequiredTime){
-                    // ポーズメニューを操作できるようにする
-                    parent.PlayerController.Add(parent.PauseMenu);
                     new_state = new PlayingState(root_objects,  parent);
                 }
                 return 0;
@@ -685,12 +685,17 @@ namespace SlimDxGame.Scene
         {
             void EnableOperate(Stage parent)
             {
+                // ポーズメニューを操作できるようにする
+                parent.PlayerController.Add(parent.PauseMenu);
                 // プレイヤーを操作可能に
                 parent.PlayerController.Add(parent.Player);
             }
 
             void DisableOperate(Stage parent)
             {
+                // ポーズメニューを操作できないようにする
+                parent.PlayerController.Remove(parent.PauseMenu);
+                // プレイヤーを操作不可能に
                 parent.PlayerController.Remove(parent.Player);
             }
 
@@ -756,7 +761,6 @@ namespace SlimDxGame.Scene
             void StopObjects(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.UpdateList.Remove(parent.Player);
-                parent.PlayerController.Remove(parent.PauseMenu);
                 root_objects.UpdateList.Remove(parent.Camera);
                 root_objects.UpdateList.Remove(parent.CollisionManager);
             }
@@ -764,7 +768,6 @@ namespace SlimDxGame.Scene
             void ReStartObjects(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.UpdateList.Add(parent.Player);
-                parent.PlayerController.Add(parent.PauseMenu);
                 root_objects.UpdateList.Add(parent.Camera);
                 root_objects.UpdateList.Add(parent.CollisionManager);
             }
@@ -806,13 +809,14 @@ namespace SlimDxGame.Scene
                 root_objects.UpdateList.Remove(parent.Player);
             }
 
-            void EnablePlayer(GameRootObjects root_objects, Stage parent)
+            void EnableOperate(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.UpdateList.Add(parent.Player);
             }
 
             public PausingState(GameRootObjects root_objects, Stage parent)
             {
+                parent.PlayerController.Add(parent.PauseMenu);
                 PausePlayer(root_objects, parent);
             }
 
@@ -820,7 +824,8 @@ namespace SlimDxGame.Scene
             {
                 if (parent.PauseMenu.Fixed)
                 {
-                    EnablePlayer(root_objects, parent);
+                    EnableOperate(root_objects, parent);
+                    parent.PlayerController.Remove(parent.PauseMenu);
                     switch (parent.PauseMenu.Cursor.Index)
                     {
                         case 0:

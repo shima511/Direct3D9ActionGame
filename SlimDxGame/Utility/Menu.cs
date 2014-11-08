@@ -136,6 +136,7 @@ namespace SlimDxGame.Utility
         {
             Fixed = false;
             Showing = true;
+            CurrentMenu = null;
             OnShown();
         }
 
@@ -143,7 +144,16 @@ namespace SlimDxGame.Utility
         {
             Fixed = true;
             Showing = false;
+            CurrentMenu = null;
             OnClose();
+        }
+
+        public void Reset()
+        {
+            Fixed = false;
+            Showing = false;
+            CurrentMenu = null;
+            Cursor.Index = 0;
         }
 
         void OperateMenu(SlimDxGame.Controller controller)
