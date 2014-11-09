@@ -88,6 +88,7 @@
     <Compile Include="Object\Boundary.cs" />
     <Compile Include="Object\Decolation\Field.cs" />
     <Compile Include="Object\IFieldObject.cs" />
+    <Compile Include="ResultScreen.cs" />
     <Compile Include="SpawnManager.cs" />
     <Compile Include="Utility\AssetContainer.cs" />
     <Compile Include="AssetFactory\ModelFactory.cs" />

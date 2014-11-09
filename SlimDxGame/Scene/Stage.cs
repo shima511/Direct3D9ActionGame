@@ -432,13 +432,17 @@ namespace SlimDxGame.Scene
                     RootObjects = root_objects,
                     Controller = parent.PlayerController
                 };
+                dialog_menu.OnShown += () => { root_objects.SoundContainer.GetValue("MenuOpen").Play(); };
+                dialog_menu.OnClose += () => { root_objects.SoundContainer.GetValue("MenuClose").Play(); };
                 dialog_menu.ParentMenu = parent.PauseMenu;
                 dialog_menu.ChildMenus.Add(null);
                 dialog_menu.ChildMenus.Add(null);
                 parent.PauseMenu.ChildMenus.AddRange(new[]{
                     null,
                     m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu)),
-                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu))
+                    m_director.Create(new MenuCreator.DialogMenuBuilder(dialog_menu)),
+                    null,
+                    null
                 });
             }
 
@@ -599,7 +603,7 @@ namespace SlimDxGame.Scene
             void InitLimitTime(GameRootObjects root_objects, Stage parent)
             {
                 parent.StageState.Score = 0;
-                parent.StageState.Time = 0;
+                parent.StageState.Time = 200;
                 parent.Counter.ResetTime();
             }
 
@@ -670,7 +674,7 @@ namespace SlimDxGame.Scene
             int time = 0;
             readonly int RequiredTime = 30;
 
-            public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 time++;
                 if(time >= RequiredTime){
@@ -707,19 +711,18 @@ namespace SlimDxGame.Scene
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 parent.Counter.UpdateTime();
-                parent.StageState.Time = parent.Counter.GetSeconds();
+                parent.StageState.Time = (200 - parent.Counter.GetSeconds());
                 if (parent.PauseMenu.Showing)
                 {
                     DisableOperate(parent);
                     new_state = new PausingState(root_objects, parent);
                 }
-                else if (parent.Player.Parameter.HP <= 0)
+                else if (parent.Player.Parameter.HP <= 0 || parent.StageState.Time <= 0)
                 {
                     DisableOperate(parent);
                     new_state = new MissedState(root_objects, parent);
                 }
                 else if(parent.Player.ReachedRightBorder){
-                    root_objects.SoundContainer.GetValue("Cleared").Play();
                     DisableOperate(parent);
                     new_state = new ClearedState();
                 }
@@ -730,10 +733,53 @@ namespace SlimDxGame.Scene
         // ステージクリアした状態
         class ClearedState : GameState<Stage>
         {
-            
+            int time = 0;
+            readonly int Interval = 25;
+            readonly int RequiredTime = 25 * 8;
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                if (time % Interval == 0)
+                {
+                    root_objects.SoundContainer.GetValue("Cleared").Play();
+                }
+                time++;
                 parent.Player.IsActive = false;
+                if (time >= RequiredTime)
+                {
+                    new_state = new ResultState(root_objects: root_objects, parent: parent);
+                }
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 結果を表示している状態
+        /// </summary>
+        class ResultState : GameState<Stage>
+        {
+            ResultScreen r_screen = new ResultScreen();
+
+            public ResultState(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.Layers[2].Add(r_screen);
+                root_objects.UpdateList.Add(r_screen);
+                r_screen.LeftTime = parent.StageState.Time;
+                r_screen.MaxCoinNum = parent.StageComponents.Items.Count;
+                r_screen.CollectedCoinNum = parent.StageState.Score / 100;
+                r_screen.BackGround = new Object.Base.Sprite()
+                {
+                    Texture = root_objects.TextureContainer.GetValue("BlackTexture"),
+                    Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2),
+                    IsVisible = true,
+                };
+                r_screen.Font = root_objects.FontContainer.GetValue("Arial");
+                r_screen.OnCountFinished += () => { root_objects.SoundContainer.GetValue("ScoreCounted").Play(); };
+            }
+
+            public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
+            {
+                
                 return 0;
             }
         }
