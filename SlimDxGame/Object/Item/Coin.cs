@@ -27,7 +27,7 @@ namespace SlimDxGame.Object.Item
         public Status.Stage StageState { private get; set; }
         public event Action<IBase> OnHit;
         Collision.Shape.Line hit_collision;
-        public readonly uint _score = 10;
+        public readonly uint _score = 100;
         public uint Score { get { return _score; } private set {} }
 
         public Coin(SlimDX.Vector2 pos)

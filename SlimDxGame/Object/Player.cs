@@ -231,9 +231,6 @@ namespace SlimDxGame.Object
             {
                 HP = 1
             };
-
-            _position.Z = -40.0f;
-
             Width = 1.0f;
             Height = 1.0f;
             FeetCollision = new Collision.Shape.Line();
@@ -337,7 +334,7 @@ namespace SlimDxGame.Object
         {
             if (controller.DButton.IsPressed() && controller.UpButton.IsBeingPressed())
             {
-                _position = new Vector3(0.0f, 3.0f, 0.0f);
+                ReachedRightBorder = true;
             }
         }
 
@@ -361,6 +358,7 @@ namespace SlimDxGame.Object
             CurrentState = new Run(this);
             Scale = new Vector3(0.2f, 0.2f, 0.2f);
             Speed = new Vector2(MinimumRunSpeed, 0.0f);
+            _position.Z = 20.0f;
             _rotation.Y = (float)Math.PI / 2;
         }
     }
