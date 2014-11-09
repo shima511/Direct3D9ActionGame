@@ -32,8 +32,8 @@ namespace SlimDxGame.MenuCreator
             var cursor_position_list = new List<SlimDX.Vector2>();
             cursor_position_list.AddRange(new[]
                 {
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 3 / 5),
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 4 / 5)
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20 - 30, Core.Game.AppInfo.Height * 3 / 5),
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5)
                 });
 
             var sound = sound_container.GetValue("MenuSelect");
@@ -43,7 +43,7 @@ namespace SlimDxGame.MenuCreator
                 Texture = tex_container.GetValue("BlackTexture"),
                 Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f),
                 Scale = new SlimDX.Vector2(30.0f, 30.0f),
-                Position = new SlimDX.Vector2(60.0f, 60.0f),
+                Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 3 / 5),
                 PositionList = cursor_position_list
             };
             menu_cursor.OnMove += () => { sound.Play(); };
@@ -55,10 +55,10 @@ namespace SlimDxGame.MenuCreator
             // 項目を追加
             List<Object.Base.String> columns = new List<Object.Base.String>();
             columns.AddRange(new[]{
-                    new Object.Base.String(){Text = "Confirmation", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2 / 5, Core.Game.AppInfo.Height / 5)},
-                    new Object.Base.String(){Text = "Do you really stop playing?", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 3, Core.Game.AppInfo.Height * 2 / 5)},
-                    new Object.Base.String(){Text = "Yes", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 3 / 5)},
-                    new Object.Base.String(){Text = "No", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 4 / 5)}
+                    new Object.Base.String(){Text = "確認", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20, Core.Game.AppInfo.Height / 5)},
+                    new Object.Base.String(){Text = "ゲームを中断しますか?", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 7 / 20, Core.Game.AppInfo.Height * 2 / 5)},
+                    new Object.Base.String(){Text = "はい", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20, Core.Game.AppInfo.Height * 3 / 5)},
+                    new Object.Base.String(){Text = "いいえ", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20, Core.Game.AppInfo.Height * 4 / 5)}
                 });
 
             menu.Columns = columns;
@@ -75,7 +75,6 @@ namespace SlimDxGame.MenuCreator
 
         public override void SetFunction(GameRootObjects root_objects)
         {
-            menu.OnShown += () => { };
             menu.OnClose += () => {
                 switch (menu.Cursor.Index)
                 {
