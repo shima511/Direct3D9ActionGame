@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SlimDxGame
 {
-    class ResultScreen : Component.IDrawableObject, Component.IUpdateObject
+    class ResultScreen : Component.IDrawableObject, Component.IUpdateObject, Component.IOperableObject
     {
         int time = 0;
         /// <summary>
@@ -51,8 +51,20 @@ namespace SlimDxGame
         /// ラベル
         /// </summary>
         List<Object.Base.String> labels = new List<Object.Base.String>();
+        /// <summary>
+        /// メニュー用のラベル
+        /// </summary>
+        List<Object.Base.String> menu_labels = new List<Object.Base.String>();
         Object.Base.String coin_score_str = new Object.Base.String();
         SlimDX.Color4 color = new SlimDX.Color4();
+        /// <summary>
+        /// カーソル
+        /// </summary>
+        public Object.Cursor Cursor { get; set; }
+        /// <summary>
+        /// 選択肢が選ばれた状態
+        /// </summary>
+        public bool CursorFixed { get; private set; }
         /// <summary>
         /// カウントが終わった時に実行するイベント
         /// </summary>
@@ -78,6 +90,18 @@ namespace SlimDxGame
 
         public ResultScreen()
         {
+            CursorFixed = false;
+            Cursor = new Object.Cursor()
+            {
+                Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 5 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5),
+                PositionList = new List<SlimDX.Vector2>()
+                {
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 5 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5),
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 12 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5)
+                }
+            };
+            Cursor.IsActive = false;
+            Cursor.IsVisible = false;
             labels.AddRange(new[] 
             {
                 new Object.Base.String(){Text = "CoinScore:", Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f), Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 7 / 20, Core.Game.AppInfo.Height / 5), IsVisible = false},
@@ -86,6 +110,11 @@ namespace SlimDxGame
                 new Object.Base.String(){Text = "0", Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f), Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 11 / 20, Core.Game.AppInfo.Height / 5), IsVisible = false},
                 new Object.Base.String(){Text = "0", Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f), Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 11 / 20, Core.Game.AppInfo.Height * 2 / 5), IsVisible = false},
                 new Object.Base.String(){Text = "0", Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f), Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 11 / 20, Core.Game.AppInfo.Height * 3 / 5), IsVisible = false},
+            });
+            menu_labels.AddRange(new[]
+            {
+                new Object.Base.String(){Text = "リトライ", Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f), Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 5 / 20, Core.Game.AppInfo.Height * 4 / 5), IsVisible = false},
+                new Object.Base.String(){Text = "ゲーム終了", Color = new SlimDX.Color4(1.0f, 1.0f, 1.0f, 1.0f), Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 12 / 20, Core.Game.AppInfo.Height * 4 / 5), IsVisible = false}
             });
         }
 
@@ -129,12 +158,26 @@ namespace SlimDxGame
             {
                 CountCoinScore();
                 CountTimeBonus();
+                if (CountEnd()) {
+                    foreach (var item in menu_labels)
+                    {
+                        item.IsVisible = true;
+                    }
+                    Cursor.IsVisible = true;
+                    Cursor.IsActive = true;
+                    Cursor.Update();
+                }
                 foreach (var item in labels)
                 {
                     item.IsVisible = true;
                 }
             }
             BackGround.Color = color;
+        }
+
+        bool CountEnd()
+        {
+            return coin_count == CollectedCoinNum && time_count == LeftTime;
         }
 
         public void Draw3D(SlimDX.Direct3D9.Device dev)
@@ -151,6 +194,29 @@ namespace SlimDxGame
                     item.Font = Font;
                     item.Draw2D(dev);
                 }
+            }
+            foreach (var item in menu_labels)
+            {
+                if (item.IsVisible)
+                {
+                    item.Font = Font;
+                    item.Draw2D(dev);
+                }
+            }
+            if (Cursor.IsVisible) Cursor.Draw2D(dev);
+        }
+
+        public void ControllerAction(Controller controller)
+        {
+            if (!CountEnd())
+            {
+                if (controller.AButton.IsPressed() && coin_count != CollectedCoinNum) { coin_count = (int)CollectedCoinNum - 2; }
+                if (controller.AButton.IsPressed() && time_count != LeftTime) { time_count = (int)LeftTime - 2; }
+            }
+            if (controller.AButton.IsPressed() && CountEnd()) { CursorFixed = true; }
+            if (Cursor.IsActive)
+            {
+                Cursor.ControllerAction(controller);
             }
         }
     }

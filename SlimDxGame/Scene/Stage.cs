@@ -762,8 +762,7 @@ namespace SlimDxGame.Scene
 
             public ResultState(GameRootObjects root_objects, Stage parent)
             {
-                root_objects.Layers[2].Add(r_screen);
-                root_objects.UpdateList.Add(r_screen);
+                AddResultScreen(root_objects, parent);
                 r_screen.LeftTime = parent.StageState.Time;
                 r_screen.MaxCoinNum = parent.StageComponents.Items.Count;
                 r_screen.CollectedCoinNum = parent.StageState.Score / 100;
@@ -775,11 +774,49 @@ namespace SlimDxGame.Scene
                 };
                 r_screen.Font = root_objects.FontContainer.GetValue("Arial");
                 r_screen.OnCountFinished += () => { root_objects.SoundContainer.GetValue("ScoreCounted").Play(); };
+                var cursor = r_screen.Cursor;
+                cursor.Texture = root_objects.TextureContainer["BlackTexture"];
+                cursor.Scale = new SlimDX.Vector2(100.0f, 100.0f);
+                cursor.OnMove += () => 
+                {
+                    root_objects.SoundContainer["MenuSelect"].Play();
+                };
+                r_screen.Cursor = cursor;
             }
+
+            void AddResultScreen(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.Layers[2].Add(r_screen);
+                root_objects.UpdateList.Add(r_screen);
+                parent.PlayerController.Add(r_screen);
+            }
+
+            void RemoveResultScreen(GameRootObjects root_objects, Stage parent)
+            {
+                root_objects.Layers[2].Remove(r_screen);
+                root_objects.UpdateList.Remove(r_screen);
+                parent.PlayerController.Remove(r_screen);
+            }
+
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
-                
+                if (r_screen.CursorFixed)
+                {
+                    RemoveResultScreen(root_objects, parent);
+                    root_objects.SoundContainer["MenuClose"].Play();
+                    switch (r_screen.Cursor.Index)
+                    {
+                        case 0:
+                            parent.ReturnTo = ReturnFrag.Replay;
+                            new_state = new FadeOutState(root_objects, parent);
+                            break;
+                        case 1:
+                            parent.ReturnTo = ReturnFrag.ExitGame;
+                            new_state = new FadeOutState(root_objects, parent);
+                            break;
+                    }
+                }
                 return 0;
             }
         }
