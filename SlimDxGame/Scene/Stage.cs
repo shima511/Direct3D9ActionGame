@@ -92,6 +92,10 @@ namespace SlimDxGame.Scene
         /// 背景
         /// </summary>
         Object.Base.SquarePolygon BackGround { get; set; }
+        /// <summary>
+        /// 黒い前面の画面
+        /// </summary>
+        Object.Base.Sprite BlackFront { get; set; }
 
         public Stage()
         {
@@ -267,7 +271,6 @@ namespace SlimDxGame.Scene
                         if (root_objects.IncludeInvalidAsset(ref invalid_calls) || !parent.StageLoader.Valid)
                         {
                             MessageBox.Show("ファイルの読み込みに失敗", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            
                             parent.ReturnTo = ReturnFrag.ExitGame;
                             return -1;
                         }
@@ -553,6 +556,15 @@ namespace SlimDxGame.Scene
                 root_objects.Layers[0].Add(parent.BackGround);
             }
 
+            void InitBlackFront(GameRootObjects root, Stage parent)
+            {
+                parent.BlackFront = new Object.Base.Sprite();
+                parent.BlackFront.Texture = root.TextureContainer["BlackTexture"];
+                parent.BlackFront.Color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f);
+                parent.BlackFront.Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2);
+                root.Layers[2].Add(parent.BlackFront);
+            }
+
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 InitVolume(root_objects);
@@ -580,6 +592,8 @@ namespace SlimDxGame.Scene
                 InitSpawnManager(root_objects, parent);
 
                 InitStageBoundary(parent);
+
+                InitBlackFront(root_objects, parent);
 
  //               InitBackGround(root_objects, parent);
 
@@ -630,6 +644,8 @@ namespace SlimDxGame.Scene
 
                 parent.PauseMenu.Reset();
 
+                root_objects.Layers[2].Remove(parent.BlackFront);
+
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
             }
@@ -638,18 +654,25 @@ namespace SlimDxGame.Scene
         // フェードイン
         class FadeInState : GameState<Stage>
         {
-            public FadeInState(GameRootObjects root_objects,  Stage parent)
+            public FadeInState(GameRootObjects root_objects, Stage parent)
+            {
+                AddFadeInEffect(root_objects, parent);
+            }
+
+            
+
+            void AddFadeInEffect(GameRootObjects root, Stage parent)
             {
                 Asset.Texture tex;
-                root_objects.TextureContainer.TryGetValue("BlackTexture", out tex);
+                root.TextureContainer.TryGetValue("BlackTexture", out tex);
                 parent.Fader.Texture = tex;
                 parent.Fader.Scale = new SlimDX.Vector2(Core.Game.AppInfo.Width * 2, Core.Game.AppInfo.Height * 2);
                 parent.Fader.FadingTime = 120;
                 parent.Fader.Color = new SlimDX.Color4(1.0f, 0.0f, 0.0f, 0.0f);
                 parent.Fader.Effect = Object.Fader.Flag.FADE_IN;
                 parent.Fader.IsActive = true;
-                root_objects.Layers[2].Add(parent.Fader);
-                root_objects.UpdateList.Add(parent.Fader);
+                root.Layers[2].Add(parent.Fader);
+                root.UpdateList.Add(parent.Fader);
             }
 
             void RemoveFadeInEffect(GameRootObjects root_objects, Stage parentects)
@@ -776,7 +799,7 @@ namespace SlimDxGame.Scene
                 r_screen.OnCountFinished += () => { root_objects.SoundContainer.GetValue("ScoreCounted").Play(); };
                 var cursor = r_screen.Cursor;
                 cursor.Texture = root_objects.TextureContainer["BlackTexture"];
-                cursor.Scale = new SlimDX.Vector2(100.0f, 100.0f);
+                cursor.Scale = new SlimDX.Vector2(10.0f, 10.0f);
                 cursor.OnMove += () => 
                 {
                     root_objects.SoundContainer["MenuSelect"].Play();
