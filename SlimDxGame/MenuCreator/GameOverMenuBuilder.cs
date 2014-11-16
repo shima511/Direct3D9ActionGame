@@ -53,8 +53,8 @@ namespace SlimDxGame.MenuCreator
             // 項目を追加
             List<Object.Base.String> columns = new List<Object.Base.String>();
             columns.AddRange(new[]{
-                    new Object.Base.String(){Text = "Restart Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height / 4)},
-                    new Object.Base.String(){Text = "Exit Game", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 2 / 4)}
+                    new Object.Base.String(){Text = "リトライ", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height / 4)},
+                    new Object.Base.String(){Text = "ゲームをやめる", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width / 2, Core.Game.AppInfo.Height * 2 / 4)}
                 });
             menu.Columns = columns;
 
