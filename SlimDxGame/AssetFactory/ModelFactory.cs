@@ -79,7 +79,6 @@ namespace SlimDxGame.AssetFactory
                 {
                     for (int i = 0; i < new_model.Materials.Count; i++)
                     {
-                        string baseDir = Path.GetDirectoryName(Application.ExecutablePath);
                         var tex_filename = new_model.Materials[i].TextureFileName;
                         if (!string.IsNullOrEmpty(tex_filename))
                         {
@@ -88,7 +87,7 @@ namespace SlimDxGame.AssetFactory
                     }
                 }
             }
-            catch (SlimDX.Direct3D9.Direct3D9Exception)
+            catch (SlimDX.Direct3D9.Direct3D9Exception ex)
             {
                 new_model = null;
             }
