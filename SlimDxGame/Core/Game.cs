@@ -180,6 +180,7 @@ namespace SlimDxGame.Core
             root_objects.TextureContainer.DeleteAllObject();
             root_objects.SoundContainer.DeleteAllObject();
             root_objects.ModelContainer.DeleteAllObject();
+            root_objects.MusicContainer.DeleteAllObject();
             AssetFactory.ModelFactory.Terminate();
         }
 

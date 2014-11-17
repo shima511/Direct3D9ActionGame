@@ -38,6 +38,10 @@ namespace SlimDxGame
         /// </summary>
         public AssetContainer<Asset.Sound> SoundContainer { get; set; }
         /// <summary>
+        /// 音楽コンテナ
+        /// </summary>
+        public AssetContainer<Asset.Music> MusicContainer { get; set; }
+        /// <summary>
         /// モデルコンテナ
         /// </summary>
         public AssetContainer<Asset.Model> ModelContainer { get; set; }
@@ -63,6 +67,7 @@ namespace SlimDxGame
             FontContainer = new AssetContainer<Asset.Font>();
             TextureContainer = new AssetContainer<Asset.Texture>();
             SoundContainer = new AssetContainer<Asset.Sound>();
+            MusicContainer = new AssetContainer<Asset.Music>();
             ModelContainer = new AssetContainer<Asset.Model>();
             Settings = new Config();
             MMDModels = new Dictionary<string, MikuMikuDance.Core.Model.MMDModel>();
