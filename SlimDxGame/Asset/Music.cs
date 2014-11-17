@@ -19,33 +19,35 @@ namespace SlimDxGame.Asset
         /// </summary>
         public void Play()
         {
-            Resource.Start();
+            if(!Playing) Resource.Start();
             Playing = true;
         }
 
         /// <summary>
-        /// 音楽を停止します。
+        /// 音楽を停止させます。
         /// </summary>
         public void Stop()
         {
-            Resource.Stop();
-            Playing = false;
+            if (Playing)
+            {
+                Resource.Stop();
+                Buffer.AudioData.Seek(0, SeekOrigin.Begin);
+                Resource.FlushSourceBuffers();
+                Resource.SubmitSourceBuffer(Buffer);
+                Playing = false;
+            }
         }
 
         /// <summary>
-        /// 未対応
+        /// 音楽を一時停止します。
         /// </summary>
         public void Pause()
         {
-
-        }
-
-        /// <summary>
-        /// 未対応
-        /// </summary>
-        public void Resume()
-        {
-
+            if (Playing)
+            {
+                Resource.Stop();
+                Playing = false;
+            }
         }
 
         /// <summary>
