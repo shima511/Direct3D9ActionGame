@@ -96,6 +96,10 @@ namespace SlimDxGame.Scene
         /// 黒い前面の画面
         /// </summary>
         Object.Base.Sprite BlackFront { get; set; }
+        /// <summary>
+        /// BGM
+        /// </summary>
+        Asset.Music BGM { get; set; }
 
         public Stage()
         {
@@ -229,6 +233,12 @@ namespace SlimDxGame.Scene
                 root.FontContainer.Add("Arial", font);
             }
 
+            void LoadBGM(GameRootObjects root, Stage parent)
+            {
+                root.MusicContainer.Add("BGM", AssetFactory.AudioMediaFactory.CreateMusicFromMemory(root.DataReader.GetBytes("BGM.wav"), 0, 1000));
+                parent.BGM = root.MusicContainer["BGM"];
+            }
+
             void CreateInstance(Stage parent)
             {
                 parent.StageLoader = new StageRW.Reader();
@@ -262,6 +272,7 @@ namespace SlimDxGame.Scene
                     LoadModels(parent.AssetsList, root_objects.ModelContainer, root_objects);
                     LoadStage(root_objects, parent);
                     LoadFont(root_objects);
+                    LoadBGM(root_objects, parent);
 
                     LoadCompleted = true;
 
@@ -609,7 +620,7 @@ namespace SlimDxGame.Scene
             {
                 var p_pos = parent.StageComponents.Player.Position;
                 parent.Player.ResetState();
-                parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y, 0);
+                parent.Player.Position = new SlimDX.Vector3(p_pos.X, p_pos.Y - 2.0f, 0);
                 parent.Player.IsActive = true;
                 parent.Player.Update();
             }
@@ -659,8 +670,6 @@ namespace SlimDxGame.Scene
                 AddFadeInEffect(root_objects, parent);
             }
 
-            
-
             void AddFadeInEffect(GameRootObjects root, Stage parent)
             {
                 Asset.Texture tex;
@@ -683,9 +692,11 @@ namespace SlimDxGame.Scene
 
             public int Update( GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                parent.Player.CanMove = false;
+                parent.Player.Pause();
                 if(parent.Fader.Color.Alpha <= 0.1f){
                     RemoveFadeInEffect(root_objects, parent);
-                    new_state = new CountDownState();
+                    new_state = new CountDownState(root_objects);
                 }
                 return 0;
             }            
@@ -694,13 +705,39 @@ namespace SlimDxGame.Scene
         // フェードイン終了後、操作可能になるまでカウントダウンを行う状態
         class CountDownState : GameState<Stage>
         {
-            int time = 0;
-            readonly int RequiredTime = 30;
+            DescriptionScreen descriptionScreen = new DescriptionScreen();
 
-            public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
+            void AddDescriptionScreen(GameRootObjects root)
             {
-                time++;
-                if(time >= RequiredTime){
+                descriptionScreen.Font = root.FontContainer["Arial"];
+                descriptionScreen.OnCount += () =>
+                {
+                    root.SoundContainer["StartCount"].Play();
+                };
+                descriptionScreen.OnCountEnd += () =>
+                {
+                    root.SoundContainer["Start"].Play();
+                };
+                root.UpdateList.Add(descriptionScreen);
+                root.Layers[0].Add(descriptionScreen);
+            }
+
+            void RemoveDescriptionScreen(GameRootObjects root)
+            {
+                root.UpdateList.Remove(descriptionScreen);
+                root.Layers[0].Remove(descriptionScreen);
+            }
+
+            public CountDownState(GameRootObjects root)
+            {
+                AddDescriptionScreen(root);
+            }
+
+            public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
+            {
+                parent.Player.Pause();
+                if(descriptionScreen.CountEnd){
+                    RemoveDescriptionScreen(root_objects);
                     new_state = new PlayingState(root_objects,  parent);
                 }
                 return 0;
@@ -712,6 +749,7 @@ namespace SlimDxGame.Scene
         {
             void EnableOperate(Stage parent)
             {
+                parent.Player.CanMove = true;
                 // ポーズメニューを操作できるようにする
                 parent.PlayerController.Add(parent.PauseMenu);
                 // プレイヤーを操作可能に
@@ -729,6 +767,7 @@ namespace SlimDxGame.Scene
             public PlayingState(GameRootObjects root_objects, Stage parent)
             {
                 EnableOperate(parent);
+                parent.BGM.Play();
             }
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
@@ -911,6 +950,7 @@ namespace SlimDxGame.Scene
         {
             void PausePlayer(GameRootObjects root_objects, Stage parent)
             {
+                parent.Player.Pause();
                 parent.PlayerController.Remove(parent.Player);
                 root_objects.UpdateList.Remove(parent.Player);
             }
@@ -961,6 +1001,7 @@ namespace SlimDxGame.Scene
 
             public GameOverState(GameRootObjects root_objects, Stage parent)
             {
+                parent.BGM.Stop();
                 menuDirector.Controller = parent.PlayerController;
                 menuDirector.RootObjects = root_objects;
                 menuDirector.Create(new MenuCreator.GameOverMenuBuilder(gameOverMenu));

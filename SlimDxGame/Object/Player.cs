@@ -65,6 +65,10 @@ namespace SlimDxGame.Object
         public float Height { get; private set; }
         public Vector2 Speed { get { return _speed; } set { _speed = value; } }
         /// <summary>
+        /// 移動可能かどうかを設定・取得します
+        /// </summary>
+        public bool CanMove { get; set; }
+        /// <summary>
         /// 
         /// </summary>
         public Status.Charactor Parameter { get; set; }
@@ -203,6 +207,11 @@ namespace SlimDxGame.Object
             }
         }
 
+        public void Pause()
+        {
+            MMDModel.AnimationPlayer["Run"].Stop();
+        }
+
         public void Dispatch(ICollisionObject obj)
         {
             obj.Hit(this);
@@ -259,8 +268,11 @@ namespace SlimDxGame.Object
 
         private void UpdatePosition()
         {
-            _position.X += _speed.X;
-            _position.Y += _speed.Y;
+            if (CanMove)
+            {
+                _position.X += _speed.X;
+                _position.Y += _speed.Y;
+            }
         }
 
         private void UpdateCollision()
