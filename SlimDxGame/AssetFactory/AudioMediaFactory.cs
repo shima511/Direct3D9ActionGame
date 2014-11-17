@@ -154,10 +154,7 @@ namespace SlimDxGame.AssetFactory
                 buffer.AudioData = stream;
                 buffer.AudioBytes = (int)stream.Length;
                 buffer.Flags = BufferFlags.EndOfStream;
-                buffer.LoopBegin = loop_begin;
-                buffer.LoopLength = loop_length;
                 buffer.LoopCount = XAudio2.LoopInfinite;
-
                 new_music.Resource = CreateSourceVoice(stream, format, buffer);
                 new_music.Buffer = buffer;
                 new_music.Stream = stream;
