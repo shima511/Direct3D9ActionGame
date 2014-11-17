@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DescriptionScreen.cs" />
     <Compile Include="MenuCreator\DialogMenuBuilder.cs" />
     <Compile Include="MenuCreator\GameOverMenuBuilder.cs" />
     <Compile Include="MenuCreator\MenuBuilder.cs" />
@@ -216,9 +217,7 @@
       <Name>ScriptRW</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Object\Enemy\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
