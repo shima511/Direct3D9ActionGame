@@ -29,8 +29,8 @@ namespace SlimDxGame.MenuCreator
         public override void SetCursor(Utility.AssetContainer<Asset.Texture> tex_container, Utility.AssetContainer<Asset.Sound> sound_container)
         {
             var cursor_position_list = new List<SlimDX.Vector2>();
-            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 4));
-            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 2 / 4));
+            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height / 4 + 10.0f));
+            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width / 2 - 30, Core.Game.AppInfo.Height * 2 / 4 + 10.0f));
 
             // メニュー用のカーソル
             var menu_cursor = new Object.Cursor()

@@ -32,8 +32,8 @@ namespace SlimDxGame.MenuCreator
             var cursor_position_list = new List<SlimDX.Vector2>();
             cursor_position_list.AddRange(new[]
                 {
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20 - 30, Core.Game.AppInfo.Height * 3 / 5),
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5)
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20 - 30, Core.Game.AppInfo.Height * 3 / 5 + 10.0f),
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 9 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5 + 10.0f)
                 });
 
             var sound = sound_container.GetValue("MenuSelect");
