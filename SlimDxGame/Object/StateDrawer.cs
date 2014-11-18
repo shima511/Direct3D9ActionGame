@@ -46,12 +46,18 @@ namespace SlimDxGame.Object
 
         }
 
+        [System.Diagnostics.Conditional("DEBUG")]
+        void DebugDraw(SlimDX.Direct3D9.Sprite dev)
+        {
+            state_str.Draw2D(dev);
+        }
+
         public void Draw2D(SlimDX.Direct3D9.Sprite dev)
         {
             time_str.Draw2D(dev);
             score_str.Draw2D(dev);
             life_str.Draw2D(dev);
-            state_str.Draw2D(dev);
+            DebugDraw(dev);
         }
     }
 }
