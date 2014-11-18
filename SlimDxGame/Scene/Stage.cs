@@ -315,8 +315,14 @@ namespace SlimDxGame.Scene
             void InitVolume(GameRootObjects root_objects)
             {
                 var settings = root_objects.Settings;
-                settings.SEVolume = 0.3f;
+                settings.SEVolume = 0.4f;
+                settings.BGMVolume = 0.3f;
                 root_objects.Settings = settings;
+
+                foreach (var item in root_objects.MusicContainer.Values)
+                {
+                    item.Volume = root_objects.Settings.BGMVolume;
+                }
                 foreach (var item in root_objects.SoundContainer.Values)
                 {
                     if (item != null) item.Volume = root_objects.Settings.SEVolume;
@@ -655,6 +661,8 @@ namespace SlimDxGame.Scene
 
                 parent.PauseMenu.Reset();
 
+                parent.BGM.Stop();
+
                 root_objects.Layers[2].Remove(parent.BlackFront);
 
                 new_state = new FadeInState(root_objects,  parent);
@@ -786,7 +794,7 @@ namespace SlimDxGame.Scene
                 }
                 else if(parent.Player.ReachedRightBorder){
                     DisableOperate(parent);
-                    new_state = new ClearedState();
+                    new_state = new ClearedState(root_objects, parent);
                 }
                 return 0;
             }
@@ -799,6 +807,17 @@ namespace SlimDxGame.Scene
             readonly int Interval = 25;
             readonly int RequiredTime = 25 * 8;
 
+            public ClearedState(GameRootObjects root_objects, Stage parent)
+            {
+                DownBGMVolume(root_objects, parent);
+            }
+
+            void DownBGMVolume(GameRootObjects root_objects, Stage parent)
+            {
+                var volume = root_objects.Settings.BGMVolume;
+                parent.BGM.Volume = volume / 2.0f;
+            }
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
                 if (time % Interval == 0)
@@ -806,6 +825,7 @@ namespace SlimDxGame.Scene
                     root_objects.SoundContainer.GetValue("Cleared").Play();
                 }
                 time++;
+                parent.BGM.Stop();
                 parent.Player.IsActive = false;
                 if (time >= RequiredTime)
                 {
@@ -824,6 +844,7 @@ namespace SlimDxGame.Scene
 
             public ResultState(GameRootObjects root_objects, Stage parent)
             {
+                root_objects.SoundContainer["GameClear"].Play();
                 AddResultScreen(root_objects, parent);
                 r_screen.LeftTime = parent.StageState.Time;
                 r_screen.MaxCoinNum = parent.StageComponents.Items.Count;
@@ -838,7 +859,7 @@ namespace SlimDxGame.Scene
                 r_screen.OnCountFinished += () => { root_objects.SoundContainer.GetValue("ScoreCounted").Play(); };
                 var cursor = r_screen.Cursor;
                 cursor.Texture = root_objects.TextureContainer["BlackTexture"];
-                cursor.Scale = new SlimDX.Vector2(10.0f, 10.0f);
+                cursor.Scale = new SlimDX.Vector2(30.0f, 30.0f);
                 cursor.OnMove += () => 
                 {
                     root_objects.SoundContainer["MenuSelect"].Play();
@@ -871,6 +892,7 @@ namespace SlimDxGame.Scene
                     {
                         case 0:
                             parent.ReturnTo = ReturnFrag.Replay;
+                            root_objects.SoundContainer["GameClear"].Stop();
                             new_state = new FadeOutState(root_objects, parent);
                             break;
                         case 1:
@@ -964,12 +986,25 @@ namespace SlimDxGame.Scene
             {
                 parent.PlayerController.Add(parent.PauseMenu);
                 PausePlayer(root_objects, parent);
+                DownBGMVolume(root_objects, parent);
+            }
+
+            void DownBGMVolume(GameRootObjects root_objects, Stage parent)
+            {
+                var volume = root_objects.Settings.BGMVolume;
+                parent.BGM.Volume = volume / 2.0f;
+            }
+
+            void IncreaseBGMVolume(GameRootObjects root_objects, Stage parent)
+            {
+                parent.BGM.Volume = root_objects.Settings.BGMVolume;
             }
 
             public int Update(GameRootObjects root_objects, Stage parent, ref GameState<Stage> new_state)
             {
                 if (parent.PauseMenu.Fixed)
                 {
+                    IncreaseBGMVolume(root_objects, parent);
                     EnableOperate(root_objects, parent);
                     parent.PlayerController.Remove(parent.PauseMenu);
                     switch (parent.PauseMenu.Cursor.Index)
@@ -1002,6 +1037,7 @@ namespace SlimDxGame.Scene
             public GameOverState(GameRootObjects root_objects, Stage parent)
             {
                 parent.BGM.Stop();
+                root_objects.SoundContainer["GameOver"].Play();
                 menuDirector.Controller = parent.PlayerController;
                 menuDirector.RootObjects = root_objects;
                 menuDirector.Create(new MenuCreator.GameOverMenuBuilder(gameOverMenu));
@@ -1027,6 +1063,7 @@ namespace SlimDxGame.Scene
                     switch (gameOverMenu.Cursor.Index)
                     {
                         case 0:
+                            root_objects.SoundContainer["GameOver"].Stop();
                             parent.Player.Life = 1;
                             ReStartObjects(root_objects, parent);
                             new_state = new ArrangeState();
