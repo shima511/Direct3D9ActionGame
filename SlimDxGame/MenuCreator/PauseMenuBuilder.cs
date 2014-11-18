@@ -32,8 +32,6 @@ namespace SlimDxGame.MenuCreator
             cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width * 2 / 5 - 30, Core.Game.AppInfo.Height / 6));
             cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width * 2 / 5 - 30, Core.Game.AppInfo.Height * 2 / 6));
             cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width * 2 / 5 - 30, Core.Game.AppInfo.Height * 3 / 6));
-            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width * 2 / 5 - 30, Core.Game.AppInfo.Height * 4 / 6));
-            cursor_position_list.Add(new SlimDX.Vector2(Core.Game.AppInfo.Width * 2 / 5 - 30, Core.Game.AppInfo.Height * 5 / 6));
 
             // メニュー用のカーソル
             var menu_cursor = new Object.Cursor()
@@ -59,8 +57,6 @@ namespace SlimDxGame.MenuCreator
                     new Object.Base.String(){Text = "ゲームに戻る", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 10, Core.Game.AppInfo.Height / 6)},
                     new Object.Base.String(){Text = "最初から", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 10, Core.Game.AppInfo.Height * 2 / 6)},
                     new Object.Base.String(){Text = "ゲームをやめる", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 10, Core.Game.AppInfo.Height * 3 / 6)},
-                    new Object.Base.String(){Text = "BGM Volume", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 10, Core.Game.AppInfo.Height * 4 / 6)},
-                    new Object.Base.String(){Text = "SE Volume", Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 4 / 10, Core.Game.AppInfo.Height * 5 / 6)}
                 });
             menu.Columns = columns;
 
