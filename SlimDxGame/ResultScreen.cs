@@ -96,8 +96,8 @@ namespace SlimDxGame
                 Position = new SlimDX.Vector2(Core.Game.AppInfo.Width * 5 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5),
                 PositionList = new List<SlimDX.Vector2>()
                 {
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 5 / 20 - 30, Core.Game.AppInfo.Height * 9 / 20),
-                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 12 / 20 - 30, Core.Game.AppInfo.Height * 9 / 20)
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 5 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5 + 10.0f),
+                    new SlimDX.Vector2(Core.Game.AppInfo.Width * 12 / 20 - 30, Core.Game.AppInfo.Height * 4 / 5 + 10.0f)
                 }
             };
             Cursor.IsActive = false;
@@ -141,8 +141,8 @@ namespace SlimDxGame
             }
             if (time_count == LeftTime - 1)
             {
-                OnCountFinished();
                 labels[5].Text = (LeftTime * 10 + coin_count * CoinPower).ToString();
+                OnCountFinished();
             }
         }
 
