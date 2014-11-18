@@ -100,6 +100,14 @@ namespace SlimDxGame.Scene
         /// BGM
         /// </summary>
         Asset.Music BGM { get; set; }
+        /// <summary>
+        /// セーブ管理クラス
+        /// </summary>
+        SaveManager SaveManager { get; set; }
+        /// <summary>
+        /// ハイスコア
+        /// </summary>
+        int HighScore { get; set; }
 
         public Stage()
         {
@@ -107,6 +115,7 @@ namespace SlimDxGame.Scene
             Lights = new List<Effect.Light>();
             Grounds = new List<Object.Ground.Base>();
             Counter = new TimeCounter(Core.FPSManager.FPS);
+            SaveManager = new SaveManager();
         }
 
         // ステージの読み込みなどを行う
@@ -622,6 +631,23 @@ namespace SlimDxGame.Scene
         // ステージの配置を行う
         class ArrangeState : GameState<Stage>
         {
+            void InitVolume(GameRootObjects root_objects)
+            {
+                var settings = root_objects.Settings;
+                settings.SEVolume = 0.4f;
+                settings.BGMVolume = 0.3f;
+                root_objects.Settings = settings;
+
+                foreach (var item in root_objects.MusicContainer.Values)
+                {
+                    item.Volume = root_objects.Settings.BGMVolume;
+                }
+                foreach (var item in root_objects.SoundContainer.Values)
+                {
+                    if (item != null) item.Volume = root_objects.Settings.SEVolume;
+                }
+            }
+
             void InitPlayer(Stage parent)
             {
                 var p_pos = parent.StageComponents.Player.Position;
@@ -649,8 +675,18 @@ namespace SlimDxGame.Scene
                 parent.SpawnManage.InitState();
             }
 
+            void SetHighScore(Stage parent)
+            {
+                SaveData data;
+                SaveManager.Load(out data, "save.dat");
+                parent.StateDrawManager.HighScore = data.Score;
+                parent.HighScore = data.Score;
+            }
+
             public int Update(GameRootObjects root_objects,  Stage parent, ref GameState<Stage> new_state)
             {
+                InitVolume(root_objects);
+
                 InitPlayer(parent);
 
                 InitLimitTime(root_objects, parent);
@@ -664,6 +700,8 @@ namespace SlimDxGame.Scene
                 parent.BGM.Stop();
 
                 root_objects.Layers[2].Remove(parent.BlackFront);
+
+                SetHighScore(parent);
 
                 new_state = new FadeInState(root_objects,  parent);
                 return 0;
@@ -865,6 +903,19 @@ namespace SlimDxGame.Scene
                     root_objects.SoundContainer["MenuSelect"].Play();
                 };
                 r_screen.Cursor = cursor;
+                r_screen.OnCountFinished += () =>
+                {
+                    if (parent.HighScore < parent.StageState.Score + parent.StageState.Time * 10)
+                    {
+                        SaveData data = new SaveData()
+                        {
+                            CollectedCoinNum = (int)parent.StageState.Score / 100,
+                            LeftTime = (int)parent.StageState.Time,
+                            Score = (int)(parent.StageState.Score + parent.StageState.Time * 10)
+                        };
+                        SaveManager.Save(data, "save.dat");
+                    }
+                };
             }
 
             void AddResultScreen(GameRootObjects root_objects, Stage parent)
