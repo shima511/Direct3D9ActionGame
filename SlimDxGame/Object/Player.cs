@@ -83,7 +83,7 @@ namespace SlimDxGame.Object
         private class Run : ObjectState<Player>
         {
             int time = 0;
-            readonly int RequiredTime = 80;
+            readonly int RequiredTime = 40;
             readonly float SpeedDiff = 0.02f;
 
             public Run(Player parent)
@@ -108,6 +108,7 @@ namespace SlimDxGame.Object
                 if (controller.AButton.IsPressed())
                 {
                     parent.State -= StateFrag.Run;
+                    parent.MMDModel.AnimationPlayer["Run"].Stop();
                     new_state = new Jump(parent);
                 }
                 if (controller.RightButton.IsPressed() && parent.Speed.X < parent.MaxRunSpeed)
@@ -132,6 +133,8 @@ namespace SlimDxGame.Object
 
             public Jump(Player parent)
             {
+                parent.MMDModel.AnimationPlayer["Jump"].Reset();
+                parent.MMDModel.AnimationPlayer["Jump"].Start();
                 var spd = parent.Speed;
                 spd.Y = parent.JumpSpeed;
                 parent.Speed = spd;
@@ -168,8 +171,11 @@ namespace SlimDxGame.Object
         {
             int time = 0;
             readonly int RequiredFrame = 5;
+
             public TwiceJump(Player parent)
             {
+                parent.MMDModel.AnimationPlayer["Jump"].Reset();
+                parent.MMDModel.AnimationPlayer["Jump"].Start();
                 var spd = parent.Speed;
                 spd.Y = parent.JumpSpeed;
                 parent.Speed = spd;
@@ -210,6 +216,13 @@ namespace SlimDxGame.Object
         public void Pause()
         {
             MMDModel.AnimationPlayer["Run"].Stop();
+            MMDModel.AnimationPlayer["Jump"].Stop();
+        }
+
+        public void Resume()
+        {
+            if((State & StateFrag.Run) == StateFrag.Run) MMDModel.AnimationPlayer["Run"].Start();
+            if ((State & StateFrag.InAir) == StateFrag.InAir) MMDModel.AnimationPlayer["Jump"].Start();
         }
 
         public void Dispatch(ICollisionObject obj)
@@ -317,7 +330,8 @@ namespace SlimDxGame.Object
         void MendMatrix()
         {
             var mat = CommonMatrix.WorldMatrix;
-            mat.M42 -= 0.4f;
+            mat.M42 -= 0.8f;
+            mat.M43 += 2.0f;
             CommonMatrix.WorldMatrix = mat;
         }
 
