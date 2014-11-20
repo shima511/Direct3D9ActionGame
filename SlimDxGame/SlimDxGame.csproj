@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SlimDxGame</RootNamespace>
-    <AssemblyName>SlimDxGame</AssemblyName>
+    <AssemblyName>RunningMan</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -45,6 +45,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>546dec861cd2f.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BulletX%28NP%29">
@@ -176,6 +179,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="546dec861cd2f.ico" />
     <Content Include="toons\toon01.bmp" />
     <Content Include="toons\toon02.bmp" />
     <Content Include="toons\toon03.bmp" />
