@@ -1031,6 +1031,7 @@ namespace SlimDxGame.Scene
             void EnableOperate(GameRootObjects root_objects, Stage parent)
             {
                 root_objects.UpdateList.Add(parent.Player);
+                parent.Player.Resume();
             }
 
             public PausingState(GameRootObjects root_objects, Stage parent)
