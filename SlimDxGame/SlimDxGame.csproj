@@ -28,7 +28,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -50,6 +50,7 @@
     <Reference Include="BulletX%28NP%29">
       <HintPath>..\..\..\..\..\..\..\MMDX\BulletX(NP).dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MikuMikuDanceCore%28SlimDX%29">
       <HintPath>..\..\..\..\..\..\..\MMDX\MikuMikuDanceCore(SlimDX).dll</HintPath>
     </Reference>
@@ -62,11 +63,7 @@
     <Reference Include="MMDXResource">
       <HintPath>..\..\..\..\..\..\..\MMDX\MMDXResource.dll</HintPath>
     </Reference>
-    <Reference Include="OggVorbis, Version=1.0.4656.10, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\OggVorbisC#\bin\x64\OggVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="SlimDX, Version=4.0.11.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86" />
+    <Reference Include="SlimDX, Version=4.0.11.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64" />
     <Reference Include="SlimMMDX">
       <HintPath>..\..\..\..\..\..\..\MMDX\SlimMMDX.dll</HintPath>
     </Reference>
@@ -82,26 +79,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssetContainer.cs" />
+    <Compile Include="DescriptionScreen.cs" />
+    <Compile Include="MenuCreator\DialogMenuBuilder.cs" />
+    <Compile Include="MenuCreator\GameOverMenuBuilder.cs" />
+    <Compile Include="MenuCreator\MenuBuilder.cs" />
+    <Compile Include="MenuCreator\MenuDirector.cs" />
+    <Compile Include="MenuCreator\PauseMenuBuilder.cs" />
+    <Compile Include="MenuCreator\TitleMenuBuilder.cs" />
+    <Compile Include="Object\Boundary.cs" />
+    <Compile Include="Object\Decolation\Field.cs" />
+    <Compile Include="Object\IFieldObject.cs" />
+    <Compile Include="ResultScreen.cs" />
+    <Compile Include="SaveManager.cs" />
+    <Compile Include="SpawnManager.cs" />
+    <Compile Include="Utility\AssetContainer.cs" />
     <Compile Include="AssetFactory\ModelFactory.cs" />
     <Compile Include="AssetFactory\AudioMediaFactory.cs" />
     <Compile Include="AssetFactory\TextureFactory.cs" />
-    <Compile Include="Asset\Base.cs" />
     <Compile Include="Asset\Font.cs" />
     <Compile Include="Asset\Model.cs" />
     <Compile Include="Asset\Music.cs" />
     <Compile Include="Asset\Sound.cs" />
     <Compile Include="Asset\Texture.cs" />
     <Compile Include="Collision\Shape.cs" />
-    <Compile Include="CommonMatrix.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Core\CommonMatrix.cs" />
+    <Compile Include="Effect\Light.cs" />
+    <Compile Include="Utility\Menu.cs" />
     <Compile Include="Object\Base\Model.cs" />
-    <Compile Include="Object\CameraManager.cs" />
+    <Compile Include="Object\Base\SquarePolygon.cs" />
     <Compile Include="Collision\Manager.cs" />
+    <Compile Include="Object\Decolation\Factory.cs" />
     <Compile Include="Object\Fader.cs" />
     <Compile Include="Object\Camera.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="ControllerFactory.cs" />
     <Compile Include="Core\DrawManager.cs" />
     <Compile Include="Core\Game.cs">
       <SubType>Form</SubType>
@@ -115,12 +126,23 @@
     <Compile Include="GameRootObjects.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Object\Cursor.cs" />
+    <Compile Include="Object\Ground\Ground.cs" />
     <Compile Include="Object\ICollisionObject.cs" />
+    <Compile Include="Object\Item\IBase.cs" />
+    <Compile Include="Object\Item\Coin.cs" />
+    <Compile Include="Object\Item\Factory.cs" />
+    <Compile Include="Object\Item\Portion.cs" />
     <Compile Include="Object\LoadingScreen.cs" />
     <Compile Include="Object\Base\PlaneObject.cs" />
     <Compile Include="Object\Base\String.cs" />
+    <Compile Include="Object\Shadow.cs" />
+    <Compile Include="Object\StateDrawer.cs" />
+    <Compile Include="Scene\Credit.cs" />
+    <Compile Include="PolygonFactory.cs" />
+    <Compile Include="ShadowManager.cs" />
+    <Compile Include="Status.cs" />
     <Compile Include="Scene\Base.cs" />
-    <Compile Include="State.cs" />
+    <Compile Include="Core\State.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Object\Player.cs" />
     <Compile Include="Program.cs" />
@@ -128,7 +150,9 @@
     <Compile Include="Scene\Stage.cs" />
     <Compile Include="Scene\Title.cs" />
     <Compile Include="Object\Base\Sprite.cs" />
-    <Compile Include="SoundLoader.cs" />
+    <Compile Include="AssetFactory\SoundLoader.cs" />
+    <Compile Include="Utility\TimeCounter.cs" />
+    <Compile Include="Vertex.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -180,6 +204,21 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BinaryParser\StageRW.csproj">
+      <Project>{a1b815ec-113d-4aee-bc40-525c8df73bab}</Project>
+      <Name>StageRW</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileArchiver\FileArchiver.csproj">
+      <Project>{1f6f20e7-4011-4f72-bf38-4b4458734db0}</Project>
+      <Name>FileArchiver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScriptRW\ScriptRW.csproj">
+      <Project>{ea66be21-237d-4916-a7ef-cc30c215a351}</Project>
+      <Name>ScriptRW</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
