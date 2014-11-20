@@ -40,7 +40,7 @@ namespace SlimDxGame.Core
         public Game(Scene.Base first_scene)
         {
             now_scene = first_scene;
-            this.Text = "サンプルプログラム";
+            this.Text = "Running Man";
             this.Width = 900;
             this.Height = 600;
             this.MaximizeBox = false;
@@ -155,10 +155,8 @@ namespace SlimDxGame.Core
             var model = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadModelFromFile("models/human/human.pmd");
             var motion1 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Run.vmd");
             model.AnimationPlayer.AddMotion("Run", motion1, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
-            var motion2 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/JumpStart.vmd");
-            model.AnimationPlayer.AddMotion("JumpStart", motion2, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
-            var motion3 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Jump.vmd");
-            model.AnimationPlayer.AddMotion("Jump", motion3, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
+            var motion2 = MikuMikuDance.SlimDX.SlimMMDXCore.Instance.LoadMotionFromFile("models/human/motion/Jump.vmd");
+            model.AnimationPlayer.AddMotion("Jump", motion2, MikuMikuDance.Core.Motion.MMDMotionTrackOptions.None);
             root_objects.MMDModels.Add("Player", model);
         }
 
@@ -182,6 +180,7 @@ namespace SlimDxGame.Core
             root_objects.ModelContainer.DeleteAllObject();
             root_objects.MusicContainer.DeleteAllObject();
             AssetFactory.ModelFactory.Terminate();
+            PolygonFactory.Terminate();
         }
 
         void OpenArchiveData()
